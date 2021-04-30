@@ -1,2 +1,7 @@
 # knowledge-point
-Record scattered knowledge points
+
+---
+
+# Purpose
+
+- Record scattered knowledge points
