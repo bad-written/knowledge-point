@@ -140,3 +140,28 @@ promise的一些问题：
 - 三者第一个参数都是this要指向的对象，如果如果没有这个参数或参数为undefined或null，则默认指向全局window。
 -. 三者都可以传参，但是apply是数组，而call是参数列表，且apply和call是一次性传入参数，而bind可以分为多次传入。
 - bind 改变this指向后不会立即执行，而是返回一个永久改变this指向的函数便于稍后调用； apply, call则是立即调用
+
+10. 编译时加载(静态加载)与运行时加载
+
+- 编译时加载
+ES6 模块不是对象，而是通过export命令显式指定输出的代码，再通过import命令输入。
+```javascript
+    import { stat, exists, readFile } from 'fs';
+```
+
+- 运行时加载
+CommonJS 和 AMD 模块，都只能在运行时确定这些东西。比如，CommonJS 模块就是对象，输入时必须查找对象属性。
+```Node
+    
+    // CommonJS模块
+    let { stat, exists, readFile } = require('fs');
+    
+    // 等同于
+    let _fs = require('fs');
+    let stat = _fs.stat;
+    let exists = _fs.exists;
+    let readfile = _fs.readfile;
+```
+
+解析：上面代码的实质是整体加载fs模块（即加载fs的所有方法），生成一个对象（_fs），然后再从这个对象上面读取 3 个方法。这种加载称为“运行时加载”，
+因为只有运行时才能得到这个对象，导致完全没办法在编译时做“静态优化”。
