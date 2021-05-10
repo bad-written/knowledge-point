@@ -223,3 +223,39 @@ CommonJS 和 AMD 模块，都只能在运行时确定这些东西。比如，Com
         };
     }
 ```
+
+### ?. 可选链操作符
+
+```javascript
+
+    // ?.
+```
+
+### Object.is()
+
+- 判断两个值相等
+
+```javascript
+
+    Object.is('imooc', 'imooc');  // true
+    Object.is('imooc', 'mooc');   // false
+    
+    Object.is(window, window);    // true
+    Object.is([], []);           // false
+    
+    var foo = { a: 1 };
+    var bar = { a: 1 };
+    var obj = foo;
+    Object.is(foo, foo);         // true
+    Object.is(foo, bar);         // false
+    Object.is(foo, obj);         // true
+    
+    Object.is(null, null);       // true
+    
+    // 特例
+    Object.is(0, -0);            // false
+    Object.is(0, +0);            // true
+    Object.is(-0, -0);           // true
+    Object.is(NaN, 0/0);         // true
+```
+
