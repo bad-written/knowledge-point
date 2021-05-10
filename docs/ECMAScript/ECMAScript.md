@@ -172,3 +172,11 @@ CommonJS 和 AMD 模块，都只能在运行时确定这些东西。比如，Com
 ### npm install 原理分析
 
 [npm install 原理分析](https://mp.weixin.qq.com/s?__biz=Mzg2NDAzMjE5NQ==&mid=2247485074&idx=1&sn=a4b39ef1fcad427e79a8714c41b8eb0b&scene=21#wechat_redirect)
+
+### new 运算符的运算机制
+- 创建一个空对象
+- 将函数的this指向这个空对象
+- 执行函数
+- 如果函数没有指定返回值，则直接返回 this（一开始创建的空对象），否则返回指定返回值
+
+
