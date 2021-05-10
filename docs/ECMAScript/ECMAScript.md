@@ -180,3 +180,46 @@ CommonJS 和 AMD 模块，都只能在运行时确定这些东西。比如，Com
 - 如果函数没有指定返回值，则直接返回 this（一开始创建的空对象），否则返回指定返回值
 
 
+### 变量提升
+
+函数声明的方式声明的函数存在函数提升
+在执行上下文生成的阶段，函数会比变量更早的进行提升，也就是说函数相比变量，更加靠前。
+
+### let、const
+
+- 块级作用域
+- 不能变量提升
+- 暂时性死区(在变量声明前使用这个变量，就会报错。)
+- 重复声明报错
+- const 声明不可变的变量
+
+```
+    // ES5 模拟实现 const
+    function setConst(key, value, obj) {
+      Object.defineProperty(window, key, {
+        get: function(){
+          return value;
+        },
+        set: function(){
+          console.error('Uncaught TypeError: Assignment to constant variable');
+        },
+      });
+    }
+```
+
+### 扩展运算符、剩余参数
+
+```javascript
+
+    // ...
+```
+### Array.of()
+
+```javascript
+
+    if (!Array.of) {
+        Array.of = function() {
+            return Array.prototype.slice.call(arguments);
+        };
+    }
+```
