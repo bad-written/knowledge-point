@@ -6,6 +6,8 @@
 
 - call、apply、bind
 - new 
+- instanceof
+- getType
 - 防抖、节流
 - 柯里化
 - 深拷贝
