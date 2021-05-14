@@ -6,6 +6,7 @@
 
 - call、apply、bind
 - new 
+- sleep
 - instanceof
 - getType
 - 防抖、节流
