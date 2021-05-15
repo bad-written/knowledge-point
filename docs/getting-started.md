@@ -4,6 +4,8 @@ nav:
   order: 1
 ---
 
-# Getting Started
+# Purpose
 
-Balabala...
+- Sort out some scattered knowledge points
+- Check for leaks and fill in vacancies, timely self-inspection
+- Include and write the knowledge points that you want to organize

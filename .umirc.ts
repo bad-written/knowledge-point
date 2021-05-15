@@ -1,7 +1,10 @@
 import { defineConfig } from 'dumi';
 
 export default defineConfig({
-  title: 'Site Name',
+  title: 'Knowledge Points',
   mode: 'site',
+  resolve: {
+    includes: ['docs', 'packages/src'],
+  },
   // more config: https://d.umijs.org/config
 });

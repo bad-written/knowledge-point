@@ -1,3 +1,9 @@
+---
+nav:
+  title: HandwrittenCode
+  order: 9
+---
+
 # HandwrittenCode
 
 ---
@@ -5,7 +11,7 @@
 ## points
 
 - call、apply、bind
-- new 
+- new
 - sleep
 - instanceof
 - getType

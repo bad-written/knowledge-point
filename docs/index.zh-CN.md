@@ -1,7 +1,7 @@
 ---
 hero:
-  title: Site Name
-  desc: dumi site app 脚手架
+  title: Knowledge Points
+  desc: Record scattered knowledge points
   actions:
     - text: 快速上手
       link: /getting-started
