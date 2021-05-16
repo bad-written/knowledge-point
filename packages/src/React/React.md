@@ -1,7 +1,9 @@
 ---
+title: React
+order: 5
 nav:
   title: React
-  order: 3
+  path: /points
 ---
 
 # React

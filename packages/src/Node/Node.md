@@ -1,7 +1,9 @@
 ---
+title: Node
+order: 9
 nav:
   title: Node
-  order: 12
+  path: /points
 ---
 
 # Node

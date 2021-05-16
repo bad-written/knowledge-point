@@ -1,7 +1,9 @@
 ---
+title: Vue
+order: 6
 nav:
   title: Vue
-  order: 4
+  path: /points
 ---
 
 # Vue

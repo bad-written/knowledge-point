@@ -1,7 +1,9 @@
 ---
+title: Webpack
+order: 7
 nav:
   title: Webpack
-  order: 5
+  path: /points
 ---
 
 # Webpack

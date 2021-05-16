@@ -1,7 +1,9 @@
 ---
+title: ECMAScript
+order: 2
 nav:
   title: ECMAScript
-  order: 2
+  path: /points
 ---
 
 # ECMAScript

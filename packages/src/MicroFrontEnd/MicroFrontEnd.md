@@ -1,7 +1,9 @@
 ---
+title: MicroFrontEnd
+order: 11
 nav:
   title: MicroFrontEnd
-  order: 11
+  path: /points
 ---
 
 # MicroFrontEnd

@@ -1,7 +1,9 @@
 ---
+title: HandwrittenCode
+order: 12
 nav:
   title: HandwrittenCode
-  order: 9
+  path: /points
 ---
 
 # HandwrittenCode

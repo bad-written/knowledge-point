@@ -41,10 +41,10 @@ build/Release
 node_modules/
 jspm_packages/
 
-# TypeScript v1 declaration files
+# TS.md v1 declaration files
 typings/
 
-# TypeScript cache
+# TS.md cache
 *.tsbuildinfo
 
 # Optional npm cache directory
