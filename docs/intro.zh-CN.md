@@ -1,7 +1,7 @@
 ---
 nav:
   title: 简介
-  order: 2
+  order: 22
 ---
 
 # 简介
