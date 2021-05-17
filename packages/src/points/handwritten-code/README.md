@@ -23,3 +23,5 @@ nav:
 - Promise
 - 发布订阅模式
 - 观察者模式
+- 信号灯控制器
+  <code src="./TrafficLight.tsx"></code>
