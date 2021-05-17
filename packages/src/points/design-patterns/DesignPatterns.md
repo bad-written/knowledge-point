@@ -38,3 +38,5 @@ const s2 = Singleton.getInstance('s1');
 // true
 s1 === s2;
 ```
+
+### 观察-订阅者模式 与 观察者模式的区别
