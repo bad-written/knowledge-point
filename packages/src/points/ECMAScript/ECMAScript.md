@@ -249,28 +249,58 @@ if (!Array.of) {
 - 判断两个值相等
 
 ```javascript
-Object.is('imooc', 'imooc'); // true
-Object.is('imooc', 'mooc'); // false
 
-Object.is(window, window); // true
-Object.is([], []); // false
-
-var foo = { a: 1 };
-var bar = { a: 1 };
-var obj = foo;
-Object.is(foo, foo); // true
-Object.is(foo, bar); // false
-Object.is(foo, obj); // true
-
-Object.is(null, null); // true
-
-// 特例
-Object.is(0, -0); // false
-Object.is(0, +0); // true
-Object.is(-0, -0); // true
-Object.is(NaN, 0 / 0); // true
+    Object.is('imooc', 'imooc'); // true
+    Object.is('imooc', 'mooc'); // false
+    
+    Object.is(window, window); // true
+    Object.is([], []); // false
+    
+    var foo = { a: 1 };
+    var bar = { a: 1 };
+    var obj = foo;
+    Object.is(foo, foo); // true
+    Object.is(foo, bar); // false
+    Object.is(foo, obj); // true
+    
+    Object.is(null, null); // true
+    
+    // 特例
+    Object.is(0, -0); // false
+    Object.is(0, +0); // true
+    Object.is(-0, -0); // true
+    Object.is(NaN, 0 / 0); // true
 ```
 
+### 属性的遍历
+
+ES6 一共有 5 种方法可以遍历对象的属性。
+
+- `for in` 循环遍历对象自身的和继承的可枚举属性（不含 Symbol 属性）。
+- `Object.keys()` 返回一个数组，包括对象自身的（不含继承的）所有可枚举属性（不含 Symbol 属性）的键名。
+- `Object.getOwnPropertySymbols()` 返回一个数组，包含对象自身的所有 Symbol 属性的键名。
+- `Object.getOwnPropertySymbols()` 返回一个数组，包含对象自身的所有 Symbol 属性的键名。                               
+- `Reflect.ownKeys()` 返回一个数组，包含对象自身的（不含继承的）所有键名，不管键名是 Symbol 或字符串，也不管是否可枚举。
+                
+以上的 5 种方法遍历对象的键名，都遵守同样的属性遍历的次序规则。
+
+- 首先遍历所有数值键，按照数值升序排列。
+- 其次遍历所有字符串键，按照加入时间升序排列。
+- 最后遍历所有 Symbol 键，按照加入时间升序排列。
+
+
+### Null 判断运算符
+
+`??` 但是只有运算符左侧的值为null或undefined时，才会返回右侧的值。
+
+
+### 重排(回流)、重绘
+
+- 当更新了元素的几何属性，那么浏览器需要重新计算元素的几何属性，将其安放在界面中的正确位置，这个过程叫做重排，也称为“回流”。
+- 更新了元素的绘制属性，但没有改变布局，重新把元素外观绘制出来的过程叫做重绘。例如更改某些元素的背景颜色。
+重排一定会伴随重绘，重绘却不一定伴随重排。
+
+[重排、重绘](https://juejin.cn/post/6963425623297998878)
 ### XSS、CSRF
 
 ### require 与 import 的区别
