@@ -308,3 +308,32 @@ ES6 一共有 5 种方法可以遍历对象的属性。
 ### EventLoop
 
 ### 从输入 URL 到页面加载完成的过程
+
+### 同源策略
+
+### 跨域
+
+### JSONP
+
+### 事件委托
+
+### target 和 currentTarget 区别
+
+- target 返回触发事件的元素
+- currentTarget 返回绑定事件的元素
+
+### 闭包
+
+### Garbage Collection
+
+### 柯里化
+
+
+### new操作符做了什么
+
+### JavaScript中的 this
+
+### preload、prefetch
+
+### window.onload 和 DOMContentLoaded 的区别
+
