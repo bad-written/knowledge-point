@@ -25,3 +25,5 @@ plugin 是一个扩展器，它丰富了 webpack 本身，针对是 loader 结�
 ### 聊一聊 webpack 的优化手段，说说你熟系优化手段的原理
 
 ### webpack 的打包原理及产物是如何执行的，动态加载呢，如何缓存的，与 rollup 的区别
+
+### 写React/Vue项目时，为什么要在列表组件写key
