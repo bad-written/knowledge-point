@@ -11,13 +11,144 @@ nav:
 
 ## points
 
-- call、apply、bind
-- new
-- sleep
-- instanceof
-- getType
+### call、apply、bind
+
+```javascript
+
+    // apply
+    Function.prototype.myApply = function (context = window, args) {
+      context._fn = this;
+      const result = context._fn(args);
+      delete context._fn;
+      return result;
+    };
+
+    // call
+    Function.prototype.myCall = function (context = windows, ...args) {
+      context._fn = this;
+      const result = context._fn(...args);
+      delete context._fn;
+      return result;
+    };
+```
+### new
+
+```javascript
+
+    // 创建了一个全新的对象；
+    // 会被执行 [[Prototype]]（也就是 __proto__ ）链接；
+    // this 指向新创建的对象；
+    // 通过 new 创建的每个对象将最终被 [[Prototype]] 链接到这个函数的prototype对象上；
+    // 如果函数没有返回对象类型 Object(包含 Functoin , Array , Date , RegExg, Error)，那么 new 表达式中的函数调用将返回该对象引用。
+    
+    const isComplexDataType = () =>
+      ['object', 'function'].includes(typeof obj) && obj !== null;
+    
+    const myNew = function () {
+      const obj = new Object();
+      const Constructor = [].shift.call(arguments);
+      obj.__proto__ = Constructor.prototype;
+    
+      const ret = Constructor.apply(obj, arguments);
+      return isComplexDataType(ret) ? ret : obj;
+    };
+    
+    const myNew2 = (fn, ...rest) => {
+      const instance = {};
+      instance.__proto__ = fn.prototype;
+    
+      const res = fn.apply(instance, rest);
+      return isComplexDataType(res) ? res : instance;
+    };
+
+```
+ 
+### sleep
+
+```javascript
+
+    const sleep = (duration) => {
+      const preDate = new Date();
+      duration = isNaN(Number(duration)) ? 0 : Number(duration);
+      while (true) {
+        if (new Date() - preDate >= duration) return false;
+      }
+    };
+    
+    // promise
+    const sleepWithPromise = (duration) => {
+      return new Promise((resolve, reject) => setTimeout(resolve, duration));
+    };
+    
+    // Generator
+    function* sleepGenerator(time) {
+      yield new Promise(function (resolve, reject) {
+        setTimeout(resolve, time);
+      });
+    }
+    
+    console.log('睡眠 2 秒！');
+    console.time('Generator sleep');
+    // test()
+    sleepGenerator(2000)
+      .next()
+      .value.then(() => {
+        console.timeEnd('Generator sleep');
+      });
+    console.log('我在 sleep 之后！');
+
+```
+### instanceof
+
+```javascript
+
+    const myInstanceOf = (left, right) => {
+      left = left.__proto__;
+      right = right.prototype;
+    
+      while (true) {
+        if (left === null) return false;
+        if (left === right) return true;
+        left = left.__proto__;
+      }
+    };
+
+```
+### getType
+
+```javascript
+
+    const getType = (data) => Object.prototype.toString.call(data).slice(8, -1);
+```
+
+### 柯里化
+
+```javascript
+
+    // function curry(fn, args = []) {
+    //   const len = fn.length;
+    //
+    //   return function () {
+    //     args = args.concat([...arguments])
+    //     if (args.length < len) {
+    //       return curry(fn, args)
+    //     } else {
+    //       return fn(...args)
+    //     }
+    //   }
+    // }
+    
+    const curry =
+      (fn, arr = []) =>
+      (...args) =>
+        ((arg) => (arg.length === fn.length ? fn(...arg) : curry(fn, arg)))([
+          ...arr,
+          ...args,
+        ]);
+
+```
 - 防抖、节流
-- 柯里化
+
 - 深拷贝
 - 防抖、节流
 - Promise
