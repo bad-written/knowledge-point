@@ -10,3 +10,5 @@ nav:
 ---
 
 ## points
+
+### ReactNative的通讯机制

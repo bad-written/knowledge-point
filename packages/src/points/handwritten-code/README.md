@@ -301,3 +301,75 @@ class _Promise<T> {
 
 module.exports = _Promise;
 ```
+- 选择排序
+- 快速排序
+- 归并排序
+- 实现链表
+- 计算多个区间的交集
+```javascript
+
+    /**
+     * 1.计算多个区间的交集
+     *   区间用长度为2的数字数组表示，如[2, 5]表示区间2到5（包括2和5）；
+     *   区间不限定方向，如[5, 2]等同于[2, 5]；
+     *   实现`getIntersection 函数`
+     *   可接收多个区间，并返回所有区间的交集（用区间表示），如空集用null表示
+     * 示例：
+     *   getIntersection([5, 2], [4, 9], [3, 6]); // [4, 5]
+     *   getIntersection([1, 7], [8, 9]); // null
+     */
+```
+
+- DOM 的体积过大会影响页面性能，假如你想在用户关闭页面时统计（计算并反馈给服务器）
+
+```javascript
+    /**
+     * 2.DOM 的体积过大会影响页面性能，假如你想在用户关闭页面时统计（计算并反馈给服务器）
+     当前页面中元素节点的数量总和、元素节点的最大嵌套深度以及最大子元素个数，请用 JS 配合
+     原生 DOM API 实现该需求（不用考虑陈旧浏览器以及在现代浏览器中的兼容性，可以使用任意
+     浏览器的最新特性；不用考虑 shadow DOM）。比如在如下页面中运行后：
+     */
+
+    <html>
+      <head></head>
+      <body>
+        <div>
+          <span>f</span>
+          <span>o</span>
+          <span>o</span>
+        </div>
+      </body>
+    </html>
+    会输出：
+    
+    {
+      totalElementsCount: 7,
+      maxDOMTreeDepth: 4,
+      maxChildrenCount: 3
+    }
+
+```
+
+- // 3.请使用原生代码实现一个Events模块，可以实现自定义事件的订阅、触发、移除功能
+
+```javascript
+
+    /*
+    const fn1 = (... args)=>console.log('I want sleep1', ... args)
+    const fn2 = (... args)=>console.log('I want sleep2', ... args)
+    const event = new Events();
+    event.on('sleep', fn1, 1, 2, 3);
+    event.on('sleep', fn2, 1, 2, 3);
+    event.fire('sleep', 4, 5, 6);
+    // I want sleep1 1 2 3 4 5 6
+    // I want sleep2 1 2 3 4 5 6
+    event.off('sleep', fn1);
+    event.once('sleep', ()=>console.log('I want sleep));
+    event.fire('sleep');
+    */
+
+```
+
+- 手写 Promise.all
+- 实现颜色转换 'rgb(255, 255, 255)' -> '#FFFFFF'
+- 简单实现一个 LRU
