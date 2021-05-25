@@ -104,3 +104,18 @@ nav:
 ### Fetch API 与传统 Request 的区别
 
 ### OPTION 是干啥的？举个用到 OPTION 的例子？
+
+### HTTP 请求什么时候回返回 304 状态码
+
+1. 首先要客户端没缓存，否则请求不会到服务器，涉及 header Expires cache-control
+2. 请求到了服务器和本地副本做 check，有两种 check 方式
+   a. 根据文件最新更新时间， If-Modified-Since Last-Modified  
+   b. 根据文件哈希 ETag If-None-Match
+
+![304](https://cdn.nlark.com/yuque/0/2020/png/87727/1583295572287-5e90dbc9-b271-465c-8768-edde9cfc1bdd.png?x-oss-process=image%2Fresize%2Cw_346)
+
+### HTTPS 连接建立过程
+
+简单来讲客户端和服务器通过证书 RSA 加密获取一个双方都知道的密钥，然后为了提升性能，服务器使用密钥加密，浏览器使用密钥解密，内容使用对称加密
+
+![HTTPS 连接建立过程](https://cdn.nlark.com/yuque/0/2020/png/87727/1583297130925-623221af-f4a8-4ed6-8f32-a81e201ced32.png?x-oss-process=image%2Fresize%2Cw_512)

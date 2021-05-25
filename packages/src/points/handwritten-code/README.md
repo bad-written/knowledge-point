@@ -14,139 +14,148 @@ nav:
 ### call、apply、bind
 
 ```javascript
+// apply
+Function.prototype.myApply = function (context = window, args) {
+  context._fn = this;
+  const result = context._fn(args);
+  delete context._fn;
+  return result;
+};
 
-    // apply
-    Function.prototype.myApply = function (context = window, args) {
-      context._fn = this;
-      const result = context._fn(args);
-      delete context._fn;
-      return result;
-    };
+// call
+Function.prototype.myCall = function (context = windows, ...args) {
+  context._fn = this;
+  const result = context._fn(...args);
+  delete context._fn;
+  return result;
+};
 
-    // call
-    Function.prototype.myCall = function (context = windows, ...args) {
-      context._fn = this;
-      const result = context._fn(...args);
-      delete context._fn;
-      return result;
-    };
+Function.prototype._bind = function (objThis, ...params) {
+  const thisFn = this; // 存储源函数以及上方的params(函数参数)
+  // 对返回的函数 secondParams 二次传参
+  let fToBind = function (...secondParams) {
+    const isNew = this instanceof fToBind; // this是否是fToBind的实例 也就是返回的fToBind是否通过new调用
+    const context = isNew ? this : Object(objThis); // new调用就绑定到this上,否则就绑定到传入的objThis上
+    return thisFn.call(context, ...params, ...secondParams); // 用call调用源函数绑定this的指向并传递参数,返回执行结果
+  };
+  if (thisFn.prototype) {
+    // 复制源函数的prototype给fToBind 一些情况下函数没有prototype，比如箭头函数
+    fToBind.prototype = Object.create(thisFn.prototype);
+  }
+  return fToBind; // 返回拷贝的函数
+};
 ```
+
 ### new
 
 ```javascript
+// 创建了一个全新的对象；
+// 会被执行 [[Prototype]]（也就是 __proto__ ）链接；
+// this 指向新创建的对象；
+// 通过 new 创建的每个对象将最终被 [[Prototype]] 链接到这个函数的prototype对象上；
+// 如果函数没有返回对象类型 Object(包含 Functoin , Array , Date , RegExg, Error)，那么 new 表达式中的函数调用将返回该对象引用。
 
-    // 创建了一个全新的对象；
-    // 会被执行 [[Prototype]]（也就是 __proto__ ）链接；
-    // this 指向新创建的对象；
-    // 通过 new 创建的每个对象将最终被 [[Prototype]] 链接到这个函数的prototype对象上；
-    // 如果函数没有返回对象类型 Object(包含 Functoin , Array , Date , RegExg, Error)，那么 new 表达式中的函数调用将返回该对象引用。
-    
-    const isComplexDataType = () =>
-      ['object', 'function'].includes(typeof obj) && obj !== null;
-    
-    const myNew = function () {
-      const obj = new Object();
-      const Constructor = [].shift.call(arguments);
-      obj.__proto__ = Constructor.prototype;
-    
-      const ret = Constructor.apply(obj, arguments);
-      return isComplexDataType(ret) ? ret : obj;
-    };
-    
-    const myNew2 = (fn, ...rest) => {
-      const instance = {};
-      instance.__proto__ = fn.prototype;
-    
-      const res = fn.apply(instance, rest);
-      return isComplexDataType(res) ? res : instance;
-    };
+const isComplexDataType = () =>
+  ['object', 'function'].includes(typeof obj) && obj !== null;
 
+const myNew = function () {
+  const obj = new Object();
+  const Constructor = [].shift.call(arguments);
+  obj.__proto__ = Constructor.prototype;
+
+  const ret = Constructor.apply(obj, arguments);
+  return isComplexDataType(ret) ? ret : obj;
+};
+
+const myNew2 = (fn, ...rest) => {
+  const instance = {};
+  instance.__proto__ = fn.prototype;
+
+  const res = fn.apply(instance, rest);
+  return isComplexDataType(res) ? res : instance;
+};
 ```
- 
+
 ### sleep
 
 ```javascript
+const sleep = (duration) => {
+  const preDate = new Date();
+  duration = isNaN(Number(duration)) ? 0 : Number(duration);
+  while (true) {
+    if (new Date() - preDate >= duration) return false;
+  }
+};
 
-    const sleep = (duration) => {
-      const preDate = new Date();
-      duration = isNaN(Number(duration)) ? 0 : Number(duration);
-      while (true) {
-        if (new Date() - preDate >= duration) return false;
-      }
-    };
-    
-    // promise
-    const sleepWithPromise = (duration) => {
-      return new Promise((resolve, reject) => setTimeout(resolve, duration));
-    };
-    
-    // Generator
-    function* sleepGenerator(time) {
-      yield new Promise(function (resolve, reject) {
-        setTimeout(resolve, time);
-      });
-    }
-    
-    console.log('睡眠 2 秒！');
-    console.time('Generator sleep');
-    // test()
-    sleepGenerator(2000)
-      .next()
-      .value.then(() => {
-        console.timeEnd('Generator sleep');
-      });
-    console.log('我在 sleep 之后！');
+// promise
+const sleepWithPromise = (duration) => {
+  return new Promise((resolve, reject) => setTimeout(resolve, duration));
+};
 
+// Generator
+function* sleepGenerator(time) {
+  yield new Promise(function (resolve, reject) {
+    setTimeout(resolve, time);
+  });
+}
+
+console.log('睡眠 2 秒！');
+console.time('Generator sleep');
+// test()
+sleepGenerator(2000)
+  .next()
+  .value.then(() => {
+    console.timeEnd('Generator sleep');
+  });
+console.log('我在 sleep 之后！');
 ```
+
 ### instanceof
 
 ```javascript
+const myInstanceOf = (left, right) => {
+  left = left.__proto__;
+  right = right.prototype;
 
-    const myInstanceOf = (left, right) => {
-      left = left.__proto__;
-      right = right.prototype;
-    
-      while (true) {
-        if (left === null) return false;
-        if (left === right) return true;
-        left = left.__proto__;
-      }
-    };
-
+  while (true) {
+    if (left === null) return false;
+    if (left === right) return true;
+    left = left.__proto__;
+  }
+};
 ```
+
 ### getType
 
 ```javascript
-
-    const getType = (data) => Object.prototype.toString.call(data).slice(8, -1);
+const getType = (data) => Object.prototype.toString.call(data).slice(8, -1);
 ```
 
 ### 柯里化
 
 ```javascript
+// function curry(fn, args = []) {
+//   const len = fn.length;
+//
+//   return function () {
+//     args = args.concat([...arguments])
+//     if (args.length < len) {
+//       return curry(fn, args)
+//     } else {
+//       return fn(...args)
+//     }
+//   }
+// }
 
-    // function curry(fn, args = []) {
-    //   const len = fn.length;
-    //
-    //   return function () {
-    //     args = args.concat([...arguments])
-    //     if (args.length < len) {
-    //       return curry(fn, args)
-    //     } else {
-    //       return fn(...args)
-    //     }
-    //   }
-    // }
-    
-    const curry =
-      (fn, arr = []) =>
-      (...args) =>
-        ((arg) => (arg.length === fn.length ? fn(...arg) : curry(fn, arg)))([
-          ...arr,
-          ...args,
-        ]);
-
+const curry =
+  (fn, arr = []) =>
+  (...args) =>
+    ((arg) => (arg.length === fn.length ? fn(...arg) : curry(fn, arg)))([
+      ...arr,
+      ...args,
+    ]);
 ```
+
 - 防抖、节流
 
 - 深拷贝
@@ -280,7 +289,7 @@ class _Promise<T> {
 
     private _resolvePromise = <T>(nextPromise: _Promise<T>, x: any, resolve, reject) => {
 
-        // 2.3.1 
+        // 2.3.1
         if (nextPromise === x) {
             return reject(new TypeError('The promise and the return value are the same'));
         }
@@ -432,23 +441,24 @@ class _Promise<T> {
 
 module.exports = _Promise;
 ```
+
 - 选择排序
 - 快速排序
 - 归并排序
 - 实现链表
 - 计算多个区间的交集
-```javascript
 
-    /**
-     * 1.计算多个区间的交集
-     *   区间用长度为2的数字数组表示，如[2, 5]表示区间2到5（包括2和5）；
-     *   区间不限定方向，如[5, 2]等同于[2, 5]；
-     *   实现`getIntersection 函数`
-     *   可接收多个区间，并返回所有区间的交集（用区间表示），如空集用null表示
-     * 示例：
-     *   getIntersection([5, 2], [4, 9], [3, 6]); // [4, 5]
-     *   getIntersection([1, 7], [8, 9]); // null
-     */
+```javascript
+/**
+ * 1.计算多个区间的交集
+ *   区间用长度为2的数字数组表示，如[2, 5]表示区间2到5（包括2和5）；
+ *   区间不限定方向，如[5, 2]等同于[2, 5]；
+ *   实现`getIntersection 函数`
+ *   可接收多个区间，并返回所有区间的交集（用区间表示），如空集用null表示
+ * 示例：
+ *   getIntersection([5, 2], [4, 9], [3, 6]); // [4, 5]
+ *   getIntersection([1, 7], [8, 9]); // null
+ */
 ```
 
 - DOM 的体积过大会影响页面性能，假如你想在用户关闭页面时统计（计算并反馈给服务器）
@@ -472,7 +482,7 @@ module.exports = _Promise;
       </body>
     </html>
     会输出：
-    
+
     {
       totalElementsCount: 7,
       maxDOMTreeDepth: 4,
@@ -481,11 +491,10 @@ module.exports = _Promise;
 
 ```
 
-- // 3.请使用原生代码实现一个Events模块，可以实现自定义事件的订阅、触发、移除功能
+- // 3.请使用原生代码实现一个 Events 模块，可以实现自定义事件的订阅、触发、移除功能
 
 ```javascript
-
-    /*
+/*
     const fn1 = (... args)=>console.log('I want sleep1', ... args)
     const fn2 = (... args)=>console.log('I want sleep2', ... args)
     const event = new Events();
@@ -498,9 +507,101 @@ module.exports = _Promise;
     event.once('sleep', ()=>console.log('I want sleep));
     event.fire('sleep');
     */
-
 ```
 
-- 手写 Promise.all
+### 手写 Promise.all
+
+```javascript
+//手写promise.all
+Promise.prototype._all = (promiseList) => {
+  // 当输入的是一个promise列表
+  const len = promiseList.length;
+  const result = [];
+  let count = 0;
+  //
+  return new Promise((resolve, reject) => {
+    // 循环遍历promise列表中的promise事件
+    for (let i = 0; i < len; i++) {
+      // 遍历到第i个promise事件，判断其事件是成功还是失败
+      promiseList[i].then(
+        (data) => {
+          result[i] = data;
+          count++;
+          // 当遍历到最后一个promise时，结果的数组长度和promise列表长度一致，说明成功
+          count === len && resolve(result);
+        },
+        (error) => {
+          return reject(error);
+        },
+      );
+    }
+  });
+};
+```
+
+### 手写 Promise.race
+
+```javascript
+// 手写promise.race
+Promise.prototype._race = (promiseList) => {
+  const len = promiseList.length;
+  return new Promise((resolve, reject) => {
+    // 循环遍历promise列表中的promise事件
+    for (let i = 0; i < len; i++) {
+      promiseList[i]().then(
+        (data) => {
+          return resolve(data);
+        },
+        (error) => {
+          return reject(error);
+        },
+      );
+    }
+  });
+};
+```
+
+### Promise.finally
+
+```javascript
+Promise.prototype._finally = function (promiseFunc) {
+  return this.then(
+    (data) => Promise.resolve(promiseFunc()).then((data) => data),
+    (error) =>
+      Promise.reject(promiseFunc()).then((error) => {
+        throw error;
+      }),
+  );
+};
+```
+
+### 手写 Aysnc/Await
+
+```javascript
+function asyncGenertor(genFunc) {
+  return new Promise((resolve, reject) => {
+    // 生成一个迭代器
+    const gen = genFunc();
+    const step = (type, args) => {
+      let next;
+      try {
+        next = gen[type](args);
+      } catch (e) {
+        return reject(e);
+      }
+      // 从next中获取done和value的值
+      const { done, value } = next;
+      // 如果迭代器的状态是true
+      if (done) return resolve(value);
+      Promise.resolve(value).then(
+        (val) => step('next', val),
+        (err) => step('throw', err),
+      );
+    };
+    step('next');
+  });
+}
+```
+
 - 实现颜色转换 'rgb(255, 255, 255)' -> '#FFFFFF'
 - 简单实现一个 LRU
