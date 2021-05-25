@@ -11,6 +11,8 @@ nav:
 
 ## points
 
+[React 面试题 & 回答](https://github.com/semlinker/reactjs-interview-questions)
+
 ### vue 和 react 的区别
 
 react 整体是函数式的思想，把组件设计成纯组件，状态和逻辑通过参数传入，所以在 react 中，是单向数据流；
