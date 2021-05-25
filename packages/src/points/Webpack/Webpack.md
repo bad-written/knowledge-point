@@ -26,8 +26,6 @@ plugin 是一个扩展器，它丰富了 webpack 本身，针对是 loader 结�
 
 ### webpack 的打包原理及产物是如何执行的，动态加载呢，如何缓存的，与 rollup 的区别
 
-### 写React/Vue项目时，为什么要在列表组件写key
-
 ### webpack 优化的手段
 
 ### tree-shaking 怎么配置，如何 避免 tree-shaking？
@@ -44,7 +42,7 @@ plugin 是一个扩展器，它丰富了 webpack 本身，针对是 loader 结�
 
 ### webpack 原理
 
-### webpack 热更新
+### webpack 热更新原理
 
 ### 如何写一个 webpack plugin
 
@@ -55,3 +53,27 @@ plugin 是一个扩展器，它丰富了 webpack 本身，针对是 loader 结�
 ### babel 原理，怎么写 babel 插件
 
 ### 如何设计一个沙盒 sandbox ？
+
+### 有哪些常见的Loader？你用过哪些Loader？
+
+### 有哪些常见的Plugin？你用过哪些Plugin？
+
+### Webpack构建流程简单说一下文件监听原理呢？
+
+### 使用webpack开发时，你用过哪些可以提高效率的插件？
+
+### 模块打包原理知道吗?
+
+### 文件监听原理呢？
+
+### 如何对bundle体积进行监控和分析？
+
+### 文件指纹是什么？怎么用？(Hash、ChunkHash、ContentHash)
+
+### 那代码分割的本质是什么？有什么意义呢？
+
+### 是否写过Loader？简单描述一下编写loader的思路？
+
+### 是否写过Plugin？简单描述一下编写Plugin的思路？
+
+### 聊一聊Babel原理吧
