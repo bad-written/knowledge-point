@@ -26,3 +26,31 @@ vue 的思想是响应式的，也就是基于是数据可变的，通过对每�
 ### React中context的实现方式？
 
 ### Render Props 与 React.PureComponent 混用可能会出现什么问题?
+
+### 什么是虚拟DOM？
+
+### 类组件和函数组件之间的区别是啥？
+
+### React 中 refs 干嘛用的？
+
+### react中的事件
+
+### 什么是jsx？
+
+### 为什么类方法需要绑定到类实例？
+
+### 受控组件和非受控组件区别是啥？
+
+### stack reconciler
+
+### React Fiber?
+
+### concurrent
+
+### 什么是纯函数？
+
+### HOC
+
+### render props
+
+### 单向数据流、双向数据流的缺点
