@@ -603,5 +603,214 @@ function asyncGenertor(genFunc) {
 }
 ```
 
+### 栈的实现
+
+```javascript
+class Stack {
+  constructor() {
+    this.dataStore = [];
+    this.top = 0;
+  }
+
+  push(element) {
+    this.dataStore[this.top++] = element;
+  }
+
+  pop() {
+    return this.dataStore[--this.top];
+  }
+
+  peek() {
+    return this.dataStore[this.top - 1];
+  }
+
+  length() {
+    return this.top;
+  }
+
+  clear() {
+    this.top = 0;
+  }
+}
+```
+
+### 队列的实现
+
+```javascript
+class Queue {
+  constructor() {
+    this.dataStore = [];
+  }
+
+  // 入队
+  enqueue(element) {
+    this.dataStore.push(element);
+  }
+
+  // 出队
+  dequeue() {
+    this.dataStore.shift();
+  }
+
+  // 获取队首
+  front() {
+    return this.dataStore[0];
+  }
+
+  // 获取队尾
+  back() {
+    return this.dataStore[this.dataStore.length - 1];
+  }
+
+  toString() {
+    let reStr = '';
+    for (let i = 0; i < this.dataStore.length; i++) {
+      const element = this.dataStore[i];
+      reStr += element + '/n';
+    }
+    return reStr;
+  }
+
+  empty() {
+    if (this.dataStore.length === 0) {
+      return true;
+    }
+    return false;
+  }
+}
+```
+
+### 链表的实现
+
+```javascript
+// 单链表的实现
+class Node {
+  constructor(element) {
+    this.element = element;
+    this.next = null;
+  }
+}
+
+class LinkedList {
+  constructor() {
+    this.head = new Node('head');
+  }
+
+  // 辅助方法
+  find(item) {
+    let currNode = this.head;
+    while (currNode.element != item) {
+      currNode = currNode.next;
+    }
+    return currNode;
+  }
+
+  // insert
+  insert(newElement, item) {
+    const newNode = new Node(newElement);
+    const current = this.find(item);
+    newNode.next = current.next;
+    current.next = newNode;
+  }
+
+  // display
+  display() {
+    let currNode = this.head;
+    while (!(currNode.next == null)) {
+      console.log(currNode.next.element);
+      currNode = currNode.next;
+    }
+  }
+
+  // findPrevious
+  findPrevious(item) {
+    let currNode = this.head;
+    while (!(currNode.next == null) && currNode.next.element != item) {
+      currNode = currNode.next;
+    }
+    return currNode;
+  }
+
+  // remove
+  remove(item) {
+    const prevNode = this.findPrevious(item);
+    if (!(prevNode.next == null)) {
+      prevNode.next = prevNode.next.next;
+    }
+  }
+}
+// 双向链表的实现
+class Node {
+  constructor(element) {
+    this.element = element;
+    this.next = null;
+    this.previous = null;
+  }
+}
+
+class LList {
+  constructor() {
+    this.head = new Node('head');
+  }
+
+  // 辅助方法
+  find(item) {
+    let currNode = this.head;
+    while (currNode.element != item) {
+      currNode = currNode.next;
+    }
+    return currNode;
+  }
+
+  // 辅助方法
+  findLast() {
+    let currNode = this.head;
+    while (currNode.next != null) {
+      currNode = currNode.next;
+    }
+    return currNode;
+  }
+
+  // 翻转展示
+  dispReverse() {
+    let currNode = this.head;
+    currNode = this.findLast();
+    while (currNode.previous != null) {
+      console.log(currNode.element);
+      currNode = currNode.previous;
+    }
+  }
+
+  // 删除
+  remove(item) {
+    const currNode = this.find(item);
+    if (!(currNode.next == null)) {
+      currNode.previous.next = currNode.next;
+      currNode.next.previous = currNode.previous;
+      currNode.next = null;
+      currNode.previous = null;
+    }
+  }
+
+  // 展示
+  display() {
+    let currNode = this.head;
+    while (currNode.next != null) {
+      console.log(currNode.element);
+      currNode = currNode.next;
+    }
+  }
+
+  // 插入
+  insert(element, item) {
+    const newNode = new Node(element);
+    const current = this.find(item);
+    newNode.next = current.next;
+    newNode.previous = currNode;
+    currNode.next = newNode;
+  }
+}
+```
+
 - 实现颜色转换 'rgb(255, 255, 255)' -> '#FFFFFF'
 - 简单实现一个 LRU
