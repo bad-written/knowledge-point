@@ -386,6 +386,8 @@ pach 算法 — 将两个虚拟 DOM 对象的差异应用到真正的 DOM 树。
 
 [Virtual-DOM](https://juejin.cn/post/6844903895467032589)
 
+### 虚拟节点 VNode
+
 ### Vue 中的 key 有什么作用？
 
 更准确：因为带 key 就不是就地复用了，在 sameNode 函数  a.key === b.key 对比中可以避免就地复用的情况。所以会更加准确。
@@ -440,4 +442,10 @@ function createKeyToOldIdx(children, beginIdx, endIdx) {
 
 ### vue3.0 特性你有什么了解的吗？
 
-###
+### vue-router 的实现方式
+
+### nextTick 原理
+
+### provide inject
+
+### location.href 和 vue-router 跳转有什么区别

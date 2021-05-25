@@ -357,3 +357,33 @@ ES6 一共有 5 种方法可以遍历对象的属性。
 ### Web Components
 
 ### Promise.all 如果有一个失败了如何处理
+
+### canvas 与 svg 的区别
+
+### attribute 和 property 的区别 attribute 和 property 的区别
+
+### document.write 只能重绘整个页面。innerHTML 可以重绘页面的一部分
+
+### cookie、session、localStorage、sessionStorage
+
+### 长短轮询 websocket
+
+### forEach 和 map 区别是什么
+
+### 柯里化
+
+### 并发与并行的区别？
+
+### 什么是回调函数？回调函数有什么缺点？如何解决回调地狱问题？
+
+### 什么是执行栈？
+
+### Node 中的 Event Loop 和浏览器中的有什么区别？process.nexttick 执行顺序？
+
+### fetch 和 xhr 有什么区别
+
+### 图片懒加载原理是什么
+
+### null 和 undefined 的区别
+
+### Object 和 maps 的比较
