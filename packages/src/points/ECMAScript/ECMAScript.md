@@ -387,3 +387,7 @@ ES6 一共有 5 种方法可以遍历对象的属性。
 ### null 和 undefined 的区别
 
 ### Object 和 maps 的比较
+
+### Object.freeze
+
+### import() 的实现方式
