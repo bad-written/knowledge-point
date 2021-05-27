@@ -117,9 +117,9 @@ vue 的思想是响应式的，也就是基于是数据可变的，通过对每�
 
 ### lazy、susponse 的原理
 
-###  refs 转发是什么？
+### refs 转发是什么？
 
-###  为什么 Strings Refs 被遗弃了？
+### 为什么 Strings Refs 被遗弃了？
 
 ### Children.map
 
@@ -127,18 +127,24 @@ vue 的思想是响应式的，也就是基于是数据可变的，通过对每�
 
 ### Children.forEach
 
-Children.forEach和Children.map 用法类似，Children.map可以返回新的数组，Children.forEach仅停留在遍历阶段。
+Children.forEach 和 Children.map 用法类似，Children.map 可以返回新的数组，Children.forEach 仅停留在遍历阶段。
 
 ### Children.count
 
-children 中的组件总数量，等同于通过 map 或 forEach 调用回调函数的次数。对于更复杂的结果，Children.count可以返回同一级别子组件的数量。
+children 中的组件总数量，等同于通过 map 或 forEach 调用回调函数的次数。对于更复杂的结果，Children.count 可以返回同一级别子组件的数量。
 
 ### Children.toArray
 
-newChidrenArray ,就是扁平化的数组结构。React.Children.toArray() 在拉平展开子节点列表时，更改 key 值以保留嵌套数组的语义。也就是说， 
+newChidrenArray ,就是扁平化的数组结构。React.Children.toArray() 在拉平展开子节点列表时，更改 key 值以保留嵌套数组的语义。也就是说，
 toArray 会为返回数组中的每个 key 添加前缀，以使得每个元素 key 的范围都限定在此函数入参数组的对象内。
 
 ### Children.only
 
 验证 children 是否只有一个子节点（一个 React 元素），如果有则返回它，否则此方法会抛出错误。
 
+### 说说 inmutable.js？
+
+### Render props 和 高阶组件的优缺点?
+
+- 弥补类组件在逻辑复用的不灵活问题
+- 嵌套地狱问题
