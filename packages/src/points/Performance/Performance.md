@@ -1,6 +1,6 @@
 ---
-title: Performance Optimization
-order: 21
+title: Performance
+order: 22
 nav:
   path: /points
 ---
