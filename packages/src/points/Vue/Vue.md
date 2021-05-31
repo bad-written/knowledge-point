@@ -376,7 +376,7 @@ export function set(target: Array<any> | Object, key: any, val: any): any {
 
 - 无法进行极致优化： 虽然虚拟 DOM + 合理的优化，足以应对绝大部分应用的性能需求，但在一些性能要求极高的应用中虚拟 DOM 无法进行针对性的极致优化。
 
-### 虚拟 DOM 实现原理？
+### 虚拟 DOM 实现原理？diff 及 patch
 
 虚拟 DOM 的实现原理主要包括以下 3 部分：
 
@@ -449,3 +449,25 @@ function createKeyToOldIdx(children, beginIdx, endIdx) {
 ### provide inject
 
 ### location.href 和 vue-router 跳转有什么区别
+
+### 依赖收集的原理及实现
+
+### 数据监听的实现
+
+### 模板的编译原理
+
+### Render 方法的原理
+
+### Vue 的组件机制
+
+### Vue 实例挂载和渲染
+
+### slots 的原理
+
+### Vue-Loader 的原理及实现?
+
+### Reactivity 的原理及实现方式？
+
+### piler 的实现原理?
+
+### Time 的实现原理
