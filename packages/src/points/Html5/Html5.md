@@ -210,9 +210,138 @@ if (window.addEventListener) {
 
 ### Canvas
 
-### indexDB
+### indexedDB
 
 ### Web SQL
+
+```HTML5
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>离线记事本</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css"/>
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script><!-- 引用jQuery插件 -->
+</head>
+<script>
+    let datatable = null;
+    const db = openDatabase("note", "", "notebook", 1024 * 100);
+
+    //初始化函数方法
+    function init() {
+        datatable = document.getElementById("datatable");
+        showAllData();
+    }
+
+    function removeAllData() {
+        for (let i = datatable.childNodes.length - 1; i >= 0; i--) {
+            datatable.removeChild(datatable.childNodes[i]);
+        }
+        const tr = document.createElement("tr");
+        const th1 = document.createElement("th");
+        const th2 = document.createElement("th");
+        const th3 = document.createElement("th");
+        th1.innerHTML = "标题";
+        th2.innerHTML = "内容";
+        th3.innerHTML = "时间";
+        tr.appendChild(th1);
+        tr.appendChild(th2);
+        tr.appendChild(th3);
+        datatable.appendChild(tr);
+    }
+
+    //显示数据库中的数据
+    function showData(row) {
+        const tr = document.createElement("tr");
+        const td1 = document.createElement("td");
+        td1.innerHTML = row.title;
+        const td2 = document.createElement("td");
+        td2.innerHTML = row.content;
+        const td3 = document.createElement("td");
+        const t = new Date();
+        t.setTime(row.time);
+        td3.innerHTML = t.toLocaleDateString() + " " + t.toLocaleTimeString();
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+        datatable.appendChild(tr);
+    }
+
+    //显示所有的数据
+    function showAllData() {
+        db.transaction(function (tx) {
+            tx.executeSql("CREATE TABLE IF NOT EXISTS item(title TEXT,content TEXT,time INTEGER)", []);
+            tx.executeSql("SELECT * FROM item", [], function (tx, rs) {
+                removeAllData();
+                for (var i = 0; i < rs.rows.length; i++) {
+                    showData(rs.rows.item(i))
+                }
+            })
+        })
+    }
+
+    //添加一条记事本数据
+    function addData(title, content, time) {
+        db.transaction(function (tx) {
+            tx.executeSql("INSERT INTO item VALUES (?,?,?)", [title, content, time], function (tx, rs) {
+                    alert("保存成功！");
+                },
+                function (tx, error) {
+                    alert(error.source + "::" + error.message);
+                }
+            )
+        })
+    }
+
+    //点击保存按钮
+    function saveData() {
+        const title = document.getElementById("name").value;
+        const content = document.getElementById("memo").value;
+        const time = new Date().getTime();
+        addData(title, content, time);
+        showAllData();
+    }
+
+</script>
+<body onload="init()">
+<div data-role="page" id="pageone">
+    <div data-role="header" data-position="fixed">
+        <h1>离线记事本</h1>
+    </div>
+    <div data-role="main" class="ui-content">
+        <p align="center">记事</p>
+        <table data-role="table" class="ui-responsive">
+            <thead>
+            <tr>
+                <th>标题：</th>
+                <th>内容：</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><input type="text" id="name"></td>
+                <td><input type="text" id="memo"></td>
+            </tr>
+            </tbody>
+        </table>
+        <button type="submit" onclick="saveData()">保存</button>
+        <table data-role="table" data-mode="" class="ui-responsive" id="datatable"></table>
+    </div>
+</div>
+</body>
+</html>
+```
+
+### indexedDB 和 websql 对比
+
+- 访问限制：indexdb 和 websql 一致，均是在创建数据库的域名下才能访问，且不能指定访问域名。
+- 存储时间：这两位的存储时间也是永久，除非用户清除浏览器数据，可以用作长效的存储。
+- 大小限制：理论上讲，这两种存储的方式是没有大小限制的。然而 indexeddb 的数据库超过 50M 的时候浏览器会弹出确认，基本上也相当于没有限制了。但是由于不同的浏览器的实现有一定的差别，实际使用中需要根据不同的浏览器做相应的容量判断容错。
+- 性能测试：indexeddb 查询少量数据花费差不多 20MS 左右。大量数据的情况下，相对耗时会变长一些，但是也就在 30MS 左右，也是相当给力了，10W 数据+，毕竟 nosql。而 websql 的效率也不错，10w+ 数据，简单查询一下，只花费了 20MS 左右。
+- 标准规范：Web SQL 数据库是一个独立的规范，因为安全性能等问题，官方现在也已经放弃了维护；indexedDB 则属于 W3C 标准。
 
 ### web worker
 
@@ -291,11 +420,203 @@ Canvas 是通过 JavaScript 调用的方式绘制图像，而 SVG 是使用标�
 
 ### Geolocation(地理位置)
 
-HTML5 Geolocation API 用于获得用户的地理位置。
-鉴于该特性可能侵犯用户的隐私，除非用户同意，否则用户位置信息是不可用的。
+> HTML5 Geolocation API 用于获得用户的地理位置。
+> 鉴于该特性可能侵犯用户的隐私，除非用户同意，否则用户位置信息是不可用的。
 
 ### websocket
 
+> 网页中的绝大多数请求使用的是 HTTP 协议，HTTP 是一个无状态的应用层协议，它有着即开即用的优点，每次请求都是相互独立的，这对于密集程度较低的网络请求来说是优点，
+> 因为无需创建请求的上下文条件，但是对于密集度或者实时性要求较高的网络请求（例如 IM 聊天）场景来说， 可能 HTTP 会力不从心， 因为每创建一个 HTTP
+> 请求对服务器来说都是一个很大的资源开销。这时我们可以考虑一个相对性能较高的网络协议 Socket，他的网页版本被称为 Websocket。
+
+> 轮询的原理是采用定时的方式不断的向服务端发送 HTTP 请求，频繁地请求数据。明显地，这种方法命中率较低，浪费服务器资源。伴随着 WebSocket 协议的推广，真正实现了 Web 的即时通信。
+
+> WebSocket 的原理是通过 JavaScript 向服务端发出建立 WebSocket 连接的请求，在 WebSocket 连接建立成功后，客户端和服务端可以实现一个长连接的网络管道。因为 WebSocket 本质上是 TCP 连接，它是一个长连接，除非断开连接否则无需重新创建连接，所以其开销相对 HTTP 节省了很多。
+
+注意事项
+
+- websocket 创建之前需要使用 HTTP 协议进行一次握手请求，服务端正确回复相应的请求之后才能创建 websocket 连接；
+- 创建 websocket 时需要进行一些类似 token 之类的登录认证，不然任何客户端都可以向服务器进行 websocket 连接；
+- websocket 是明文传输，敏感的数据需要进行加密处理；
+- 由于 websocket 是长连接，当出现异常时连接会断开，服务端的进程也会丢失，所以服务端最好有守护进程进行监控重启；
+- 服务器监听的端口最好使用非系统性且不常使用的端口，不然可能会导致端口冲突
+
+```javascript
+// 通过监听 message 事件对 websocket 的消息进行一定的业务处理，这其中需要判断数据类型格式，
+// 因为 Websocket 是基于二进制流格式的，传输过来的消息可能不一定是基于 utf8 的字符串格式,因此需要对格式进行判断。
+
+ws.onmessage = function (event) {
+  var d = event.data;
+  //接收到消息之后的业务处理
+  switch (
+    typeof d //判断数据的类型格式
+  ) {
+    case 'String':
+      break;
+    case 'blob':
+      break;
+    case 'ArrayBuffer':
+      break;
+    default:
+      return;
+  }
+};
+
+//  ws.send() 可以发送文本格式，也可以发送二进制格式
+var input = document.getElementById('file');
+input.onchange = function () {
+  var file = this.files[0];
+  if (!!file) {
+    //读取本地文件，以gbk编码方式输出
+    var reader = new FileReader();
+    reader.readAsBinaryString(file);
+    reader.onload = function () {
+      //读取完毕后发送消息
+      ws.send(this.result);
+    };
+  }
+};
+```
+
+```HTML5
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <style>
+        p {
+            text-align: left;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+<div style="width: 700px;height: 500px;margin: 30px auto;text-align: center">
+    <h1>聊天室实战</h1>
+    <div style="width: 700px;border: 1px solid gray;height: 300px;">
+        <div style="width: 200px;height: 300px;float: left;text-align: left;">
+            <p><span>当前在线:</span><span id="user_num">0</span></p>
+            <div id="user_list" style="overflow: auto;">
+
+            </div>
+        </div>
+        <div id="msg_list" style="width: 598px;border:  1px solid gray; height: 300px;overflow: scroll;float: left;">
+        </div>
+    </div>
+    <br>
+    <textarea id="msg_box" rows="6" cols="50" onkeydown="confirm(event)"></textarea><br>
+    <input type="button" value="发送" onclick="send()">
+</div>
+</body>
+</html>
+
+<script type="text/javascript">
+    const uname = window.prompt('请输入用户名', 'user' + uuid(8, 16));
+    const ws = new WebSocket("ws://127.0.0.1:8081");
+    ws.onopen = function () {
+        const data = "系统消息：连接成功";
+        listMsg(data);
+    };
+    通过监听 message 事件对 websocket 的消息进行一定的业务处理，这其中需要判断数据类型格式，因为 Websocket 是基于二进制流格式的，
+    传输过来的消息可能不一定是基于 utf8 的字符串格式,因此需要对格式进行判断。
+    ws.onmessage = function (e) {
+        const msg = JSON.parse(e.data);
+        const data = msg.content;
+        listMsg(data);
+    };
+
+    ws.onerror = function () {
+        const data = "系统消息 : 出错了,请退出重试.";
+        listMsg(data);
+    };
+
+    function confirm(event) {
+        const key_num = event.keyCode;
+        if (13 === key_num) {
+            send();
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 发送并清空消息输入框内的消息
+     */
+    function send() {
+        const msg_box = document.getElementById("msg_box");
+        let content = msg_box.value;
+        const reg = new RegExp("\r\n", "g");
+        content = content.replace(reg, "");
+        const msg = {'content': content.trim(), 'type': 'user'};
+        sendMsg(msg);
+        msg_box.value = '';
+    }
+
+    /**
+     * 将消息内容添加到输出框中,并将滚动条滚动到最下方
+     */
+    function listMsg(data) {
+        const msg_list = document.getElementById("msg_list");
+        const msg = document.createElement("p");
+
+        msg.innerHTML = data;
+        msg_list.appendChild(msg);
+        msg_list.scrollTop = msg_list.scrollHeight;
+    }
+
+    /**
+     * 将数据转为json并发送
+     * @param msg
+     */
+    function sendMsg(msg) {
+        const data = JSON.stringify(msg);
+        ws.send(data);
+    }
+</script>
+```
+
 ### SSE 浏览器发送事件
 
-相对于 websocket 这种双向协议，SSE 较为轻量，它只支持服务端向客户端推送消息。
+> 相对于 websocket 这种双向协议，SSE 较为轻量，它只支持服务端向客户端推送消息。
+
+```javascript
+
+if(typeof(EventSource)!=="undefined"){
+    var source = new EventSource("http://127.0.0.1/test.php");
+}
+
+source.onmessage = function (event){
+  //处理业务请求
+  console.log(event.data)
+}
+
+// 服务端支持
+header('content-type:text/event-stream');
+while(true){
+  sleep(30000);
+  echo "message:".time();
+  //每隔半分钟返回一个时间戳
+}
+
+```
+
+适用场景
+
+> 并非所有场景都适合使用 sse 处理，在消息推送接收不频繁的情况下选用 ajax 轮询或者 sse 或者 websocket 其实差别不太大。
+> sse 应该适用于服务端向客户端发送消息频繁而客户端几乎无需向服务端发送数据的场景下，例如：
+
+- 新邮件通知
+- 订阅新闻通知
+- 天气变化
+- 服务器异常通知
+- 网站公告
+
+sse 的优缺点：
+
+- SSE 使用 HTTP 协议，除 IE 外的大部分浏览器都支持；
+- SSE 属于轻量级，使用简单；
+- SSE 默认支持断线重连；
+- SSE 一般只用来传送文本，二进制数据需要编码后传送；
+- SSE 支持自定义发送的消息类型。
