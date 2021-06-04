@@ -421,3 +421,20 @@ ES6 一共有 5 种方法可以遍历对象的属性。
 这是因为 JavaScript 是基于事件驱动，当需要进行网络请求时，JavaScript 线程会把请求发送给 network 线程执行，
 并等待执行结果；当进行文件读取时则调用 file 线程，然后等待结果。 然后 JavaScript 会一直轮询队列 event loop，
 直到有事件完成， 这时浏览器会驱动 JavaScript 去执行事件的回调函数。这就是 JavaScript 的事件驱动模型。
+
+### a.b.c.d 和 a['b']['c']['d']，哪个性能更高?
+
+应该是 a.b.c.d 比 a['b']['c']['d'] 性能高点，后者还要考虑 [ ] 中是变量的情况， 再者，从两种形式的结构来看，显然编译器解析前者要比后者容易些，自然也 就快一点
+
+### 为什么普通 for 循环的性能远远高于 forEach 的 性能，请解释其中的原因。
+
+for 循环没有任何额外的函数调用栈和上下文;
+forEach 函数签名实际上是
+
+```javascript
+
+array.forEach(function(currentValue, index, arr), thisValue)
+```
+它不是普通的 for 循环的语法糖，还有诸多参数和上下文需要在执行的时候考
+虑进来，这里可能拖慢性能;
+
