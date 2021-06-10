@@ -64,3 +64,5 @@ nav:
 ### CLI
 
 ### 数据可视化(base charts 库搭建)
+
+### GraphQL
