@@ -438,3 +438,9 @@ array.forEach(function(currentValue, index, arr), thisValue)
 它不是普通的 for 循环的语法糖，还有诸多参数和上下文需要在执行的时候考
 虑进来，这里可能拖慢性能;
 
+### JS中forEach能不能跳出循环
+
+### 高级/资深的前端是如何回答JavaScript面试题的
+
+[面试技巧](https://juejin.cn/post/6971727286856843295)
+
