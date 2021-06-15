@@ -83,3 +83,7 @@ plugin 是一个扩展器，它丰富了 webpack 本身，针对是 loader 结�
 ### webpack-dev-server 的原理是什么
 
 ### cache-loader 和 hard-source-webpack-plugin的区别?
+
+### HMR原理
+
+[HMR实现原理](https://juejin.cn/post/6973825927708934174?utm_source=gold_browser_extension)
