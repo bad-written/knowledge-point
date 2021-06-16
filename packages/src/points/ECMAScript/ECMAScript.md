@@ -444,3 +444,6 @@ array.forEach(function(currentValue, index, arr), thisValue)
 
 [面试技巧](https://juejin.cn/post/6971727286856843295)
 
+### AMD,CommonJS,CMD,UMD,ES6
+
+[AMD,CommonJS,CMD,UMD,ES6](https://zhuanlan.zhihu.com/p/108217164)
