@@ -87,3 +87,8 @@ plugin 是一个扩展器，它丰富了 webpack 本身，针对是 loader 结�
 ### HMR原理
 
 [HMR实现原理](https://juejin.cn/post/6973825927708934174)
+
+
+### tapable 和 webpack 的关系，tapable的原理?
+
+[tapable的原理](https://juejin.cn/post/6974573181356998669)
