@@ -447,3 +447,7 @@ array.forEach(function(currentValue, index, arr), thisValue)
 ### AMD,CommonJS,CMD,UMD,ES6
 
 [AMD,CommonJS,CMD,UMD,ES6](https://zhuanlan.zhihu.com/p/108217164)
+
+### Promise 为什么比setTimeout快？
+
+
