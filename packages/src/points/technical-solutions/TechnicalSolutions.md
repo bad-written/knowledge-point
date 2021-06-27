@@ -30,13 +30,13 @@ nav:
 [Epage](http://epage.didichuxing.com/)
 [H5 Dooring](http://h5.dooring.cn/)
 
-### 怎么实现h5页面的秒开?
+### 怎么实现 h5 页面的秒开?
 
 ### 有没有做过一些提高工作效率的东西?
 
-### JSBridge方案、及通信原理?
+### JSBridge 方案、及通信原理?
 
-### Sentry集中化日志监控与自动化错误追踪
+### Sentry 集中化日志监控与自动化错误追踪
 
 ### 性能监控
 
@@ -56,7 +56,7 @@ nav:
 
 [ESBuild](https://juejin.cn/post/6971606582706569229)
 
-### Babel的应用
+### Babel 的应用
 
 ### 持续集成系统的搭建
 
@@ -78,4 +78,4 @@ nav:
 
 ### 增量发布
 
-### 前端处理大量数据
+### 前端大量数据的处理
