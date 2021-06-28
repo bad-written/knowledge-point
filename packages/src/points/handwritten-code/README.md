@@ -587,3 +587,7 @@ function asyncGenertor(genFunc) {
 ### Object.assign
 
 ### new koa2 中间件原理 koa-compose
+
+### 如何把一个字符串的大小写取反（大写变小写小写变大写），例如 ’AbC' 变成 'aBc' 。
+
+### 实现一个字符串匹配算法，从长度为 n 的字符串 S 中，查找是否存在字符串 T，T 的长度是 m，若存在返回所在位置。

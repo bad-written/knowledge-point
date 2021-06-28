@@ -309,3 +309,81 @@ export default TrafficLightItem;
  （也就是“回文”，表示成32位二进制不省略0）的情况有几种，分别是哪些？要求性能尽可能高
  */
 ```
+
+### 介绍下深度优先遍历和广度优先遍历，如何实现？
+
+### 请分别用深度优先思想和广度优先思想实现一个拷贝函数？
+
+### 编写一个程序将数组扁平化去并除其中重复部分数据，最终得到一个升序且不重复的数组
+
+```javascript
+已知如下数组：
+var arr = [ [1, 2, 2], [3, 4, 5, 5], [6, 7, 8, 9, [11, 12, [12, 13, [14] ] ] ], 10];
+编写一个程序将数组扁平化去并除其中重复部分数据，最终得到一个升序且不重复的数组
+```
+
+### Promise 构造函数是同步执行还是异步执行，那么 then 方法呢？
+
+### 实现 (5).add(3).minus(2) 功能。
+
+### 用 JavaScript 写一个函数，输入 int 型，返回整数逆序后的字符串。如：输入整型 1234，返回字符串“4321”。要求必须使用递归函数调用，不能用全局变量，输入函数必须只有一个参数传入，必须返回字符串。
+
+### 实现 convert 方法，把原始 list 转换成树形结构，要求尽可能降低时间复杂度
+
+以下数据结构中，id 代表部门编号，name 是部门名称，parentId 是父部门编号，为 0 代表一级部门，现在要求实现一个 convert 方法，把原始 list 转换成树形结构，parentId 为多少就挂载在该 id 的属性 children 数组下，结构如下：
+
+```javascript
+// 原始 list 如下
+let list =[
+    {id:1,name:'部门A',parentId:0},
+    {id:2,name:'部门B',parentId:0},
+    {id:3,name:'部门C',parentId:1},
+    {id:4,name:'部门D',parentId:1},
+    {id:5,name:'部门E',parentId:2},
+    {id:6,name:'部门F',parentId:3},
+    {id:7,name:'部门G',parentId:2},
+    {id:8,name:'部门H',parentId:4}
+];
+const result = convert(list, ...);
+
+// 转换后的结果如下
+let result = [
+    {
+      id: 1,
+      name: '部门A',
+      parentId: 0,
+      children: [
+        {
+          id: 3,
+          name: '部门C',
+          parentId: 1,
+          children: [
+            {
+              id: 6,
+              name: '部门F',
+              parentId: 3
+            }, {
+              id: 16,
+              name: '部门L',
+              parentId: 3
+            }
+          ]
+        },
+        {
+          id: 4,
+          name: '部门D',
+          parentId: 1,
+          children: [
+            {
+              id: 8,
+              name: '部门H',
+              parentId: 4
+            }
+          ]
+        }
+      ]
+    },
+  ···
+];
+
+```

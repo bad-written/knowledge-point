@@ -435,12 +435,13 @@ forEach 函数签名实际上是
 
 array.forEach(function(currentValue, index, arr), thisValue)
 ```
+
 它不是普通的 for 循环的语法糖，还有诸多参数和上下文需要在执行的时候考
 虑进来，这里可能拖慢性能;
 
-### JS中forEach能不能跳出循环
+### JS 中 forEach 能不能跳出循环
 
-### 高级/资深的前端是如何回答JavaScript面试题的
+### 高级/资深的前端是如何回答 JavaScript 面试题的
 
 [面试技巧](https://juejin.cn/post/6971727286856843295)
 
@@ -448,6 +449,47 @@ array.forEach(function(currentValue, index, arr), thisValue)
 
 [AMD,CommonJS,CMD,UMD,ES6](https://zhuanlan.zhihu.com/p/108217164)
 
-### Promise 为什么比setTimeout快？
+### Promise 为什么比 setTimeout 快？
 
+### Async/Await 如何通过同步的方式实现异步
 
+### 请写出下面代码的运行结果
+
+```javascript
+async function async1() {
+  console.log('async1 start');
+  await async2();
+  console.log('async1 end');
+}
+async function async2() {
+  console.log('async2');
+}
+console.log('script start');
+setTimeout(function () {
+  console.log('setTimeout');
+}, 0);
+async1();
+new Promise(function (resolve) {
+  console.log('promise1');
+  resolve();
+}).then(function () {
+  console.log('promise2');
+});
+console.log('script end');
+```
+
+### 说说浏览器和 Node 事件循环的区别
+
+### 介绍下如何实现 token 加密
+
+### 二维码的原理
+
+### ES6 代码转成 ES5 代码的实现思路是什么
+
+### 数组里面有 10 万个数据，取第一个元素和第 10 万个元素的时间相差多少
+
+### 实现模糊搜索结果的关键词高亮显示
+
+### 设计并实现 Promise.race()
+
+### 在输入框中如何判断输入的是一个正确的网址。

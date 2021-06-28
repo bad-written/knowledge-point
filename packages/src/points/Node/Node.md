@@ -199,3 +199,5 @@ module.exports = function () { return 'foo'; };
 最终，我们强烈建议使用module.exports = xxx的方式来输出模块变量，这样，你只需要记忆一种方法。
 
 ```
+
+### 介绍下 npm 模块安装机制，为什么输入 npm install 就可以自动安装对应的模块？
