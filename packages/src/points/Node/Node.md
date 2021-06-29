@@ -201,3 +201,5 @@ module.exports = function () { return 'foo'; };
 ```
 
 ### 介绍下 npm 模块安装机制，为什么输入 npm install 就可以自动安装对应的模块？
+
+### npx
