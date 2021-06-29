@@ -40,14 +40,13 @@ jobs:
 
       # 部署到阿里云
       - name: Deploy to Aliyun
-        uses: easingthemes/ssh-deploy@v2.1.1
+        uses: easingthemes/ssh-deploy@v2.1.5
         env:
           # 私钥
           SSH_PRIVATE_KEY: ${{ secrets.KNOWLEDGE }}
           # scp参数
           ARGS: "-avzr --delete"
-          # 源目录，编译
-          后生成的文件目录
+          # 源目录，编译后生成的文件目录
           SOURCE: "./dist"
           # 服务器ip：换成你的服务器IP
           REMOTE_HOST: "118.31.14.182"
