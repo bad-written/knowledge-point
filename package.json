@@ -6,6 +6,7 @@
     "build": "dumi build",
     "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\""
   },
+  "homepage": "https://bad-written.github.io/knowledge-point",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "typings": "dist/index.d.ts",
