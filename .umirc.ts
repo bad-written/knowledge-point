@@ -3,6 +3,8 @@ import { defineConfig } from 'dumi';
 export default defineConfig({
   title: 'Knowledge Points',
   hash: true,
+  base: '/knowledge-point/',
+  publicPath: '/knowledge-point/',
   sitemap: { hostname: 'https://bad-written.github.io/' },
   logo: 'https://avatars.githubusercontent.com/u/20334663?v=4',
   favicon: '/assets/favicon.ico',
