@@ -2,6 +2,7 @@ import { defineConfig } from 'dumi';
 
 export default defineConfig({
   title: 'Knowledge Points',
+  sitemap: { hostname: 'https://bad-written.github.io/knowledge-point' },
   logo: 'https://avatars.githubusercontent.com/u/20334663?v=4',
   favicon: '/assets/favicon.ico',
   description: 'Record scattered knowledge points',
