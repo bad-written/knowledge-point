@@ -164,3 +164,11 @@ toArray 会为返回数组中的每个 key 添加前缀，以使得每个元素 
 ### 聊聊 Redux 和 Vuex 的设计思想
 
 ### 为什么 Vuex 的 mutation 和 Redux 的 reducer 中不能做异步操作？
+
+### useState() 和 setState()的区别
+
+一般的情况下，state 改变时：
+
+- useState 修改 state 时，同一个 useState 声明的值会被 覆盖处理，多个 useState 声明的值会触发 多次渲染
+setState 修改 state 时，多次 setState 的对象会被 合并处理
+- useState 修改 state 时，设置相同的值，函数组件不会重新渲染，而继承 Component 的类组件，即便 setState 相同的值，也会触发渲染
