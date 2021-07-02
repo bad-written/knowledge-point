@@ -203,3 +203,29 @@ module.exports = function () { return 'foo'; };
 ### 介绍下 npm 模块安装机制，为什么输入 npm install 就可以自动安装对应的模块？
 
 ### npx
+
+### Node 中 cluster 的原理是什么
+
+### 在 Node 应用中如何利用多核心CPU的优势
+
+### Node 中如何判断一个路径是文件还是文件夹
+
+### 如何理解 Node 的异步非阻塞IO
+
+### 当 Node 应用发生 gc 时，如何监控
+
+### Node 应用中如何查看 gc 的日志
+
+### CSP 的作用
+
+### peerDependency 是为了解决什么问题
+
+### semver 指什么，试图解释一下
+
+### package-lock.json 与 yarn.lock 有什么区别
+
+### node 中 exec，fork 与 spawn 有何区别
+
+### node 中 dns.resolve 及 dns.lookup 有什么区别
+
+### Node 中 require json 文件数据时，如何当文件更新时，重新 require

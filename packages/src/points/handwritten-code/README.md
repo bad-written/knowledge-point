@@ -684,3 +684,16 @@ function toString(number, thousandsSeperator = ',') {
   );
 }
 ```
+
+### 如何实现一个 flatMap 函数 
+
+### 如何用一行代码实现 compose 函数
+
+### 如何实现类似 lodash.get 函数
+
+### 如何裁剪图片 (情景：选择头像)
+
+### 使用 js 实现一个 lru cache
+
+### 如何实现 Promise.race
+
