@@ -673,3 +673,14 @@ stringify({ a: 3, 山: '月' });
 ```
 
 ### 前端如何实现文件上传功能
+
+### 给数字添加千位符
+
+```javascript
+function toString(number, thousandsSeperator = ',') {
+  return String(number).replace(
+    /(\d)(?=(\d\d\d)+(?!\d))/g,
+    '$1' + thousandsSeperator,
+  );
+}
+```
