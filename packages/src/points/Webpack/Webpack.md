@@ -406,3 +406,13 @@ contenthash 计算与文件内容本身相关。
 - cheap-module-source-map 一般来说，生产环境是不配 source-map 的，如果想捕捉线上的代码报错，我们可以用这个
 
 ### asset module
+
+### 前端打包时 cjs、es、umd 模块有何不同
+
+```javascript
+
+commonjs 是 Node 中的模块规范，通过 require 及 exports 进行导入导出 (进一步延伸的话，module.exports 属于 commonjs2)
+
+同时，webpack 也对 cjs 模块得以解析，因此 cjs 模块可以运行在 node 环境及 webpack 环境下的，但不能在浏览器中直接使用。但如果你写前端项目在 webpack 中，也可以理解为它在浏览器和 Node 都支持。
+
+```

@@ -591,3 +591,85 @@ function asyncGenertor(genFunc) {
 ### 如何把一个字符串的大小写取反（大写变小写小写变大写），例如 ’AbC' 变成 'aBc' 。
 
 ### 实现一个字符串匹配算法，从长度为 n 的字符串 S 中，查找是否存在字符串 T，T 的长度是 m，若存在返回所在位置。
+
+### 实现一个 once 函数，记忆返回结果只执行一次
+
+```javascript
+function once(f) {
+  let result;
+  let revoked = false;
+
+  return (...args) => {
+    if (revoked) return result;
+    const r = f(...args);
+    revoked = true;
+    result = r;
+    return r;
+  };
+}
+```
+
+### 如何找到当前页面出现次数最多的 HTML 标签
+
+```javascript
+// 实现一个 maxBy 方便找出出现次数最多的 HTML 标签
+const maxBy = (list, keyBy) =>
+  list.reduce((x, y) => (keyBy(x) > keyBy(y) ? x : y));
+
+function getFrequentTag() {
+  const tags = [...document.querySelectorAll('*')]
+    .map((x) => x.tagName)
+    .reduce((o, tag) => {
+      o[tag] = o[tag] ? o[tag] + 1 : 1;
+      return o;
+    }, {});
+  return maxBy(Object.entries(tags), (tag) => tag[1]);
+}
+```
+
+### 对以下字符进行压缩编码
+
+- Input: 'aaaabbbccd'
+- Output: 'a4b3c2d1'，代表 a 连续出现四次，b 连续出现三次，c 连续出现两次，d 连续出现一次
+
+```javascript
+function encode(str) {
+  const l = [];
+  let i = 0;
+  for (const s of str) {
+    const len = l.length;
+    const lastChar = len > 0 ? l[len - 1][0] : undefined;
+    if (lastChar === s) {
+      l[len - 1][1]++;
+    } else {
+      l.push([s, 1]);
+    }
+  }
+  return l.map((x) => x.join('')).join('');
+}
+```
+
+### 实现一个函数用来对 URL 的 querystring 进行编码
+
+```javascript
+const data = {
+  a: 3,
+  b: 4,
+  c: 5,
+};
+
+// 对 data 编码后得到 querystring 如下
+const qs = 'a=3&b=4&c=5';
+
+// 测试用例
+// a=3&b=4
+stringify({ a: 3, b: 4 });
+
+// a=3&b=
+stringify({ a: 3, b: null });
+
+// a=3&%E5%B1%B1=%E6%9C%88
+stringify({ a: 3, 山: '月' });
+```
+
+### 前端如何实现文件上传功能

@@ -493,3 +493,62 @@ console.log('script end');
 ### 设计并实现 Promise.race()
 
 ### 在输入框中如何判断输入的是一个正确的网址。
+
+### requestIdleCallback
+
+```javascript
+// requestIdleCallback 维护一个队列，将在浏览器空闲时间内执行。它属于 Background Tasks API，你可以使用 setTimeout 来模拟实现
+
+window.requestIdleCallback =
+  window.requestIdleCallback ||
+  function (handler) {
+    let startTime = Date.now();
+
+    return setTimeout(function () {
+      handler({
+        didTimeout: false,
+        timeRemaining: function () {
+          return Math.max(0, 50.0 - (Date.now() - startTime));
+        },
+      });
+    }, 1);
+  };
+```
+
+以上实现过于复杂以及细节化，也可以像 swr 一样做一个简单的模拟实现，以下代码见 https://github.com/vercel/swr/blob/8670be8072b0c223bc1c040deccd2e69e8978aad/src/use-swr.ts#L33
+
+const rIC = window['requestIdleCallback'] || (f => setTimeout(f, 1))
+在 rIC 中执行任务时需要注意以下几点：
+
+执行重计算而非紧急任务
+空闲回调执行时间应该小于 50ms，最好更少
+空闲回调中不要操作 DOM，因为它本来就是利用的重排重绘后的间隙空闲时间，重新操作 DOM 又会造成重排重绘
+React 的时间分片便是基于类似 rIC 而实现，然而因为 rIC 的兼容性及 50ms 流畅问题，React 自制了一个实现: scheduler
+
+use-swr 中进行资源的 revalidate 时，也是通过 rIC 来提高性能
+
+### v8 是如何执行一段 JS 代码的
+
+### 如何实现页面文本不可复制
+
+```css
+user-select: none;
+```
+
+或
+
+```javascript
+document.body.onselectstart = (e) => {
+  e.preventDefault();
+};
+
+document.body.oncopy = (e) => {
+  e.preventDefault();
+};
+```
+
+### typeof 与 instanceof 的区别
+
+### load 事件与 DomContentLoaded 事件的先后顺序
+
+### 如何计算白屏时间和首屏时间

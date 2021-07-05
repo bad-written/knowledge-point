@@ -170,5 +170,17 @@ toArray 会为返回数组中的每个 key 添加前缀，以使得每个元素 
 一般的情况下，state 改变时：
 
 - useState 修改 state 时，同一个 useState 声明的值会被 覆盖处理，多个 useState 声明的值会触发 多次渲染
-setState 修改 state 时，多次 setState 的对象会被 合并处理
+  setState 修改 state 时，多次 setState 的对象会被 合并处理
 - useState 修改 state 时，设置相同的值，函数组件不会重新渲染，而继承 Component 的类组件，即便 setState 相同的值，也会触发渲染
+
+### 在 SSR 项目中如何判断当前环境时服务器端还是浏览器端
+
+- SSR 渲染的时候，服务端与客户端走不同的 webpack 打包配置。 那么就可以在打包的时候写入区分环境的环境变量。
+- 服务器端是没有 window document 等浏览器宿主环境对象的，可以通过 类型检测 这些对象 来区分。
+
+### 什么是 Data URL
+
+Data URL 是将图片转换为 base64 直接嵌入到了网页中，使用<img src="data:[MIME type];base64"/>这种方式引用图片，不需要再发请求获取图片。 使用 Data URL 也有一些缺点：
+
+- base64 编码后的图片会比原来的体积大三分之一左右。
+- Data URL 形式的图片不会缓存下来，每次访问页面都要被下载一次。可以将 Data URL 写入到 CSS 文件中随着 CSS 被缓存下来。
