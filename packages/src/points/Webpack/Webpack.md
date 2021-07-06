@@ -22,6 +22,8 @@ plugin 是一个扩展器，它丰富了 webpack 本身，针对是 loader 结�
 
 ### tree-shaking 的原理，哪些情况属于副作用，在 rollup 和 webpack 的不同表现
 
+[tree-shaking 的原理](https://zhuanlan.zhihu.com/p/32554436)
+
 ### 聊一聊 webpack 的优化手段，说说你熟系优化手段的原理
 
 ### webpack 的打包原理及产物是如何执行的，动态加载呢，如何缓存的，与 rollup 的区别
@@ -425,6 +427,5 @@ contenthash 计算与文件内容本身相关。
 commonjs 是 Node 中的模块规范，通过 require 及 exports 进行导入导出 (进一步延伸的话，module.exports 属于 commonjs2)
 
 同时，webpack 也对 cjs 模块得以解析，因此 cjs 模块可以运行在 node 环境及 webpack 环境下的，但不能在浏览器中直接使用。但如果你写前端项目在 webpack 中，也可以理解为它在浏览器和 Node 都支持。
-
 
 ### Code Splitting 的原理是什么?

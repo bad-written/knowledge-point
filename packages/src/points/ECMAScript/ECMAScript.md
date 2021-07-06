@@ -277,7 +277,7 @@ ES6 一共有 5 种方法可以遍历对象的属性。
 
 - `for in` 循环遍历对象自身的和继承的可枚举属性（不含 Symbol 属性）。
 - `Object.keys()` 返回一个数组，包括对象自身的（不含继承的）所有可枚举属性（不含 Symbol 属性）的键名。
-- `Object.getOwnPropertySymbols()` 返回一个数组，包含对象自身的所有 Symbol 属性的键名。
+- `Object.getOwnPropertyNames()` 返回一个数组，包含对象自身的所有属性（不含 Symbol 属性，但是包括不可枚举属性）的键名。
 - `Object.getOwnPropertySymbols()` 返回一个数组，包含对象自身的所有 Symbol 属性的键名。
 - `Reflect.ownKeys()` 返回一个数组，包含对象自身的（不含继承的）所有键名，不管键名是 Symbol 或字符串，也不管是否可枚举。
 
@@ -301,9 +301,15 @@ ES6 一共有 5 种方法可以遍历对象的属性。
 
 ### XSS、CSRF
 
+[XSS、CSRF](https://github.com/dwqs/blog/issues/68)
+
 ### require 与 import 的区别
 
+[require 与 import 的区别](https://segmentfault.com/a/1190000021911869)
+
 ### EventLoop
+
+[EventLoop](https://juejin.cn/post/6979876135182008357)
 
 ### 从输入 URL 到页面加载完成的过程
 
@@ -337,8 +343,6 @@ ES6 一共有 5 种方法可以遍历对象的属性。
 ### preload、prefetch
 
 ### window.onload 和 DOMContentLoaded 的区别
-
-### source-map 的原理
 
 ### 动态表单能够运用在什么场景？
 
@@ -382,7 +386,7 @@ ES6 一共有 5 种方法可以遍历对象的属性。
 
 ### 什么是执行栈？
 
-### Node 中的 Event Loop 和浏览器中的有什么区别？process.nexttick 执行顺序？
+### Node 中的 Event Loop 和浏览器中的有什么区别？process.nextTick 执行顺序？
 
 ### fetch 和 xhr 有什么区别
 
@@ -390,7 +394,7 @@ ES6 一共有 5 种方法可以遍历对象的属性。
 
 ### null 和 undefined 的区别
 
-### Object 和 maps 的比较
+### Object 和 map 的比较
 
 ### Object.freeze
 
@@ -557,15 +561,12 @@ document.body.oncopy = (e) => {
 
 ### ### 什么是 Data URL
 
-
 Data URL 是将图片转换为 base64 直接嵌入到了网页中，使用`<img src="data:[MIME type];base64"/>`这种方式引用图片，不需要再发请求获取图片。 使用 Data URL 也有一些缺点：
 
 - base64 编码后的图片会比原来的体积大三分之一左右。
 - Data URL 形式的图片不会缓存下来，每次访问页面都要被下载一次。可以将 Data URL 写入到 CSS 文件中随着 CSS 被缓存下来。
 
 ### 如何监听 localStorage 的变动
-
-### 图片懒加载？
 
 ### 浏览器中如何实现剪切板复制内容的功能
 
