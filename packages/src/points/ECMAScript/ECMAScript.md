@@ -581,3 +581,146 @@ Data URL 是将图片转换为 base64 直接嵌入到了网页中，使用`<img 
 ### 当 cookie 没有设置 maxage 时，cookie 会存在多久
 
 ### 图片防盗链原理是什么
+
+### CSS 会阻塞 DOM 解析吗？
+
+css加载不会阻塞DOM树的解析
+css加载会阻塞DOM树的渲染
+css加载会阻塞后面js语句的执行
+
+[详细解析](https://cloud.tencent.com/developer/article/1370715)
+
+### Promise.prototype.finally 的作用，如何自己实现 Promise.prototype.finally
+
+```javascript
+
+// Promise.prototype.finally() 是 ES2018 新增的特性，它回一个 Promise ，在 promise 结束时，无论 Promise 运行成功还是失败，都会运行 finally ，类似于我们常用的  try {...} catch {...} finally {...}
+
+// Promise.prototype.finally() 避免了同样的语句需要在 then() 和 catch() 中各写一次的情况
+
+new Promise((resolve, reject) => {
+  setTimeout(() => resolve("result"), 2000)
+})
+  .then(result => console.log(result))
+  .finally(() => console.log("Promise end"))
+
+// result
+// Promise end
+
+new Promise((resolve, reject) => {
+  throw new Error("error")
+})
+  .catch(err => console.log(err))
+  .finally(() => console.log("Promise end"))
+
+// Error: error
+// Promise end
+
+// 注意：
+
+// - finally 没有参数
+// - finally 会将结果和 error 传递
+
+new Promise((resolve, reject) => {
+  setTimeout(() => resolve("result"), 2000)
+})
+  .finally(() => console.log("Promise ready"))
+  .then(result => console.log(result))
+
+// Promise ready
+// result
+
+
+// 手写一个 Promise.prototype.finally(), 不管 Promise 对象最后状态如何，都会执行的操作
+
+MyPromise.prototype.finally = function (cb) {
+  return this.then(function (value) {
+    return MyPromise.resolve(cb()).then(function () {
+      return value
+    })
+  }, function (err) {
+    return MyPromise.resolve(cb()).then(function () {
+      throw err
+    })
+  })
+}
+```
+
+### Promise.any 的作用，如何自己实现 Promise.any
+
+- Promise.any 的作用
+- Promise.any 应用场景
+- Promise.any vs Promise.all
+- Promise.any vs Promise.race
+- 手写 Promise.any 实现
+
+Promise.any() 是 ES2021 新增的特性，它接收一个 Promise 可迭代对象（例如数组），
+
+```javascript
+const promises = [
+  Promise.reject('ERROR A'),
+  Promise.reject('ERROR B'),
+  Promise.resolve('result'),
+]
+
+Promise.any(promises).then((value) => {
+  console.log('value: ', value)
+}).catch((err) => {
+  console.log('err: ', err)
+})
+
+// value:  result
+```
+如果所有传入的 promises 都失败：
+
+```javascript
+
+const promises = [
+  Promise.reject('ERROR A'),
+  Promise.reject('ERROR B'),
+  Promise.reject('ERROR C'),
+]
+
+Promise.any(promises).then((value) => {
+  console.log('value：', value)
+}).catch((err) => {
+  console.log('err：', err)
+  console.log(err.message)
+  console.log(err.name)
+  console.log(err.errors)
+})
+
+// err： AggregateError: All promises were rejected
+// All promises were rejected
+// AggregateError
+// ["ERROR A", "ERROR B", "ERROR C"]
+```
+
+Promise.any 实现
+
+Promise.any 只要传入的 promise 有一个是 fullfilled 则立即 resolve 出去，否则将所有 reject 结果收集起来并返回 AggregateError
+
+```javascript
+
+MyPromise.any = function(promises){
+  return new Promise((resolve,reject)=>{
+    promises = Array.isArray(promises) ? promises : []
+    let len = promises.length
+    // 用于收集所有 reject 
+    let errs = []
+    // 如果传入的是一个空数组，那么就直接返回 AggregateError
+    if(len === 0) return reject(new AggregateError('All promises were rejected'))
+    promises.forEach((promise)=>{
+      promise.then(value=>{
+        resolve(value)
+      },err=>{
+        len--
+        errs.push(err)
+        if(len === 0){
+          reject(new AggregateError(errs))
+        }
+      })
+    })
+  })
+}
+```
