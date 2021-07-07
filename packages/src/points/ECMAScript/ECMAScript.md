@@ -352,6 +352,8 @@ ES6 一共有 5 种方法可以遍历对象的属性。
 
 ### weakMap 和 Map 的区别，weakMap 原理，为什么能被 GC？
 
+[详细解析](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/464)
+
 ### 如何干扰 GC ？
 
 ### 帧数怎么计算？
@@ -584,34 +586,33 @@ Data URL 是将图片转换为 base64 直接嵌入到了网页中，使用`<img 
 
 ### CSS 会阻塞 DOM 解析吗？
 
-css加载不会阻塞DOM树的解析
-css加载会阻塞DOM树的渲染
-css加载会阻塞后面js语句的执行
+css 加载不会阻塞 DOM 树的解析
+css 加载会阻塞 DOM 树的渲染
+css 加载会阻塞后面 js 语句的执行
 
 [详细解析](https://cloud.tencent.com/developer/article/1370715)
 
 ### Promise.prototype.finally 的作用，如何自己实现 Promise.prototype.finally
 
 ```javascript
-
 // Promise.prototype.finally() 是 ES2018 新增的特性，它回一个 Promise ，在 promise 结束时，无论 Promise 运行成功还是失败，都会运行 finally ，类似于我们常用的  try {...} catch {...} finally {...}
 
 // Promise.prototype.finally() 避免了同样的语句需要在 then() 和 catch() 中各写一次的情况
 
 new Promise((resolve, reject) => {
-  setTimeout(() => resolve("result"), 2000)
+  setTimeout(() => resolve('result'), 2000);
 })
-  .then(result => console.log(result))
-  .finally(() => console.log("Promise end"))
+  .then((result) => console.log(result))
+  .finally(() => console.log('Promise end'));
 
 // result
 // Promise end
 
 new Promise((resolve, reject) => {
-  throw new Error("error")
+  throw new Error('error');
 })
-  .catch(err => console.log(err))
-  .finally(() => console.log("Promise end"))
+  .catch((err) => console.log(err))
+  .finally(() => console.log('Promise end'));
 
 // Error: error
 // Promise end
@@ -622,28 +623,30 @@ new Promise((resolve, reject) => {
 // - finally 会将结果和 error 传递
 
 new Promise((resolve, reject) => {
-  setTimeout(() => resolve("result"), 2000)
+  setTimeout(() => resolve('result'), 2000);
 })
-  .finally(() => console.log("Promise ready"))
-  .then(result => console.log(result))
+  .finally(() => console.log('Promise ready'))
+  .then((result) => console.log(result));
 
 // Promise ready
 // result
 
-
 // 手写一个 Promise.prototype.finally(), 不管 Promise 对象最后状态如何，都会执行的操作
 
 MyPromise.prototype.finally = function (cb) {
-  return this.then(function (value) {
-    return MyPromise.resolve(cb()).then(function () {
-      return value
-    })
-  }, function (err) {
-    return MyPromise.resolve(cb()).then(function () {
-      throw err
-    })
-  })
-}
+  return this.then(
+    function (value) {
+      return MyPromise.resolve(cb()).then(function () {
+        return value;
+      });
+    },
+    function (err) {
+      return MyPromise.resolve(cb()).then(function () {
+        throw err;
+      });
+    },
+  );
+};
 ```
 
 ### Promise.any 的作用，如何自己实现 Promise.any
@@ -661,34 +664,38 @@ const promises = [
   Promise.reject('ERROR A'),
   Promise.reject('ERROR B'),
   Promise.resolve('result'),
-]
+];
 
-Promise.any(promises).then((value) => {
-  console.log('value: ', value)
-}).catch((err) => {
-  console.log('err: ', err)
-})
+Promise.any(promises)
+  .then((value) => {
+    console.log('value: ', value);
+  })
+  .catch((err) => {
+    console.log('err: ', err);
+  });
 
 // value:  result
 ```
+
 如果所有传入的 promises 都失败：
 
 ```javascript
-
 const promises = [
   Promise.reject('ERROR A'),
   Promise.reject('ERROR B'),
   Promise.reject('ERROR C'),
-]
+];
 
-Promise.any(promises).then((value) => {
-  console.log('value：', value)
-}).catch((err) => {
-  console.log('err：', err)
-  console.log(err.message)
-  console.log(err.name)
-  console.log(err.errors)
-})
+Promise.any(promises)
+  .then((value) => {
+    console.log('value：', value);
+  })
+  .catch((err) => {
+    console.log('err：', err);
+    console.log(err.message);
+    console.log(err.name);
+    console.log(err.errors);
+  });
 
 // err： AggregateError: All promises were rejected
 // All promises were rejected
@@ -701,26 +708,59 @@ Promise.any 实现
 Promise.any 只要传入的 promise 有一个是 fullfilled 则立即 resolve 出去，否则将所有 reject 结果收集起来并返回 AggregateError
 
 ```javascript
-
-MyPromise.any = function(promises){
-  return new Promise((resolve,reject)=>{
-    promises = Array.isArray(promises) ? promises : []
-    let len = promises.length
-    // 用于收集所有 reject 
-    let errs = []
+MyPromise.any = function (promises) {
+  return new Promise((resolve, reject) => {
+    promises = Array.isArray(promises) ? promises : [];
+    let len = promises.length;
+    // 用于收集所有 reject
+    let errs = [];
     // 如果传入的是一个空数组，那么就直接返回 AggregateError
-    if(len === 0) return reject(new AggregateError('All promises were rejected'))
-    promises.forEach((promise)=>{
-      promise.then(value=>{
-        resolve(value)
-      },err=>{
-        len--
-        errs.push(err)
-        if(len === 0){
-          reject(new AggregateError(errs))
-        }
-      })
-    })
-  })
-}
+    if (len === 0)
+      return reject(new AggregateError('All promises were rejected'));
+    promises.forEach((promise) => {
+      promise.then(
+        (value) => {
+          resolve(value);
+        },
+        (err) => {
+          len--;
+          errs.push(err);
+          if (len === 0) {
+            reject(new AggregateError(errs));
+          }
+        },
+      );
+    });
+  });
+};
 ```
+
+### 如何监听网页崩溃
+
+### 讲下 V8 sort 的大概思路，并手写一个 sort 的实现
+
+[详细解析](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/472)
+
+### 闭包的使用场景，使用闭包需要注意什么？
+
+[详细解析](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/453)
+
+### typeof 可以判断哪些类型？instanceof 做了什么？null 为什么被 typeof 错误的判断为了'object'
+
+[详细解析](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/452)
+
+### babel 怎么把字符串解析成 AST，是怎么进行词法/语法分析的？
+
+大致分为下面四步：
+
+- input => tokenizer => tokens，先对输入代码进行分词，根据最小有效语法单元，对字符串进行切割。
+- tokens => parser => AST，然后进行语法分析，会涉及到读取、暂存、回溯、暂存点销毁等操作。
+- AST => transformer => newAST，然后转换生成新的 AST。
+- newAST => codeGenerator => output，最后根据新生成的 AST 输出目标代码。
+
+[具体见下方链接文件的代码：](https://github.com/caiyongmin/awesome-coding-javascript/tree/master/src/bundler/babel)
+[详细解析](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/315)
+
+### 何在 H5 和小程序项目中计算白屏时间和首屏时间，说说你的思路
+
+[详细解析](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/272)

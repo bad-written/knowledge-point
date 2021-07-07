@@ -685,7 +685,7 @@ function toString(number, thousandsSeperator = ',') {
 }
 ```
 
-### 如何实现一个 flatMap 函数 
+### 如何实现一个 flatMap 函数
 
 ### 如何用一行代码实现 compose 函数
 
@@ -697,3 +697,77 @@ function toString(number, thousandsSeperator = ',') {
 
 ### 如何实现 Promise.race
 
+### 实现颜色转换 'rgb(255, 255, 255)' -> '#FFFFFF' 的多种思路
+
+[详细解析](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/475)
+
+### JS 异步笔试题，请写出下面代码的运行结果（哔哩哔哩）
+
+[详细解析](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/471)
+
+### 实现一个批量请求函数 multiRequest(urls, maxNum)
+
+```javascript
+function multiRequest(urls, maxNum) {
+  const ret = [];
+  let i = 0;
+  let resolve;
+  const promise = new Promise((r) => (resolve = r));
+  const addTask = () => {
+    if (i >= arr.length) {
+      return resolve();
+    }
+
+    const task = request(urls[i++]).finally(() => {
+      addTask();
+    });
+    ret.push(task);
+  };
+
+  while (i < maxNum) {
+    addTask();
+  }
+
+  return promise.then(() => Promise.all(ret));
+}
+
+// 模拟请求
+function request(url) {
+  return new Promise((r) => {
+    const time = Math.random() * 1000;
+    setTimeout(() => r(url), time);
+  });
+}
+```
+
+### 实现一个 normalize 函数，能将输入的特定的字符串转化为特定的结构化数据
+
+```javascript
+// 字符串仅由小写字母和 [] 组成，且字符串不会包含多余的空格。
+// 示例一: 'abc' --> {value: 'abc'}
+// 示例二：'[abc[bcd[def]]]' --> {value: 'abc', children: {value: 'bcd', children: {value: 'def'}}}
+
+const normalize = (str) => {
+  var result = {};
+  str
+    .split(/[\[\]]/g)
+    .filter(Boolean)
+    .reduce((obj, item, index, a) => {
+      obj.value = item;
+      if (index !== a.length - 1) {
+        return (obj.children = {});
+      }
+    }, result);
+  return result;
+};
+```
+
+### 如何实现骨架屏，说说你的思路
+
+### 用 setTimeout 实现 setInterval，阐述实现的效果与 setInterval 的差异
+
+[详细解析](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/259)
+
+### 考虑到性能问题，如何快速从一个巨大的数组中随机获取部分元素
+
+[详细解析](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/187)

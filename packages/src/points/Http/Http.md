@@ -133,3 +133,7 @@ nav:
 ### http2 中的首部压缩的实现原理是什么
 
 ### 如何确保你们的项目开启了 gzip
+
+### Http 状态码 301 和 302 的应用场景分别是什么
+
+[详细解析](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/249)
