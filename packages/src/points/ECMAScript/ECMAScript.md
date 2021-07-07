@@ -313,36 +313,58 @@ ES6 一共有 5 种方法可以遍历对象的属性。
 
 ### 从输入 URL 到页面加载完成的过程
 
-### 同源策略
+[详细解析](https://zhuanlan.zhihu.com/p/34288735)
+
+### 浏览器的同源策略
+
+[浏览器的同源策略](https://developer.mozilla.org/zh-CN/docs/Web/Security/Same-origin_policy)
 
 ### 跨域
 
+[跨域](https://segmentfault.com/a/1190000015597029)
+
 ### JSONP
+
+[JSONP](https://www.runoob.com/json/json-jsonp.html)
 
 ### 自定义事件
 
+[自定义事件](https://zh.javascript.info/dispatch-events)
+
 ### 事件委托
 
+[事件委托](https://zh.javascript.info/event-delegation)
+
 ### 事件流
+
+[事件流](https://segmentfault.com/a/1190000013265547)
 
 ### target 和 currentTarget 区别
 
 - target 返回触发事件的元素
 - currentTarget 返回绑定事件的元素
 
-### 闭包
-
 ### Garbage Collection
 
 ### 柯里化
 
+[柯里化](https://zh.javascript.info/currying-partials)
+
 ### new 操作符做了什么
+
+[new 操作符做了什么](https://zhuanlan.zhihu.com/p/158640941)
 
 ### JavaScript 中的 this
 
+[JavaScript 中的 this](https://zhuanlan.zhihu.com/p/42145138)
+
 ### preload、prefetch
 
+[preload、prefetch](https://zhuanlan.zhihu.com/p/48521680)
+
 ### window.onload 和 DOMContentLoaded 的区别
+
+[window.onload 和 DOMContentLoaded 的区别](https://www.jianshu.com/p/1a8a7e698447)
 
 ### 动态表单能够运用在什么场景？
 
@@ -379,8 +401,6 @@ ES6 一共有 5 种方法可以遍历对象的属性。
 ### 长短轮询 websocket
 
 ### forEach 和 map 区别是什么
-
-### 柯里化
 
 ### 并发与并行的区别？
 
