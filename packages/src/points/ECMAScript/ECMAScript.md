@@ -372,6 +372,8 @@ ES6 一共有 5 种方法可以遍历对象的属性。
 
 ### Promise 并发限制
 
+[详细解析](https://www.jianshu.com/p/1010432be422)
+
 ### weakMap 和 Map 的区别，weakMap 原理，为什么能被 GC？
 
 [详细解析](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/464)
@@ -384,7 +386,9 @@ ES6 一共有 5 种方法可以遍历对象的属性。
 
 ### 说下状态码、说下 304，什么情况会 304？协商缓存的头部字段？
 
-### 同层渲染?
+### 微信小程序同层渲染?
+
+[详细解析](https://developers.weixin.qq.com/community/develop/article/doc/000c4e433707c072c1793e56f5c813)
 
 ### Web Components
 
