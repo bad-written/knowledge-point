@@ -392,11 +392,13 @@ ES6 一共有 5 种方法可以遍历对象的属性。
 
 ### Web Components
 
+[入门介绍](http://www.ruanyifeng.com/blog/2019/08/web_components.html)
+
 ### Promise.all 如果有一个失败了如何处理
 
 ### canvas 与 svg 的区别
 
-### attribute 和 property 的区别 attribute 和 property 的区别
+### attribute 和 property 的区别
 
 ### document.write 只能重绘整个页面。innerHTML 可以重绘页面的一部分
 
@@ -411,6 +413,8 @@ ES6 一共有 5 种方法可以遍历对象的属性。
 ### 什么是回调函数？回调函数有什么缺点？如何解决回调地狱问题？
 
 ### 什么是执行栈？
+
+[详细解析](https://segmentfault.com/a/1190000018550118)
 
 ### Node 中的 Event Loop 和浏览器中的有什么区别？process.nextTick 执行顺序？
 
