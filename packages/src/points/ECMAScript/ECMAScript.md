@@ -307,10 +307,6 @@ ES6 一共有 5 种方法可以遍历对象的属性。
 
 [require 与 import 的区别](https://segmentfault.com/a/1190000021911869)
 
-### EventLoop
-
-[EventLoop](https://juejin.cn/post/6979876135182008357)
-
 ### 从输入 URL 到页面加载完成的过程
 
 [详细解析](https://zhuanlan.zhihu.com/p/34288735)
@@ -355,6 +351,14 @@ ES6 一共有 5 种方法可以遍历对象的属性。
 [new 操作符做了什么](https://zhuanlan.zhihu.com/p/158640941)
 
 ### JavaScript 中的 this
+
+JavaScript 中的 this 有如下几种情况，并按他们的优先级从低到高划分如下：
+
+- 独立函数调用，例如 getUserInfo()，此时 this 指向全局对象 window
+- 对象调用，例如 stu.getStudentName()，此时 this 指向调用的对象 stu
+- call()、apply()和 bind()改变上下文的方法，this 指向取决于这些方法的第一个参数，当第一个参数为 null 时，this 指向全局对象 window
+- 箭头函数没有 this，箭头函数里面的 this 只取决于包裹箭头函数的第一个普通函数的 this
+- new 构造函数调用，this 永远指向构造函数返回的实例上，优先级最高。
 
 [JavaScript 中的 this](https://zhuanlan.zhihu.com/p/42145138)
 
@@ -410,9 +414,10 @@ ES6 一共有 5 种方法可以遍历对象的属性。
 
 ### 并发与并行的区别？
 
-### 什么是回调函数？回调函数有什么缺点？如何解决回调地狱问题？
+并发和并行: 并行(parallelism)：是微观概念，假设 CPU 有两个核心，则我们就可以同时完成任务 A 和任务 B，同时完成多个任务的情况就可以称之为并行。
+并发(concurrency)：是宏观概念，现在有任务 A 和任务 B，在一段时间内，通过任务之间的切换完成这两个任务，这种情况称之为并发。
 
-### 什么是执行栈？
+### 什么是回调函数？回调函数有什么缺点？如何解决回调地狱问题？
 
 [详细解析](https://segmentfault.com/a/1190000018550118)
 
@@ -792,3 +797,504 @@ MyPromise.any = function (promises) {
 ### 何在 H5 和小程序项目中计算白屏时间和首屏时间，说说你的思路
 
 [详细解析](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/272)
+
+### 闭包
+
+[闭包详细解析](https://segmentfault.com/a/1190000021725949)
+
+### 浅拷贝、深拷贝
+
+```javascript
+// 浅克隆
+// Object.assign()
+
+// ...
+
+// 深克隆
+
+function isObject(o) {
+  return o !== null && (typeof o === 'object' || typeof o === 'function');
+}
+
+function deepClone(obj) {
+  if (!isObject(obj)) {
+    throw new TypeError('Parameter is not a reference type!');
+  }
+  const isArray = Array.isArray(obj);
+  const newObj = isArray ? [...obj] : { ...obj };
+  Reflect.ownKeys(newObj).forEach((key) => {
+    newObj[key] = isObject(newObj[key]) ? deepClone(newObj[key]) : newObj[key];
+  });
+
+  return newObj;
+}
+```
+
+### 继承
+
+继承的几种方式
+
+- 原型链实现继承
+
+```javascript
+// 通过重写子类的原型，并将它指向父类的手段实现。这种方式实现的继承，创建出来的实例既是子类的实例，又是父类的实例。它有如下几种缺陷：
+//
+// 1、不能向父类构造函数传参
+// 2、父类上的引用类型属性会被所有实例共享，其中一个实例改变时，会影响其他实例
+
+function Animal() {
+  this.colors = ['red', 'blue'];
+}
+function Dog(name) {
+  this.name = name;
+}
+Dog.prototype = new Animal();
+
+var dog1 = new Dog('旺财');
+var dog2 = new Dog('钢镚');
+dog2.colors.push('yellow');
+console.log(dog1.colors); // ["red", "blue", "yellow"]
+console.log(dog2.colors); // ["red", "blue", "yellow"]
+
+console.log(dog1 instanceof Dog); // true
+console.log(dog1 instanceof Animal); // true
+```
+
+- 借用构造函数实现继承
+
+```javascript
+// 借用构造函数实现继承，通过在子类中使用call()方法，实现借用父类构造函数并向父类构造函数传参的目的。但这种方法，无法继承父类原型对象上的属性和方法。
+
+function Animal(name) {
+  this.name = name;
+  this.colors = ['red', 'blue'];
+}
+Animal.prototype.eat = function () {
+  console.log(this.name + ' is eating!');
+};
+function Dog(name) {
+  Animal.call(this, name);
+}
+
+var dog1 = new Dog('旺财');
+var dog2 = new Dog('钢镚');
+dog2.colors.push('yellow');
+
+console.log(dog1.colors); // ["red", "blue"]
+console.log(dog2.colors); // ["red", "blue", "yellow"]
+
+console.log(dog1 instanceof Dog); // true
+console.log(dog2 instanceof Animal); // false
+
+console.log(dog1.eat()); // 报错
+```
+
+- 组合函数实现继承
+
+```javascript
+// 组合继承是组合了原型链继承和借用构造函数继承这两种方法，它保留了两种继承方式的优点，但它并不是百分百完美的：
+// 1、父类构造函数被调用多次。
+
+function Animal(name) {
+  this.name = name;
+  this.colors = ['red', 'blue'];
+  console.log('执行几次');
+}
+Animal.prototype.eat = function () {
+  console.log(this.name + ' is eatting');
+};
+function Dog(name) {
+  Animal.call(this, name);
+}
+Dog.prototype = new Animal(); // 第一次调用
+var dog1 = new Dog('dog1'); // 第二次调用
+var dog2 = new Dog('dog2'); // 第三次调用
+dog1.colors.push('yellow');
+console.log(dog1.name); // 输出dog1
+console.log(dog2.colors); // 输出['red','blue']
+console.log(dog2.eat()); // 输出dog2 is eatting
+```
+
+- 寄生组合继承
+
+```javascript
+// 寄生组合继承是在组合继承的基础上，采用Object.create()方法来改造实现
+
+function Animal(name) {
+  this.name = name;
+  this.colors = ['red', 'blue'];
+}
+Animal.prototype.eat = function () {
+  console.log(this.name + ' is eatting');
+};
+function Dog(name) {
+  Animal.call(this, name);
+}
+Dog.prototype = Object.create(Animal.prototype);
+Dog.prototype.constructor = Dog;
+var dog1 = new Dog('dog1');
+var dog2 = new Dog('dog2');
+dog1.colors.push('yellow');
+console.log(dog1.name); // 输出dog1
+console.log(dog2.colors); // 输出['red','blue']
+console.log(dog2.eat()); // 输出dog2 is eatting
+```
+
+- 类继承
+
+```javascript
+// 运用ES6 class新特性来实现继承
+
+class Animal {
+  constructor(name) {
+    this.name = name;
+    this.colors = ['red', 'blue'];
+  }
+  eat() {
+    console.log(this.name + ' is eatting');
+  }
+}
+class Dog extends Animal {
+  constructor(name) {
+    super(name);
+  }
+}
+var dog1 = new Dog('dog1');
+var dog2 = new Dog('dog2');
+dog1.colors.push('yellow');
+console.log(dog1.name); // 输出dog1
+console.log(dog2.colors); // 输出['red','blue']
+console.log(dog2.eat()); // 输出dog2 is eatting
+```
+
+### Map
+
+> Map 结构： 对象是创建无序键值对数据结构映射的主要机制，在 ES6 之前，对象的属性只能是字符串，在 ES6 之后，Map 结构允许使用对象、数组等作为键。Map 结构的方法或者属性如下：
+
+- set()：新增一个 map 结构的数据
+- get(key)：根据键获取值
+- size：获取 map 结构的长度
+- delete(key)：根据指定的键删除
+- has(key)：判断指定的键是否存在于 map 结构中
+- keys()遍历，values()遍历，entries()键值对遍历
+- clear()清空 map 结构
+
+```javascript
+// Map结构
+const map = new Map();
+const x = { id: 1 },
+  y = { id: 2 };
+
+// 设置map数据
+map.set(x, 'bar');
+map.set(y, 'foo');
+
+// 获取map数据
+console.log(map.get(x)); // 输出bar
+console.log(map.get(y)); // 输出foo
+
+// 获取map结构的长度
+console.log(map.size); // 输出2
+
+// 根据指定键删除map数据
+map.delete(x);
+
+// 根据指定的键判断是否存在于map结构中
+console.log(map.has(x)); // 输出false
+
+// 遍历map键
+for (const key of map.keys()) {
+  console.log(key); // 输出{id:2}
+}
+
+// 遍历map值
+for (const value of map.values()) {
+  console.log(value); // 输出foo
+}
+
+// 遍历map键值对
+for (const item of map.entries()) {
+  console.log(item[0]); // 输出y
+  console.log(item[1]); // 输出{id:2}
+}
+```
+
+### Set
+
+> Set 是一个集合，它里面的值是唯一的，重复添加会被忽略(Set 结构不允许强制类型转换，1 和"1"被认为是两个不同的值)。Set 结构的方法和属性如下：
+
+- add()：添加新值
+- size：获取 Set 结构的长度
+- delete()：根据指定的键删除
+- has()：判断指定的键是否存在 Set 集合中
+- keys()遍历、values()遍历、entries()遍历
+- clear()：清空 Set 结构
+
+```javascript
+// Set结构
+const set = new Set();
+const x = { id: 1 };
+const y = { id: 2 };
+const a = 1;
+const b = '1';
+const c = true;
+
+// 添加Set数据
+set.add(x);
+set.add(y);
+set.add(a);
+set.add(b);
+set.add(c);
+
+// 获取Set数据的长度
+console.log(set.size); // 输出5
+
+// 删除Set数据
+set.delete(c);
+
+// 判断某个值是否存在Set结构中
+console.log(set.has(c)); // 输出false
+
+// 遍历Set的键
+for (const key of set.keys()) {
+  console.log(key); // 输出{id：1} {id:2} 1 "1"
+}
+
+// 遍历Set的值
+for (const value of set.values()) {
+  console.log(value); // 输出{id:1} {id:2} 1 "1"
+}
+
+// 遍历Set的键值对
+for (const item of set.entries()) {
+  console.log(item[0]); // 输出 {id:1} {id:2} 1 "1"
+  console.log(item[1]); // 输出 {id:1} {id:2} 1 "1"
+}
+
+// Set集合的运用：数组的去重、并集、交集、差集
+const arr1 = [1, 2, 1, 3, 4, 5];
+const arr2 = [4, 5, 6, 7];
+
+// 去重：输出1,2,3,4,5
+console.log(Array.from(new Set(arr1)));
+
+// 并集：输出1,2,3,4,5,6,7
+const union = Array.from(new Set([...set1, ...set2]));
+console.log(union);
+
+// 交集：输出4,5
+const intec = Array.from(new Set(arr.filter((x) => arr1.includes(x))));
+console.log(intec);
+
+// 差集
+const diff1 = Array.from(new Set(arr1.filter((x) => !arr2.includes(x))));
+const diff2 = Array.from(new Set(arr2.filter((x) => !arr1.includes(x))));
+console.log(diff1); // 输出：1,2,3
+console.log(diff2); // 输出：6,7
+```
+
+### Proxy
+
+在 Vue2.0+的版本中，Vue 使用 Object.definedProperty()方法来实现数据的响应式，在 Vue3.0 的开发计划中，作者计划使用 ES6 新增加的 Proxy 代理来实现数据的响应式，它相比于 Object.definedProperty()有如下几个特点：
+
+- Proxy 可以一次性为所有属性实现代理，无需遍历，性能更佳
+- Proxy 能监听到以前使用 Object.definedProperty()监听不到的数据变动。
+- 由于是 ES6 新增加的特性，所以浏览器兼容性方面比 Object.definedProperty()差
+
+```javascript
+const onWatch = function (obj, setBind, getLogger) {
+  return new Proxy(obj, {
+    get(target, property, receiver) {
+      getLogger(target, property);
+      return Reflect.get(target, property, receiver);
+    },
+    set(target, property, value, receiver) {
+      setBind(value, property);
+      return Reflect.set(target, property, value);
+    },
+  });
+};
+
+let obj = { a: 1 };
+let p = onWatch(
+  obj,
+  (value, property) => {
+    console.log(`监听到${property}属性的改变，其值为${value}`);
+  },
+  (target, property) => {
+    console.log(`监听到获取属性${property},其值为${target[property]}`);
+  },
+);
+p.a = 2; // 监听到a属性的改变，其值为2
+console.log(a); // 监听到获取属性a,其值为2
+```
+
+### 数组的 map、filter 和 reduce 的区别
+
+map： map 方法的作用是生成一个新数组(把原数组中的所有元素做一些变动，放进新数组中)
+
+```javascript
+const newArr = [1, 2, 3].map((v) => v * 2);
+console.log(newArr); // 输出[2,4,6];
+```
+
+filter： filter 方法的作用是从原数组中过滤出符合条件的元素，并生成一个新数组
+
+```javascript
+const newArr = [1, 2, 3, 4, 5, 6].filter((item) => item % 2 == 0);
+console.log(newArr); // 输出[2,4,6];
+```
+
+reduce： reduce 方法的作用是通过回调函数的形式，把原数组中的元素最终转换成一个值，第一个参数是回调函数，第二个参数是初始值
+
+```javascript
+const arr = [1, 2, 3, 4, 5, 6];
+const sum = arr.reduce((account, current) => {
+  return account + current;
+}, 0);
+console.log(sum); // 21
+```
+
+### JavaScript 异步
+
+- 回调函数
+
+- Generator
+
+在 ES6 之前，一个函数一旦执行将不会被中断，一直到函数执行完毕，在 ES6 之后，由于 Generator 的存在，函数可以暂停自身，待到合适的机会再次执行。用 Generator 可以解决回调地狱。
+
+```javascript
+function* fetch() {
+  yield ajax(url, () => {
+    console.log('这里是首次回调函数');
+  });
+  yield ajax(url, () => {
+    console.log('这里是第二次回调函数');
+  });
+  yield ajax(url, () => {
+    console.log('这里是第三次回调函数');
+  });
+}
+var it = fetch();
+var result1 = it.next();
+var result2 = it.next();
+var result3 = it.next();
+```
+
+- Promise
+
+Promise 翻译过来就是承诺的意思，Promise 一共有三种状态：pending(等待中)、resolve(完成)和 reject(拒绝)，这个承诺意味着在将来一定会有一个表决，并且只能表决一次，表决的状态一定是 resolve(完成)或者 reject(拒绝)，一个 Promise 可能会是如下的形式：
+
+```javascript
+// 普通的Promise
+function foo() {
+  return new Promise((resolve, reject) => {
+    // 第一次表决有效，其后无论是resolve()还是reject()都无效
+    resolve(true);
+    resolve(false);
+  });
+}
+
+// Promise解决回调地狱
+ajax(url)
+  .then((res) => {
+    console.log('这里是首次回调函数');
+  })
+  .then((res) => {
+    console.log('这里是第二次回调函数');
+  })
+  .then((res) => {
+    console.log('这里是第三次回调函数');
+  });
+```
+
+Promise.all()
+
+Promise.all()方法是把一个或者几个 Promise 组合在一个数组里，只有当数组中的所有 Promise 全部表决完成，才返回。
+
+```javascript
+var p1 = Promise.resolve(1);
+var p2 = new Promise((resolve) => {
+  setTimeout(() => {
+    resolve(2);
+  }, 100);
+});
+var p3 = 3;
+Promise.all([p1, p2, p3]).then((res) => {
+  console.log(res); // 输出[1,2,3]
+});
+```
+
+Promise.race()
+
+Promise.race()方法把一个或者几个 Promise 组合在一个数组里，只要数组中有一个表决了，就返回。
+
+```javascript
+var p1 = Promise.resolve(1);
+var p2 = new Promise((resolve) => {
+  setTimeout(() => {
+    resolve(2);
+  }, 100);
+});
+var p3 = 3;
+Promise.race([p2, p1, p3]).then((res) => {
+  console.log(res); // 输出1
+});
+```
+
+### 进程和线程
+
+JavaScript 是单线程执行的，在 JavaScript 运行期间，有可能会阻塞 UI 渲染，这在一方面说明 JavaScript 引擎线程和 UI 渲染线程是互斥的。JavaScript 被设计成单线程的原因在于，JavaScript 可以修改 DOM，如果在 JavaScript 工作期间，UI 还在渲染的话，则可能不会正确渲染 DOM。单线程也有一些好处，如下：
+
+- 节省内存空间
+- 节省上下文切换时间
+- 没有锁的问题存在
+
+进程： CPU 在运行指令及加载和保存上下文所需的时间，放在应用上一个程序就是一个进程，一个浏览器 tab 选项卡就是一个进程
+线程： 线程是进程中更小的单位，描述了执行一段指令所需的时间。
+
+### 什么是执行栈？
+
+可以把执行栈看成是一个存储函数调用的栈结构，遵循先进后出的原则，一个执行栈可能表现如下：
+
+### EventLoop
+
+上面讲到函数会在执行栈中执行，那么当遇到异步代码后，该如何处理呢？其实当遇到异步代码的时候，会被挂起在 Task 队列中，一旦执行栈为空，就会从 Task 中拿出需要执行的代码执行，所以本质上讲 JS 中的异步还是同步行为。
+
+![EventLoop](https://cdn.jsdelivr.net/gh/TheFirstSunday/gallery@main/images/event-loop.png)
+
+如上图，可以看到，不同的异步任务是有区别的，异步任务又可以划分如下：
+
+- 宏任务(script、setTimeout、setInterval、setImmidiate、I/O、UI Rendering)可以有多个队列
+- 微任务(procress.nextTick、Promise.then、Object.observe、mutataionObserver)只能有一个队列
+
+执行顺序： 当执行栈执行完毕后，会首先执行微任务队列，当微任务队列执行完毕再从宏任务中读取并执行，当再次遇到微任务时，放入微任务队列。
+
+```javascript
+setTimeout(() => {
+  console.log(1);
+  Promise.resolve().then(() => {
+    console.log(2);
+  });
+}, 0);
+setTimeout(() => {
+  console.log(3);
+}, 0);
+Promise.resolve().then(() => {
+  console.log(4);
+});
+console.log(5);
+// 输出结果：5 4 1 2 3
+
+// 代码分析：
+//
+// 1.console.log(5)是唯一的同步任务，首先执行，输出5
+// 2.将所有异步任务放在Task队列中，挂起
+// 3.同步任务执行完毕，开始执行微任务队列，即Promise.then，输出4
+// 4.微任务队列执行完毕，执行宏任务队列setTimeout
+// 5.宏任务队列中首先执行同步任务，再次遇到微任务，放入微任务队列中，输出1
+// 6.同步任务执行完毕，执行微任务队列，输出2
+// 7.微任务队列执行完毕，执行宏任务队列setTimeout，输出3
+```
+
+[EventLoop](https://juejin.cn/post/6979876135182008357)
