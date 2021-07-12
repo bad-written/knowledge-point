@@ -137,3 +137,7 @@ nav:
 ### Http 状态码 301 和 302 的应用场景分别是什么
 
 [详细解析](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/249)
+
+### http压缩
+
+[http压缩](https://zhuanlan.zhihu.com/p/90427059)

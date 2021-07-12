@@ -108,3 +108,7 @@ BFF 全称 Backend For Frontend，一般指在前端与服务器端搭建一层�
 ### 微前端体系
 
 [详细解析](https://juejin.cn/post/6981638032768106526)
+
+### 首屏加载时间优化
+
+[首屏加载时间优化](https://zhuanlan.zhihu.com/p/88639980)
