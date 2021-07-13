@@ -408,6 +408,8 @@ JavaScript 中的 this 有如下几种情况，并按他们的优先级从低到
 
 ### cookie、session、localStorage、sessionStorage
 
+(![详细解析](https://cdn.jsdelivr.net/gh/TheFirstSunday/gallery@main/images/cookie.png))
+
 ### 长短轮询 websocket
 
 ### forEach 和 map 区别是什么
@@ -1298,3 +1300,7 @@ console.log(5);
 ```
 
 [EventLoop](https://juejin.cn/post/6979876135182008357)
+
+
+### 浏览器渲染原理
+
