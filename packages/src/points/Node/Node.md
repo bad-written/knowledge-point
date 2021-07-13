@@ -229,3 +229,7 @@ module.exports = function () { return 'foo'; };
 ### node 中 dns.resolve 及 dns.lookup 有什么区别
 
 ### Node 中 require json 文件数据时，如何当文件更新时，重新 require
+
+### package.json 相关
+
+[详细解析](https://juejin.cn/post/6983967244816482334)
