@@ -448,6 +448,99 @@ function createKeyToOldIdx(children, beginIdx, endIdx) {
 
 ### nextTick 原理
 
+nextTick支持两种形式使用方式：
+
+```vue
+
+this.$nextTick(() => {
+  // callback形式
+})
+this.$nextTick().then(() => {
+  // Promise.then形式
+})
+```
+
+```javascript
+
+let pending = false
+let timeFunc
+const callbacks = []
+function flushCallbacks () {
+  pending = false
+  const cbs = callbacks.slice()
+  callbacks.length = 0
+  for (let index = 0, len = cbs.length; index < len; index++) {
+    cbs[index]()
+  }
+}
+
+function invokeCallback (callback, context) {
+  try {
+    callback.call(context)
+  } catch {
+    console.log('invoke nextTick callback error')
+  }
+}
+
+function nextTick (cb, context) {
+  context = context || window
+  let _resolve
+  callbacks.push(() => {
+    if (cb) {
+      invokeCallback(cb, context)
+    } else if (_resolve) {
+      _resolve(context)
+    }
+  })
+  if (!pending) {
+    pending = true
+    timeFunc()
+  }
+  if (!cb && typeof Promise !== 'undefined') {
+    return new Promise(resolve => {
+      _resolve = resolve
+    })
+  }
+}
+
+function setTimeFunc () {
+  if (typeof Promise !== 'undefined') {
+    const p = Promise.resolve()
+    timeFunc = () => {
+      p.then(flushCallbacks)
+    }
+  } else if (typeof MutationObserver !== 'undefined') {
+    let number = 1
+    const observer = new MutationObserver(flushCallbacks)
+    const textNode = document.createTextNode(String(number))
+    observer.observe(textNode, {
+      characterData: true
+    })
+    timeFunc = () => {
+      number = (number + 1) % 2
+      textNode.data = number
+    }
+  } else if (typeof setImmediate !== 'undefined') {
+    timeFunc = () => {
+      setImmediate(flushCallbacks)
+    }
+  } else {
+    timeFunc = () => {
+      setTimeout(flushCallbacks, 0)
+    }
+  }
+}
+
+setTimeFunc()
+
+nextTick(() => {
+  console.log('nextTick callback')
+})
+nextTick().then(() => {
+  console.log('nextTick promise')
+})
+```
+
 ### provide inject
 
 ### location.href 和 vue-router 跳转有什么区别
@@ -473,3 +566,86 @@ function createKeyToOldIdx(children, beginIdx, endIdx) {
 ### piler 的实现原理?
 
 ### Time 的实现原理
+
+### 手写Vue 数据响应式原理
+
+- Object.defineProperty方案
+
+```javascript
+function observe (obj) {
+  if (typeof obj !== 'object' || obj === null) {
+    return
+  }
+  Object.keys(obj).forEach(key => {
+    defineReactive(obj, key, obj[key])
+  })
+}
+
+function defineReactive (target, key, val) {
+  observe(val)
+  Object.defineProperty(target, key, {
+    enumerable: true,
+    configurable: true,
+    get: function () {
+      console.log('get value')
+      return val
+    },
+    set: function (newVal) {
+      val = newVal
+      console.log('change value')
+    }
+  })
+}
+const obj = {
+  name: 'AAA',
+  age: 23,
+  job: {
+    name: 'FE',
+    salary: 1000
+  }
+}
+observe(obj)
+const name = obj.name
+obj.name = 'BBB'
+const jobName = obj.job.name
+obj.job.name = 'fe'
+```
+
+- Proxy方案
+
+```javascript
+
+function observe (obj) {
+  if (typeof obj !== 'object' || obj === null) {
+    return
+  }
+  const handler = {
+    get: function (target, key) {
+      const val = target[key]
+      if (typeof val === 'object' && val !== null) {
+        return new Proxy(val, handler)
+      }
+      console.log('get value')
+      return Reflect.get(target, key)
+    },
+    set: function (target, key, val) {
+      console.log('change value')
+      return Reflect.set(target, key, val)
+    }
+  }
+  return new Proxy(obj, handler)
+}
+const obj = {
+  name: 'AAA',
+  age: 23,
+  job: {
+    name: 'FE',
+    salary: 1000
+  }
+}
+const proxyObj = observe(obj)
+const name = proxyObj.name
+proxyObj.name = 'BBB'
+const jobName = proxyObj.job.name
+proxyObj.job.name = 'fe'
+```

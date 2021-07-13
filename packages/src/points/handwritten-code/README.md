@@ -157,12 +157,6 @@ const curry =
 ```
 
 - 防抖、节流
-
-- 深拷贝
-- 防抖、节流
-- Promise
-- 发布订阅模式
-- 观察者模式
 - EventBus
 
 ```javascript
@@ -211,7 +205,7 @@ class Events {
 }
 ```
 
-- promise
+### Promise
 
 ```JavaScript
 
@@ -771,3 +765,43 @@ const normalize = (str) => {
 ### 考虑到性能问题，如何快速从一个巨大的数组中随机获取部分元素
 
 [详细解析](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/187)
+
+
+### 手写getQueryString
+
+```javascript
+const url = 'https://www.baidu.com/s?id=123&name=why&phone=13876769797';
+const getQueryString = (name) => {
+  const index = url.split('?');
+  if(index === -1) return undefined;
+  const str = url.substring(index+ 1).split('&');
+  for(const i = 0; i < str.length, i++) {
+    const [key, value] = str[index].split('=');
+    if(key === name) return value;
+  }
+}
+```
+
+### 手写事件委托
+
+```javascript
+
+<ul id="list"></ul>
+
+function loadNode(len) {
+  var html = '';
+  for (let index = 0; index < 10; index++) {
+    html += '<li>'+index+'</li>';
+  }
+  var list = document.getElementById('list');
+  list.onclick = function(event) {
+    event = event || window.event;
+    var target = event.target || event.srcElement;
+    if(target.nodeName.toLowerCase() === 'li') {
+      console.log(target.innerText);
+    }
+  }
+  list.innerHTML = html;
+}
+loadNode();
+```
