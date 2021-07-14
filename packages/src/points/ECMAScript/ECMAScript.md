@@ -590,8 +590,6 @@ document.body.oncopy = (e) => {
 
 ### typeof 与 instanceof 的区别
 
-### load 事件与 DomContentLoaded 事件的先后顺序
-
 ### 如何计算白屏时间和首屏时间
 
 ### Object.keys 与 Object.getOwnPropertyNames() 有何区别
@@ -1303,4 +1301,93 @@ console.log(5);
 
 
 ### 浏览器渲染原理
+
+### 异步加载 js 脚本的方法有哪些?
+
+```javascript
+// defer 属性& anync
+
+// 指定 async 属性的目的是不让页面等待两个脚本下载和执行，从而异步加载页面其他内容。 为此，建议异步脚本不要在加载期间修改 DOM。
+// 执行顺序：让脚本在加载完可用时立即执行,异步脚本一定会在页面的 load 事件前执行，但可能会在 DOMContentLoaded 事件触发之前或之后执行。
+
+// defer
+// 执行顺序：在dom加载完毕后执行，defer脚本的执行会在window.onload之前，其他没有添加defer属性的script标签之后
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>defer</title>
+    <script>
+        window.onload = function() {
+            console.log("window.onload");
+        }
+    </script>
+    <script src="./defer.js" defer></script>
+   <script src="./defer.js" async></script>
+</head>
+<body>
+    
+</body>
+</html>
+```
+
+```javascript
+// 动态的创建js
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>defer</title>
+    <script>
+        window.onload = function() {
+            console.log("window.onload");
+        }
+    </script>
+    <script src="./defer.js" defer></script>
+   <script src="./defer.js" async></script>
+</head>
+<body>
+    
+</body>
+</html>
+```
+
+```javascript
+// 动态的创建js
+
+(function(){
+   var dom = document.createElement('script');
+   dom.type ='text/javascript';
+   dom.async = true;
+   dom.src= 'file.js';
+   head = document.getElementsByTagName('head')[0];
+   head.insertBefore(dom,head.firstChild)
+})()
+```
+
+```javascript
+// XHR
+
+let xhr  =  new XMLHttpRequest();
+xhr.open('get','index.js',true)
+xhr.send();
+xhr.onreadystatechange = function() {
+   if(xhr.readyState == 4 && xhr.status == 200){
+         console.log(xhr.responseText);
+   }
+}
+```
+
+### for in 与 for of 的区别?
+
+- for in只能遍历可枚举属性(包括原型链上的属性)
+- for of 遍历可迭代对象(Array，Map，Set，String，TypedArray，arguments 对象等等)
+
+for of不可以遍历普通对象，想要遍历对象的属性，可以用for in循环, 或内建的Object.keys()方法
 
