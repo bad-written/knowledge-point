@@ -1266,7 +1266,7 @@ JavaScript 是单线程执行的，在 JavaScript 运行期间，有可能会阻
 如上图，可以看到，不同的异步任务是有区别的，异步任务又可以划分如下：
 
 - 宏任务(script、setTimeout、setInterval、setImmidiate、I/O、UI Rendering)可以有多个队列
-- 微任务(procress.nextTick、Promise.then、Object.observe、mutataionObserver)只能有一个队列
+- 微任务(process.nextTick、Promise.then、Object.observe、mutataionObserver)只能有一个队列
 
 执行顺序： 当执行栈执行完毕后，会首先执行微任务队列，当微任务队列执行完毕再从宏任务中读取并执行，当再次遇到微任务时，放入微任务队列。
 
@@ -1298,7 +1298,7 @@ console.log(5);
 ```
 
 [EventLoop](https://juejin.cn/post/6979876135182008357)
-
+[EventLoop 详细解析](https://zhuanlan.zhihu.com/p/72507900)
 
 ### 浏览器渲染原理
 
@@ -1391,3 +1391,8 @@ xhr.onreadystatechange = function() {
 
 for of不可以遍历普通对象，想要遍历对象的属性，可以用for in循环, 或内建的Object.keys()方法
 
+
+### document.ready和window.onload的区别
+
+- 文档就绪函数: 表示文档结构已经加载完成（不包含图片等非文字媒体文件)
+- onload的区别: 在页面所有资源加载完后执行

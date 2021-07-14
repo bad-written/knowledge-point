@@ -84,6 +84,8 @@ vue 的思想是响应式的，也就是基于是数据可变的，通过对每�
 
 ### react diff 和 fiber 算法的区别是什么
 
+### React Fiber原理讲一下。schedule中的任务能中断?
+
 ### 如何实现 tooltip 组件，组件式调用和方法调用有何不同,了解 portal 吗
 
 ### 为什么两个 will 生命周期要被标记为 danger
