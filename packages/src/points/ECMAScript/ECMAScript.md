@@ -1329,7 +1329,7 @@ console.log(5);
    <script src="./defer.js" async></script>
 </head>
 <body>
-    
+
 </body>
 </html>
 ```
@@ -1353,7 +1353,7 @@ console.log(5);
    <script src="./defer.js" async></script>
 </head>
 <body>
-    
+
 </body>
 </html>
 ```
@@ -1361,42 +1361,50 @@ console.log(5);
 ```javascript
 // 动态的创建js
 
-(function(){
-   var dom = document.createElement('script');
-   dom.type ='text/javascript';
-   dom.async = true;
-   dom.src= 'file.js';
-   head = document.getElementsByTagName('head')[0];
-   head.insertBefore(dom,head.firstChild)
-})()
+(function () {
+  var dom = document.createElement('script');
+  dom.type = 'text/javascript';
+  dom.async = true;
+  dom.src = 'file.js';
+  head = document.getElementsByTagName('head')[0];
+  head.insertBefore(dom, head.firstChild);
+})();
 ```
 
 ```javascript
 // XHR
 
-let xhr  =  new XMLHttpRequest();
-xhr.open('get','index.js',true)
+let xhr = new XMLHttpRequest();
+xhr.open('get', 'index.js', true);
 xhr.send();
-xhr.onreadystatechange = function() {
-   if(xhr.readyState == 4 && xhr.status == 200){
-         console.log(xhr.responseText);
-   }
-}
+xhr.onreadystatechange = function () {
+  if (xhr.readyState == 4 && xhr.status == 200) {
+    console.log(xhr.responseText);
+  }
+};
 ```
 
 ### for in 与 for of 的区别?
 
-- for in只能遍历可枚举属性(包括原型链上的属性)
+- for in 只能遍历可枚举属性(包括原型链上的属性)
 - for of 遍历可迭代对象(Array，Map，Set，String，TypedArray，arguments 对象等等)
 
-for of不可以遍历普通对象，想要遍历对象的属性，可以用for in循环, 或内建的Object.keys()方法
+for of 不可以遍历普通对象，想要遍历对象的属性，可以用 for in 循环, 或内建的 Object.keys()方法
 
-
-### document.ready和window.onload的区别
+### document.ready 和 window.onload 的区别
 
 - 文档就绪函数: 表示文档结构已经加载完成（不包含图片等非文字媒体文件)
-- onload的区别: 在页面所有资源加载完后执行
+- onload 的区别: 在页面所有资源加载完后执行
 
-### 12种数组遍历方法
+### 12 种数组遍历方法
 
 [详细解析](https://segmentfault.com/a/1190000038350134)
+
+### Promise 的状态流转
+
+- pending -> resolve(value) -> fulfilled
+- pending -> reject(value) -> rejected
+
+### node 与 浏览器中 JS 的区别
+
+[详细解析]http://nodejs.cn/learn/differences-between-nodejs-and-the-browser

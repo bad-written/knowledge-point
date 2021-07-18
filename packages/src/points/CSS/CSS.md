@@ -44,23 +44,75 @@ nav:
 ### 清除浮动
 
 .clearfix:after {
-    content : '';
-    display : table;
-    clear : both;
+content : '';
+display : table;
+clear : both;
 }
-/*兼容IE低版本*/
+/_兼容 IE 低版本_/
 .clearfix {
-    *zoom : 1;
+\*zoom : 1;
 }
 
 ### 什么是媒体查询，JS 可以监听媒体查询吗
 
 ### z-index: 999 元素一定会置于 z-index: 0 元素之上吗
 
-### svg 实现loading效果
+### svg 实现 loading 效果
 
 ### 有没有使用过 css variable，它解决了哪些问题
 
 ### position 属性有哪些值，各有什么特点？
 
 [详细解析](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/509)
+
+### opacity: 0、visibility: hidden、display: none 优劣和适用场景
+
+- 结构
+
+display:none: 会让元素完全从渲染树中消失，渲染的时候不占据任何空间, 不能点击，
+visibility: hidden:不会让元素从渲染树消失，渲染元素继续占据空间，只是内容不可见，不能点击
+opacity: 0: 不会让元素从渲染树消失，渲染元素继续占据空间，只是内容不可见，可以点击
+
+- 继承：
+
+display: none 和 opacity: 0：是非继承属性，子孙节点消失由于元素从渲染树消失造成，通过修改子孙节点属性无法显示。
+visibility: hidden：是继承属性，子孙节点消失由于继承了 hidden，通过设置 visibility: visible;可以让子孙节点显式。
+
+- 性能:
+
+displaynone : 修改元素会造成文档回流,读屏器不会读取 display: none 元素内容，性能消耗较大
+visibility:hidden: 修改元素只会造成本元素的重绘,性能消耗较少读屏器读取 visibility: hidden 元素内容
+opacity: 0 ：修改元素会造成重绘，性能消耗较少
+
+### link 与@import 的区别
+
+link 是 HTML 方式， @import 是 CSS 方式
+link 最大限度支持并行下载，@import 过多嵌套导致串行下载，出现 FOUC
+link 可以通过 rel="alternate stylesheet"指定候选样式
+浏览器对 link 支持早于@import，可以使用@import 对老浏览器隐藏样式
+@import 必须在样式规则之前，可以在 css 文件中引用其他文件
+总体来说：link 优于@import
+
+### PNG,GIF,JPG 的区别及如何选
+
+- GIF:
+
+8 位像素，256 色
+无损压缩
+支持简单动画
+支持 boolean 透明
+适合简单动画
+
+- JPEG：
+
+颜色限于 256
+有损压缩
+可控制压缩质量
+不支持透明
+适合照片
+
+- PNG：
+
+有 PNG8 和 truecolor PNG
+PNG8 类似 GIF 颜色上限为 256，文件小，支持 alpha 透明度，无动画
+适合图标、背景、按钮
