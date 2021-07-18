@@ -99,6 +99,8 @@ nav:
 
 ### 三次握手和四次挥手
 
+[详细解析](https://snailclimb.gitee.io/javaguide/#/docs/network/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C)
+
 ### WebSocket 与 Ajax 的区别
 
 ### HTTP 如何实现长连接？在什么时候会超时？
@@ -140,10 +142,26 @@ nav:
 
 [详细解析](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/249)
 
-### http压缩
+### http 压缩
 
-[http压缩](https://zhuanlan.zhihu.com/p/90427059)
+[http 压缩](https://zhuanlan.zhihu.com/p/90427059)
 
 ### 预请求、为什么会出现预请求?
 
 [详细解析](https://juejin.cn/post/6844903821634699277)
+
+### DNS 查询服务器的基本流程是什么？DNS 劫持是什么？
+
+[详细解析](https://www.ruanyifeng.com/blog/2016/06/dns.html)
+
+### 如何解决 TCP 传输丢包问题？
+
+### TCP 怎么保证可靠传输？
+
+### 简述 HTTPS 的加密与认证过程
+
+[详细解析](https://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html)
+
+### 简述对称与非对称加密的概念
+
+### 如何解决 TCP 传输丢包问题？

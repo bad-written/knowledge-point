@@ -400,6 +400,29 @@ JavaScript 中的 this 有如下几种情况，并按他们的优先级从低到
 
 ### Promise.all 如果有一个失败了如何处理
 
+### promise.all 的实现原理?
+
+```javascript
+
+all(list) {
+        return new Promise((resolve, reject) => {
+            let resValues = [];
+            let counts = 0;
+            for (let [i, p] of list) {
+                resolve(p).then(res => {
+                    counts++;
+                    resValues[i] = res;
+                    if (counts === list.length) {
+                        resolve(resValues)
+                    }
+                }, err => {
+                    reject(err)
+                })
+            }
+        })
+    }
+```
+
 ### canvas 与 svg 的区别
 
 ### attribute 和 property 的区别
@@ -1408,3 +1431,9 @@ for of 不可以遍历普通对象，想要遍历对象的属性，可以用 for
 ### node 与 浏览器中 JS 的区别
 
 [详细解析]http://nodejs.cn/learn/differences-between-nodejs-and-the-browser
+
+### 简述常见异步编程方案 (promise, generator, async) 的原理
+
+### hash 与 history 的区别
+
+[详细解析](https://zhuanlan.zhihu.com/p/364019280)
