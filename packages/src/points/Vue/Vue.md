@@ -649,3 +649,17 @@ proxyObj.name = 'BBB'
 const jobName = proxyObj.job.name
 proxyObj.job.name = 'fe'
 ```
+
+### Vue 2.x 模板中的指令是如何解析实现的？
+    
+### 简要说明 Vue 2.x 的全链路运作机制？
+    
+### 简单介绍一下 Element UI 的框架设计？
+    
+### 如何理解 Vue 是一个渐进式框架？
+    
+### Vue 里实现跨组件通信的方式有哪些？
+    
+### Vue 中响应式数据是如何做到对某个对象的深层次属性的监听的？
+    
+### Vue CLI 3.x 的插件系统是如何设计的？

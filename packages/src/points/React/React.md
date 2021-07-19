@@ -201,3 +201,31 @@ toArray 会为返回数组中的每个 key 添加前缀，以使得每个元素 
 ### hooks 原理
 
 [详细解析](https://juejin.cn/post/6944863057000529933)
+
+### React 中 useState 是如何做数据初始化的？
+
+### React Hook 和闭包有什么关联关系？
+
+### React 的 useEffect 是如何监听数组依赖项的变化的
+
+### React Hook 中 useEffect 有哪些参数，如何检测数组依赖项的变化？
+
+### React 如何发现重渲染、什么原因容易造成重渲染、如何避免重渲染？
+
+### 简要说明 React Hook 中 useState 和 useEffect 的运行原理？
+
+### React 中高阶函数和自定义 Hook 的优缺点？
+    
+### React Class 组件和 React Hook 的区别有哪些？
+
+### React Class 组件中请求可以在 componentWillMount 中发起吗？为什么？
+    
+### React Class 组件有哪些周期函数？分别有什么作用？
+
+### 列举你常用的 React 性能优化技巧？
+
+### 在 React 中如何识别一个表单项里的表单做到了最小粒度 / 代价的渲染？
+    
+### 在 React 的开发的过程中你能想到哪些控制渲染成本的方法？
+    
+### SSR 技术和 SPA 技术的各自的优缺点是什么？

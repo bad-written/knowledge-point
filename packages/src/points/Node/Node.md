@@ -318,3 +318,15 @@ node_modules
 当前 npm 工程如果定义了钩子此时会被执行（按照 install、postinstall、prepublish、prepare 的顺序）。
 
 最后一步是生成或更新版本描述文件，npm install 过程完成。
+=======
+### 发布 Npm 包如何指定引入地址？
+
+### 如何发布开发项目的特定文件夹为 Npm 包的根目录？
+
+### 如何发布一个支持 Tree Shaking 机制的 Npm 包？
+
+### Npm 包中 peerDependencies 的作用是什么？
+
+### 如何优雅的调试需要发布的 Npm 包？
+
+### 在设计一些库包时如何生成版本日志？
