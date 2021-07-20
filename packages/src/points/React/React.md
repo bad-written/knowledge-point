@@ -61,6 +61,15 @@ vue 的思想是响应式的，也就是基于是数据可变的，通过对每�
 
 ### 为什么类方法需要绑定到类实例？
 
+在 React 的类组件中，当我们把事件处理函数引用作为回调传递过去，如下所示：
+
+``` HTML5
+    <button type="button" onClick={this.handleClick}>Click Me</button>
+```
+事件处理程序方法会丢失其隐式绑定的上下文。当事件被触发并且处理程序被调用时，this的值会回退到默认绑定，即值为 undefined，这是因为类声明和原型方法是以严格模式运行。
+当我们将事件处理程序的 this 绑定到构造函数中的组件实例时，我们可以将它作为回调传递，而不用担心会丢失它的上下文。
+箭头函数可以免除这种行为, 因为它使用的是词法 this 绑定，会将其自动绑定到定义他们的函数上下文。
+
 ### 受控组件和非受控组件区别是啥？
 
 ### stack reconciler
@@ -71,13 +80,22 @@ vue 的思想是响应式的，也就是基于是数据可变的，通过对每�
 
 ### 什么是纯函数？
 
+相同的输入，总是会的到相同的输出，并且在执行过程中没有任何副作用。
+
 ### HOC
 
 ### render props
 
 ### 单向数据流、双向数据流的缺点
 
+- 单向数据流　数据流动方向可以跟踪，流动单一，追查问题的时候可以跟快捷。缺点就是写起来不太方便。要使UI发生变更就必须创建各种action来维护对应的state
+- 双向流动　值和UI双绑定，这种好处大家都懂。但是由于各种数据相互依赖相互绑定，导致数据问题的源头难以被跟踪到，子组件修改父组件，兄弟组件互相修改有有违设计原则。
+
 ### 为什么 useState、useEffect 不能写在 if 里
+
+React 通过链表来查找对应的hooks，在条件语句里可能会出现状态不一致。
+
+[详细解析](https://zhuanlan.zhihu.com/p/357232384)
 
 ### componentDidMount 执行几次
 
@@ -85,9 +103,32 @@ vue 的思想是响应式的，也就是基于是数据可变的，通过对每�
 
 ### react 的 setstate 过程
 
+- partialState：setState传入的第一个参数，对象或函数
+- _pendingStateQueue：当前组件等待执行更新的state队列
+- isBatchingUpdates：react用于标识当前是否处于批量更新状态，所有组件公用
+- dirtyComponent：当前所有处于待更新状态的组件队列
+- transcation：react的事务机制，在被事务调用的方法外包装n个waper对象，并一次执行：waper.init、被调用方法、waper.close
+- FLUSH_BATCHED_UPDATES：用于执行更新的waper，只有一个close方法
+
+1.将setState传入的partialState参数存储在当前组件实例的_pendingStateQueue中。
+2.判断当前React是否处于批量更新状态，如果是，将当前组件标记为dirtyCompontent,并加入待更新的组件队列中。
+3.如果未处于批量更新状态，将isBatchingUpdates设置为true，用事务再次调用前一步方法，保证当前组件加入到了待更新组件队列中。
+4.调用事务的waper方法，遍历待更新组件队列依次执行更新。
+5.执行生命周期componentWillReceiveProps。
+6.将组件的state暂存队列中的state进行合并，获得最终要更新的state对象，并将_pendingStateQueue置为空。
+7.执行生命周期shouldComponentUpdate，根据返回值判断是否要继续更新。
+8.执行生命周期componentWillUpdate。
+9.执行真正的更新，render。
+10.执行生命周期componentDidUpdate。
+
+![setstate 流程](https://cdn.jsdelivr.net/gh/TheFirstSunday/gallery@main/images/setState.png)
+[详细解析](https://www.jianshu.com/p/cfb3b6a9dc2d)
+
 ### 收到新 state 怎么更新，发生了什么事情
 
 ### react 类组件 super 关键字的作用是什么? static 关键字呢
+
+static 声明的静态方法、静态属性，不会被子类继承，也不会初始化到实例对象中。
 
 ### react map 不加 key 会有什么影响，如果加一个随机 key 呢
 
@@ -173,6 +214,10 @@ toArray 会为返回数组中的每个 key 添加前缀，以使得每个元素 
 
 ### useEffect 与 useLayoutEffect 的区别?
 
+useEffect执行顺序: 组件更新挂载完成 -> 浏览器 dom 绘制完成 -> 执行 useEffect 回调。
+useLayoutEffect 执行顺序: 组件更新挂载完成 ->  执行 useLayoutEffect 回调-> 浏览器dom绘制完成。
+所以说 useLayoutEffect 代码可能会阻塞浏览器的绘制 。我们写的 effect和 useLayoutEffect，react在底层会被分别打上PassiveEffect，HookLayout，在commit阶段区分出，在什么时机执行。
+
 ### 高阶组件与渲染劫持
 
 ### 谈一谈你对 React 的理解？
@@ -201,10 +246,6 @@ toArray 会为返回数组中的每个 key 添加前缀，以使得每个元素 
 - 服务器端是没有 window document 等浏览器宿主环境对象的，可以通过 类型检测 这些对象 来区分。
 
 ### React 中，cloneElement 与 createElement 各是什么，有什么区别
-
-### 为什么不能在表达式里面定义 react hooks
-
-### useLayoutEffect 和 useEffect 的区别
 
 [详细解析](https://zhuanlan.zhihu.com/p/348701319)
 

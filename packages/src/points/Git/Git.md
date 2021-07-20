@@ -32,7 +32,10 @@ nav:
 ### Git Hook 中客户端和服务端钩子各自用于什么作用？
     
 ### Git Hook 中常用的钩子有哪些？
-    
+
+- pre-commit 
+- commit-msg
+
 ### pre-commit 和 commit-msg 钩子的区别是什么？各自可用于做什么？
     
 ### husky 以及 ghook 等工具制作 Git Hook 的原理是什么？
