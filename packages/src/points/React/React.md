@@ -31,21 +31,31 @@ vue 的思想是响应式的，也就是基于是数据可变的，通过对每�
 
 ### 写 React/Vue 项目时，为什么要在列表组件写 key
 
-(写 React/Vue 项目时，为什么要在列表组件写 key)[https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/1]
+[写 React/Vue 项目时，为什么要在列表组件写 key](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/1)
 
 ### id key 真的能使列表比对更高效吗？举个反例？
 
+使用简单的模板，基于这个前提下，可以更有效的复用节点，diff速度来看也是不带key更加快速的，因为带key在增删节点上有耗时
+
 ### React 中 context 的实现方式？
+
+内部定义了一个 EventEmitter，在 Provider 中 value 改变时，emit change 事件，而在 Consumer 中则监听 value 的 update 事件，从而实现子组件接收 Context 的值
 
 ### Render Props 与 React.PureComponent 混用可能会出现什么问题?
 
+因为浅比较 props 的时候总会得到 false，并且在这种情况下每一个 render 对于 render prop 将会生成一个新的值。
+
 ### 什么是虚拟 DOM？
+
+[详细解析](https://segmentfault.com/a/1190000022277663)
 
 ### 类组件和函数组件之间的区别是啥？
 
 ### React 中 refs 干嘛用的？
 
 ### react 中的事件
+
+[详细解析](https://zhuanlan.zhihu.com/p/165089379)
 
 ### 什么是 jsx？
 
@@ -93,11 +103,11 @@ vue 的思想是响应式的，也就是基于是数据可变的，通过对每�
 
 ### react 性能优化
 
-又是老问题了。scu 生命周期、memo；usememo & usecallback 记住一些值不用重新计算；虚拟列表；immutable+scu/memo；原生 js；
+又是老问题了。scu 生命周期、memo；useMemo & useCallback 记住一些值不用重新计算；虚拟列表；immutable+scu/memo；原生 js；
 
 ### class 组件和函数组件 diff、渲染、挂载过程差异
 
-### react 的 usememo 原理【描述】闭包、缓存、memorize
+### react 的 useMemo 原理【描述】闭包、缓存、memorize
 
 ### hook 缺点，hook 代码难维护怎么解决
 
