@@ -22,19 +22,36 @@ plugin 是一个扩展器，它丰富了 webpack 本身，针对是 loader 结�
 
 ### tree-shaking 的原理，哪些情况属于副作用，在 rollup 和 webpack 的不同表现
 
+ES6 module 特点：
+
+只能作为模块顶层的语句出现
+import 的模块名只能是字符串常量
+import binding 是 immutable的
+ES6模块依赖关系是确定的，和运行时的状态无关，可以进行可靠的静态分析，这就是tree-shaking的基础。
+
+所谓静态分析就是不执行代码，从字面量上对代码进行分析，ES6之前的模块化，比如我们可以动态require一个模块，只有执行后才知道引用的什么模块，这个就不能通过静态分析去做优化。
+
+这是 ES6 modules 在设计时的一个重要考量，也是为什么没有直接采用 CommonJS，正是基于这个基础上，才使得 tree-shaking 成为可能，这也是为什么 rollup 和 webpack 都要用 ES6 module syntax 才能 tree-shaking。
+
+rollup只处理函数和顶层的import/export变量，不能把没用到的类的方法消除掉
+javascript动态语言的特性使得静态分析比较困难
+
 [tree-shaking 的原理](https://zhuanlan.zhihu.com/p/32554436)
+[详细解析](https://zhuanlan.zhihu.com/p/260724544)
 
 ### 聊一聊 webpack 的优化手段，说说你熟系优化手段的原理
 
+[详细解析](https://blog.csdn.net/weixin_53504991/article/details/117694694)
+
 ### webpack 的打包原理及产物是如何执行的，动态加载呢，如何缓存的，与 rollup 的区别
 
-### webpack 优化的手段
-
-### tree-shaking 怎么配置，如何 避免 tree-shaking， CSS 可以 Tree-shaking？？
+### tree-shaking 怎么配置，如何 避免 tree-shaking， CSS 可以 Tree-shaking？
 
 ### webpack 提高构建速度的方式
 
 ### webpack import 动态加载原理
+
+ES6的import(),类似动态创建script，动态的引入脚本
 
 ### 知道 webpack 中的 devTool 吗？
 
@@ -54,7 +71,7 @@ plugin 是一个扩展器，它丰富了 webpack 本身，针对是 loader 结�
 
 ### webpack 的热更新是如何做到的？说明其原理？
 
-### 如何写一个 webpack plugin
+[HMR 实现原理](https://juejin.cn/post/6973825927708934174)
 
 ### AST 的应用
 
@@ -74,13 +91,7 @@ plugin 是一个扩展器，它丰富了 webpack 本身，针对是 loader 结�
 
 ### 模块打包原理知道吗?
 
-### 文件监听原理呢？
-
 ### 如何对 bundle 体积进行监控和分析？
-
-### 文件指纹是什么？怎么用？(Hash、ChunkHash、ContentHash)
-
-### 那代码分割的本质是什么？有什么意义呢？
 
 ### 是否写过 Loader？简单描述一下编写 loader 的思路？
 
@@ -98,10 +109,6 @@ plugin 是一个扩展器，它丰富了 webpack 本身，针对是 loader 结�
 ### webpack-dev-server 的原理是什么
 
 ### cache-loader 和 hard-source-webpack-plugin 的区别?
-
-### HMR 原理
-
-[HMR 实现原理](https://juejin.cn/post/6973825927708934174)
 
 ### tapable 和 webpack 的关系，tapable 的原理?
 
@@ -430,6 +437,10 @@ commonjs 是 Node 中的模块规范，通过 require 及 exports 进行导入�
 
 ### Code Splitting 的原理是什么?
 
+import()获取script标签动态加载文件
+
+[详细解析](https://www.cnblogs.com/floor/p/10788304.html)
+
 ### 在 Webpack 中是如何做到支持类似于 JSX 语法的 Sourcemap 定位？
 
 ### 在通常的脚手架项目中进行热更新（hot module replacement）时如何做到 ESLint 实时打印校验错误信息？
@@ -437,3 +448,5 @@ commonjs 是 Node 中的模块规范，通过 require 及 exports 进行导入�
 ### Webpack 中的插件机制是如何设计的？
 
 ### 列举你知道的所有构建工具并说说这些工具的优缺点？这些构建工具在不同的场景下应该如何选型？
+
+[详细解析](https://zhuanlan.zhihu.com/p/350601275)
