@@ -76,6 +76,9 @@ vue 的思想是响应式的，也就是基于是数据可变的，通过对每�
 
 ### React Fiber?
 
+[React Fiber](https://www.zoo.team/article/about-react-fiber)
+[详细解析](https://segmentfault.com/a/1190000018250127)
+
 ### concurrent
 
 ### 什么是纯函数？

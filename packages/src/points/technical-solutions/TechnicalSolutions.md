@@ -55,8 +55,6 @@ nav:
 
 ### SSR
 
-### 国际化
-
 ### ESBuild
 
 [ESBuild](https://juejin.cn/post/6971606582706569229)
@@ -84,8 +82,6 @@ nav:
 ### 增量发布
 
 ### 前端大量数据的处理
-
-### 单点登录
 
 ### serverless
 
