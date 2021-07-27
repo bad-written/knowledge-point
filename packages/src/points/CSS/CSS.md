@@ -23,11 +23,15 @@ nav:
 
 ### BFC(块级格式化上下文)
 
+[详细解析](https://zhuanlan.zhihu.com/p/25321647)
+
 ### visibility、hidden
 
 ### flex
 
 ### 盒模型
+
+[详细解析](https://segmentfault.com/a/1190000013069516)
 
 ### 伪类、伪元素
 
