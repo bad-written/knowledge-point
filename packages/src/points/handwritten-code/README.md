@@ -766,8 +766,7 @@ const normalize = (str) => {
 
 [详细解析](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/187)
 
-
-### 手写getQueryString
+### 手写 getQueryString
 
 ```javascript
 const url = 'https://www.baidu.com/s?id=123&name=why&phone=13876769797';
@@ -785,22 +784,21 @@ const getQueryString = (name) => {
 ### 手写事件委托
 
 ```javascript
-
-<ul id="list"></ul>
+<ul id="list"></ul>;
 
 function loadNode(len) {
   var html = '';
   for (let index = 0; index < 10; index++) {
-    html += '<li>'+index+'</li>';
+    html += '<li>' + index + '</li>';
   }
   var list = document.getElementById('list');
-  list.onclick = function(event) {
+  list.onclick = function (event) {
     event = event || window.event;
     var target = event.target || event.srcElement;
-    if(target.nodeName.toLowerCase() === 'li') {
+    if (target.nodeName.toLowerCase() === 'li') {
       console.log(target.innerText);
     }
-  }
+  };
   list.innerHTML = html;
 }
 loadNode();
@@ -809,7 +807,6 @@ loadNode();
 ### 实现一个简易的模板引擎
 
 ```javascript
-
 const template = '嗨, {{ info.name.value }}您好, 今天是星期{{ day.value }}';
 
 const data = {
@@ -854,37 +851,43 @@ render(template, data);
 ### 171、使用 TypeScript 语法将没有层级的扁平数据转换成树形结构的数据
 
 ```javascript
-
 // 扁平数据
 
-const data = [{
-  name: '文本1',
-  parent: null,
-  id: 1,
-}, {
-  name: '文本2',
-  id: 2,
-  parent: 1
-}, {
-  name: '文本3',
-  parent: 2,
-  id: 3,
-}]
-
-// 树状数据
-[{
-  name: '文本1',
-  id: 1,
-  children: [{
+const data = [
+  {
+    name: '文本1',
+    parent: null,
+    id: 1,
+  },
+  {
     name: '文本2',
     id: 2,
-    children: [{
-      name: '文本3',
-      id: 3
-    }]
-  }]
-}]
-
+    parent: 1,
+  },
+  {
+    name: '文本3',
+    parent: 2,
+    id: 3,
+  },
+][
+  // 树状数据
+  {
+    name: '文本1',
+    id: 1,
+    children: [
+      {
+        name: '文本2',
+        id: 2,
+        children: [
+          {
+            name: '文本3',
+            id: 3,
+          },
+        ],
+      },
+    ],
+  }
+];
 
 function translateDataToTree(data) {
   // 没有父节点的数据
@@ -907,7 +910,9 @@ function translateDataToTree(data) {
           // 让当前子节点作为唯一的父节点，去递归查找其对应的子节点
           translator([current], temp);
           // 把找到子节点放入父节点的children属性中
-          typeof parent.children !== 'undefined' ? parent.children.push(current) : (parent.children = [current]);
+          typeof parent.children !== 'undefined'
+            ? parent.children.push(current)
+            : (parent.children = [current]);
         }
       });
     });
@@ -920,7 +925,19 @@ function translateDataToTree(data) {
   return parents;
 }
 
-translateDataToTree(data)
-
+translateDataToTree(data);
 ```
 
+### promise 怎么实现链式调用跟返回不同的状态
+
+```javascript
+const PENDING = 'pending';
+const FULFILLED = 'fulfilled';
+const REJECTED = 'rejected';
+
+class MyPromise {
+  constructor(executor) {
+    executor(this.resolve, this.reject);
+  }
+}
+```
