@@ -71,6 +71,12 @@ ES6的import(),类似动态创建script，动态的引入脚本
 
 ### webpack 的热更新是如何做到的？说明其原理？
 
+- 当修改了一个或多个文件；
+- 文件系统接收更改并通知webpack；
+- webpack重新编译构建一个或多个模块，并通知HMR服务器进行更新；
+- HMR Server 使用webSocket通知HMR runtime 需要更新，HMR运行时通过HTTP请求更新jsonp；
+- HMR运行时替换更新中的模块，如果确定这些模块无法更新，则触发整个页面刷新。
+
 [HMR 实现原理](https://juejin.cn/post/6973825927708934174)
 
 ### AST 的应用
