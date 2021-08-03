@@ -221,3 +221,7 @@ nav:
 
 - 和 1.0 相比，1.1 可以一次传输多个文件
 - http1.x 解析基于文本，http2.0 采用二进制格式，新增特性 多路复用、header 压缩、服务端推送(静态 html 资源)
+
+### 什么情况下会触发 options 请求
+
+[详细解析](https://www.jianshu.com/p/06efbf6c4c6c)
