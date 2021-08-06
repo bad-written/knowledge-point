@@ -69,6 +69,8 @@ ES6的import(),类似动态创建script，动态的引入脚本
 - 所有模块分析完成后，执行 compilation 的 seal 方法对每个 chunk 进行整理、优化、封装。
 - 最后执行 Compiler 的 emitAssets 方法把生成的文件输出到 output 的目录中。
 
+[bundler 的简易实现](https://juejin.cn/post/6993109621393063967)
+
 ### webpack 的热更新是如何做到的？说明其原理？
 
 - 当修改了一个或多个文件；

@@ -839,7 +839,7 @@ function isObject(o) {
   return o !== null && (typeof o === 'object' || typeof o === 'function');
 }
 
-function deepClone(obj) {
+function  deepClone(obj) {
   if (!isObject(obj)) {
     throw new TypeError('Parameter is not a reference type!');
   }
@@ -1446,6 +1446,8 @@ GraphQL 是对后端 REST API 向业务层的聚合与裁剪，REST 更关注对
 
 ### Javascript 的柯里化与逆柯里化
 
-###
+### 简述浏览器的渲染过程，重绘和重排在渲染过程中的哪一部分
 
-简述浏览器的渲染过程，重绘和重排在渲染过程中的哪一部分
+### 原型链
+
+每个对象有一个__proto__属性，表示自己的原型，而函数有一个prototype属性表示函数的原型，当去查找一个属性的时候，就会沿着原型去找，找到了则返回，找不到则返回null
