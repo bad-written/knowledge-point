@@ -941,3 +941,16 @@ class MyPromise {
   }
 }
 ```
+
+### trim
+
+```javascript
+function trim(str) {
+  return str.replace(/^\s+|\s+$/gm, '');
+}
+```
+
+### 常见手写代码集合
+
+[一篇搞定前端高频手撕算法题](https://segmentfault.com/a/1190000025147080)
+[66 道前端算法面试题附思路分析助你查漏补缺](https://segmentfault.com/a/1190000022425896)

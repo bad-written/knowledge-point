@@ -120,3 +120,19 @@ link 可以通过 rel="alternate stylesheet"指定候选样式
 有 PNG8 和 truecolor PNG
 PNG8 类似 GIF 颜色上限为 256，文件小，支持 alpha 透明度，无动画
 适合图标、背景、按钮
+
+### blockblock、inlineinline 和 inline-blockinline−block 的元素有什么差别
+
+### display：flex 下水平垂直居中怎么实现
+
+### flex: 1 和 flex: 0.1 各会呈现什么样的状态
+
+### 弹性布局，说说你常用的属性
+
+### 实现两栏布局，左边固定右边自适应
+
+### 实现两栏布局，左右固定，设置两栏分别居于屏幕左右两侧
+
+### 给一个图片，只知道 urlurl，实现图片铺满和居中
+
+### 实现一个自适应的正方形

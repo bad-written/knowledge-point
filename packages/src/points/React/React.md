@@ -38,7 +38,7 @@ vue 的思想是响应式的，也就是基于是数据可变的，通过对每�
 
 ### id key 真的能使列表比对更高效吗？举个反例？
 
-使用简单的模板，基于这个前提下，可以更有效的复用节点，diff速度来看也是不带key更加快速的，因为带key在增删节点上有耗时
+使用简单的模板，基于这个前提下，可以更有效的复用节点，diff 速度来看也是不带 key 更加快速的，因为带 key 在增删节点上有耗时
 
 ### React 中 context 的实现方式？
 
@@ -66,10 +66,11 @@ vue 的思想是响应式的，也就是基于是数据可变的，通过对每�
 
 在 React 的类组件中，当我们把事件处理函数引用作为回调传递过去，如下所示：
 
-``` HTML5
+```HTML5
     <button type="button" onClick={this.handleClick}>Click Me</button>
 ```
-事件处理程序方法会丢失其隐式绑定的上下文。当事件被触发并且处理程序被调用时，this的值会回退到默认绑定，即值为 undefined，这是因为类声明和原型方法是以严格模式运行。
+
+事件处理程序方法会丢失其隐式绑定的上下文。当事件被触发并且处理程序被调用时，this 的值会回退到默认绑定，即值为 undefined，这是因为类声明和原型方法是以严格模式运行。
 当我们将事件处理程序的 this 绑定到构造函数中的组件实例时，我们可以将它作为回调传递，而不用担心会丢失它的上下文。
 箭头函数可以免除这种行为, 因为它使用的是词法 this 绑定，会将其自动绑定到定义他们的函数上下文。
 
@@ -96,12 +97,12 @@ vue 的思想是响应式的，也就是基于是数据可变的，通过对每�
 
 ### 单向数据流、双向数据流的缺点
 
-- 单向数据流　数据流动方向可以跟踪，流动单一，追查问题的时候可以跟快捷。缺点就是写起来不太方便。要使UI发生变更就必须创建各种action来维护对应的state
-- 双向流动　值和UI双绑定，这种好处大家都懂。但是由于各种数据相互依赖相互绑定，导致数据问题的源头难以被跟踪到，子组件修改父组件，兄弟组件互相修改有有违设计原则。
+- 单向数据流　数据流动方向可以跟踪，流动单一，追查问题的时候可以跟快捷。缺点就是写起来不太方便。要使 UI 发生变更就必须创建各种 action 来维护对应的 state
+- 双向流动　值和 UI 双绑定，这种好处大家都懂。但是由于各种数据相互依赖相互绑定，导致数据问题的源头难以被跟踪到，子组件修改父组件，兄弟组件互相修改有有违设计原则。
 
 ### 为什么 useState、useEffect 不能写在 if 里
 
-React 通过链表来查找对应的hooks，在条件语句里可能会出现状态不一致。
+React 通过链表来查找对应的 hooks，在条件语句里可能会出现状态不一致。
 
 [详细解析](https://zhuanlan.zhihu.com/p/357232384)
 
@@ -111,23 +112,14 @@ React 通过链表来查找对应的hooks，在条件语句里可能会出现状
 
 ### react 的 setstate 过程
 
-- partialState：setState传入的第一个参数，对象或函数
-- _pendingStateQueue：当前组件等待执行更新的state队列
-- isBatchingUpdates：react用于标识当前是否处于批量更新状态，所有组件公用
+- partialState：setState 传入的第一个参数，对象或函数
+- \_pendingStateQueue：当前组件等待执行更新的 state 队列
+- isBatchingUpdates：react 用于标识当前是否处于批量更新状态，所有组件公用
 - dirtyComponent：当前所有处于待更新状态的组件队列
-- transcation：react的事务机制，在被事务调用的方法外包装n个waper对象，并一次执行：waper.init、被调用方法、waper.close
-- FLUSH_BATCHED_UPDATES：用于执行更新的waper，只有一个close方法
+- transcation：react 的事务机制，在被事务调用的方法外包装 n 个 waper 对象，并一次执行：waper.init、被调用方法、waper.close
+- FLUSH_BATCHED_UPDATES：用于执行更新的 waper，只有一个 close 方法
 
-1.将setState传入的partialState参数存储在当前组件实例的_pendingStateQueue中。
-2.判断当前React是否处于批量更新状态，如果是，将当前组件标记为dirtyCompontent,并加入待更新的组件队列中。
-3.如果未处于批量更新状态，将isBatchingUpdates设置为true，用事务再次调用前一步方法，保证当前组件加入到了待更新组件队列中。
-4.调用事务的waper方法，遍历待更新组件队列依次执行更新。
-5.执行生命周期componentWillReceiveProps。
-6.将组件的state暂存队列中的state进行合并，获得最终要更新的state对象，并将_pendingStateQueue置为空。
-7.执行生命周期shouldComponentUpdate，根据返回值判断是否要继续更新。
-8.执行生命周期componentWillUpdate。
-9.执行真正的更新，render。
-10.执行生命周期componentDidUpdate。
+  1.将 setState 传入的 partialState 参数存储在当前组件实例的\_pendingStateQueue 中。 2.判断当前 React 是否处于批量更新状态，如果是，将当前组件标记为 dirtyCompontent,并加入待更新的组件队列中。 3.如果未处于批量更新状态，将 isBatchingUpdates 设置为 true，用事务再次调用前一步方法，保证当前组件加入到了待更新组件队列中。 4.调用事务的 waper 方法，遍历待更新组件队列依次执行更新。 5.执行生命周期 componentWillReceiveProps。 6.将组件的 state 暂存队列中的 state 进行合并，获得最终要更新的 state 对象，并将\_pendingStateQueue 置为空。 7.执行生命周期 shouldComponentUpdate，根据返回值判断是否要继续更新。 8.执行生命周期 componentWillUpdate。 9.执行真正的更新，render。 10.执行生命周期 componentDidUpdate。
 
 ![setstate 流程](https://cdn.jsdelivr.net/gh/TheFirstSunday/gallery@main/images/setState.png)
 [详细解析](https://www.jianshu.com/p/cfb3b6a9dc2d)
@@ -186,11 +178,11 @@ static 声明的静态方法、静态属性，不会被子类继承，也不会�
 
 ### lazy、susponse 的原理
 
-### React Ref的原理
+### React Ref 的原理
 
 [React ref 从原理到应用](https://juejin.cn/post/6993185678481686535)
 
-### refs 转发是什么？为什么需要refs转发？
+### refs 转发是什么？为什么需要 refs 转发？
 
 ### 为什么 Strings Refs 被遗弃了？
 
@@ -226,9 +218,9 @@ toArray 会为返回数组中的每个 key 添加前缀，以使得每个元素 
 
 ### useEffect 与 useLayoutEffect 的区别?
 
-useEffect执行顺序: 组件更新挂载完成 -> 浏览器 dom 绘制完成 -> 执行 useEffect 回调。
-useLayoutEffect 执行顺序: 组件更新挂载完成 ->  执行 useLayoutEffect 回调-> 浏览器dom绘制完成。
-所以说 useLayoutEffect 代码可能会阻塞浏览器的绘制 。我们写的 effect和 useLayoutEffect，react在底层会被分别打上PassiveEffect，HookLayout，在commit阶段区分出，在什么时机执行。
+useEffect 执行顺序: 组件更新挂载完成 -> 浏览器 dom 绘制完成 -> 执行 useEffect 回调。
+useLayoutEffect 执行顺序: 组件更新挂载完成 -> 执行 useLayoutEffect 回调-> 浏览器 dom 绘制完成。
+所以说 useLayoutEffect 代码可能会阻塞浏览器的绘制 。我们写的 effect 和 useLayoutEffect，react 在底层会被分别打上 PassiveEffect，HookLayout，在 commit 阶段区分出，在什么时机执行。
 
 ### 高阶组件与渲染劫持
 
@@ -278,17 +270,19 @@ useLayoutEffect 执行顺序: 组件更新挂载完成 ->  执行 useLayoutEffec
 ### 简要说明 React Hook 中 useState 和 useEffect 的运行原理？
 
 ### React 中高阶函数和自定义 Hook 的优缺点？
-    
+
 ### React Class 组件和 React Hook 的区别有哪些？
 
 ### React Class 组件中请求可以在 componentWillMount 中发起吗？为什么？
-    
+
 ### React Class 组件有哪些周期函数？分别有什么作用？
 
 ### 列举你常用的 React 性能优化技巧？
 
 ### 在 React 中如何识别一个表单项里的表单做到了最小粒度 / 代价的渲染？
-    
+
 ### 在 React 的开发的过程中你能想到哪些控制渲染成本的方法？
-    
+
 ### SSR 技术和 SPA 技术的各自的优缺点是什么？
+
+### 讲一下 useState 和 useRef？useState 它是怎么实现的？setState 函数是怎么实现状态更改的？
