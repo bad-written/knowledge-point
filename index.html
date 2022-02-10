@@ -7,12 +7,12 @@
       content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"
     />
     <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico" />
-    <link rel="stylesheet" href="/knowledge-point/umi.c10a6f6f.css" />
+    <link rel="stylesheet" href="/knowledge-point/umi.8c6752e0.css" />
     <script>
       window.routerBase = "/knowledge-point/";
     </script>
     <script>
-      //! umi version: 3.5.17
+      //! umi version: 3.5.20
     </script>
     <script>
       !(function () {
@@ -21,7 +21,7 @@
           r = ["light", "dark", "auto"];
         document.documentElement.setAttribute(
           "data-prefers-color",
-          e === r[2] ? (t ? r[1] : r[0]) : r.includes(e) ? e : r[0]
+          e === r[2] ? (t ? r[1] : r[0]) : r.indexOf(e) > -1 ? e : r[0]
         );
       })();
     </script>
@@ -29,6 +29,6 @@
   <body>
     <div id="root"></div>
 
-    <script src="/knowledge-point/umi.6109b862.js"></script>
+    <script src="/knowledge-point/umi.1e34311e.js"></script>
   </body>
 </html>
