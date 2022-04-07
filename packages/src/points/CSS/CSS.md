@@ -121,7 +121,7 @@ link 可以通过 rel="alternate stylesheet"指定候选样式
 PNG8 类似 GIF 颜色上限为 256，文件小，支持 alpha 透明度，无动画
 适合图标、背景、按钮
 
-### blockblock、inlineinline 和 inline-blockinline−block 的元素有什么差别
+### block、inline 和 inline−block 的元素有什么差别
 
 ### display：flex 下水平垂直居中怎么实现
 
@@ -136,3 +136,23 @@ PNG8 类似 GIF 颜色上限为 256，文件小，支持 alpha 透明度，无�
 ### 给一个图片，只知道 urlurl，实现图片铺满和居中
 
 ### 实现一个自适应的正方形
+
+### 说几个未知宽高元素水平垂直居中方法
+
+### 定位有哪些属性，有哪些区别，怎么实现把一个div固定在页面底部？
+
+### 使用过flex布局吗？flex-grow和flex-shrink属性有什么用？
+
+### 避免 css 全局污染
+
+### css modules 的原理
+
+### 说一下 css 盒模型，border-box 和 content-box 区别；
+
+### unset，initial，inherit的用法
+
+### 说一下box-sizing的应用场景。
+
+### 圣杯布局
+
+### 双飞翼布局
