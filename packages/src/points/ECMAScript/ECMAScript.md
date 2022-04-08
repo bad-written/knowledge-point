@@ -214,13 +214,6 @@ import { stat, exists, readFile } from 'fs';
 
 [npm install 原理分析](https://mp.weixin.qq.com/s?__biz=Mzg2NDAzMjE5NQ==&mid=2247485074&idx=1&sn=a4b39ef1fcad427e79a8714c41b8eb0b&scene=21#wechat_redirect)
 
-### new 运算符的运算机制
-
-- 创建一个空对象
-- 将函数的 this 指向这个空对象
-- 执行函数
-- 如果函数没有指定返回值，则直接返回 this（一开始创建的空对象），否则返回指定返回值
-
 ### 变量提升
 
 函数声明的方式声明的函数存在函数提升
@@ -313,6 +306,9 @@ ES6 一共有 5 种方法可以遍历对象的属性。
 
 ### require 与 import 的区别
 
+CommonJs模块输出的是一个值的拷贝，ES6模块输出的是值的引用。
+CommonJs模块是运行时加载，ES6模块是编译时加载。
+
 [require 与 import 的区别](https://segmentfault.com/a/1190000021911869)
 
 ### 从输入 URL 到页面加载完成的过程
@@ -350,11 +346,12 @@ ES6 一共有 5 种方法可以遍历对象的属性。
 
 ### Garbage Collection
 
-### 柯里化
-
-[柯里化](https://zh.javascript.info/currying-partials)
-
 ### new 操作符做了什么
+
+1、创建了一个空的js对象（即{}）
+2、将空对象的原型prototype指向构造函数的原型
+3、将空对象作为构造函数的上下文（改变this指向）
+4、对构造函数有返回值的判断
 
 [new 操作符做了什么](https://zhuanlan.zhihu.com/p/158640941)
 
@@ -376,17 +373,19 @@ JavaScript 中的 this 有如下几种情况，并按他们的优先级从低到
 
 ### window.onload 和 DOMContentLoaded 的区别
 
+- window.onload 页面所有资源加载完成之后才会执行
+- DOMContentLoaded dom结构生成后就会执行
+
 [window.onload 和 DOMContentLoaded 的区别](https://www.jianshu.com/p/1a8a7e698447)
 
 ### 动态表单能够运用在什么场景？
 
 ### 实际场景中，哪些地方应用到了堆、链表、多叉树结构
 
-### Promise 并发限制
-
-[详细解析](https://www.jianshu.com/p/1010432be422)
-
 ### weakMap 和 Map 的区别，weakMap 原理，为什么能被 GC？
+
+- Map 数据结构。它类似于对象，也是键值对的集合，但是“键”的范围不限于字符串，各种类型的值（包括对象）都可以当作键。
+- WeakMap 结构与 Map 结构类似，也是用于生成键值对的集合。但是 WeakMap 只接受对象作为键名（ null 除外），不接受其他类型的值作为键名。而且 WeakMap 的键名所指向的对象，不计入垃圾回收机制。
 
 [详细解析](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/464)
 
@@ -399,6 +398,8 @@ JavaScript 中的 this 有如下几种情况，并按他们的优先级从低到
 ### 说下状态码、说下 304，什么情况会 304？协商缓存的头部字段？
 
 ### 微信小程序同层渲染?
+
+- webview、wkwebview、合成层
 
 [详细解析](https://developers.weixin.qq.com/community/develop/article/doc/000c4e433707c072c1793e56f5c813)
 
@@ -445,6 +446,11 @@ all(list) {
 
 ### forEach 和 map 区别是什么
 
+关键字: 返回值、修改原数组
+
+- forEach 没有返回值，会修改原数组，只能通过抛异常来终止循环
+- map 有返回值，不会修改原数组，只能通过抛异常来终止循环
+
 ### 并发与并行的区别？
 
 并发和并行: 并行(parallelism)：是微观概念，假设 CPU 有两个核心，则我们就可以同时完成任务 A 和任务 B，同时完成多个任务的情况就可以称之为并行。
@@ -464,11 +470,16 @@ all(list) {
 
 ### Object 和 map 的比较
 
+关键字: 顺序遍历、复杂类型的key
+
 ### Object.freeze
 
 ### import() 的实现方式
 
 ### Pre-rendering
+
+-服务端渲染的过程为：解析执行JS => 构建HTML页面 => 输出给浏览器
+- 预渲染：直接输出HTML页面给浏览器
 
 ### 面向切面编程(AOP)
 
@@ -486,9 +497,13 @@ all(list) {
 
 ### 单线程原因
 
+关键字: DOM操作
+
 浏览器中 JavaScript 的主要用途是操作 DOM 。这决定了它只能是单线程，否则会带来很复杂的同步问题。
 
 ### JavaScript 只支持单线程，那么为什么浏览器中的 JavaScript 可以同时发送多个网络请求或者执行多个事件回调函数呢？
+
+关键字: 事件驱动模型、event loop、file线程、network线程
 
 这是因为 JavaScript 是基于事件驱动，当需要进行网络请求时，JavaScript 线程会把请求发送给 network 线程执行，
 并等待执行结果；当进行文件读取时则调用 file 线程，然后等待结果。 然后 JavaScript 会一直轮询队列 event loop，
@@ -496,9 +511,11 @@ all(list) {
 
 ### a.b.c.d 和 a['b']['c']['d']，哪个性能更高?
 
-应该是 a.b.c.d 比 a['b']['c']['d'] 性能高点，后者还要考虑 [ ] 中是变量的情况， 再者，从两种形式的结构来看，显然编译器解析前者要比后者容易些，自然也 就快一点
+应该是 a.b.c.d 比 a['b']['c']['d'] 性能高点，后者还要考虑 [ ] 中是变量的情况， 再者，从两种形式的结构来看，显然编译器解析前者要比后者容易些，自然也就快一点
 
 ### 为什么普通 for 循环的性能远远高于 forEach 的 性能，请解释其中的原因。
+
+关键字: 调用栈、上下文
 
 for 循环没有任何额外的函数调用栈和上下文;
 forEach 函数签名实际上是
@@ -511,19 +528,28 @@ array.forEach(function(currentValue, index, arr), thisValue)
 它不是普通的 for 循环的语法糖，还有诸多参数和上下文需要在执行的时候考
 虑进来，这里可能拖慢性能;
 
-### JS 中 forEach 能不能跳出循环
-
 ### 高级/资深的前端是如何回答 JavaScript 面试题的
 
 [面试技巧](https://juejin.cn/post/6971727286856843295)
 
-### AMD,CommonJS,CMD,UMD,ES6
+### CommonJS, AMD, CMD, UMD, ES Modules
+
+- CommonJS: CommonJS 主要运行于服务器端，该规范指出，一个单独的文件就是一个模块
+- AMD(异步模块定义): 它采用异步方式加载模块，模块的加载不影响它后面语句的运行，依赖前置、提前执行。
+- CMD(通用模块定义): 依赖就近、延迟执行。
+- UMD(通用模块定义): 主要用来解决CommonJS模式和AMD模式代码不能通用的问题，并同时还支持老式的全局变量规范。 
 
 [AMD,CommonJS,CMD,UMD,ES6](https://zhuanlan.zhihu.com/p/108217164)
 
 ### Promise 为什么比 setTimeout 快？
 
+关键字: 调用栈、任务队列、作业队列、微任务、宏任务
+
 ### Async/Await 如何通过同步的方式实现异步
+
+关键字: Generator
+
+- async/await 是 Generator 的语法糖，就是一个自执行的generate函数。利用generate函数的特性把异步的代码写成“同步”的形式。
 
 ### 请写出下面代码的运行结果
 
@@ -550,19 +576,23 @@ new Promise(function (resolve) {
 console.log('script end');
 ```
 
-### 说说浏览器和 Node 事件循环的区别
-
 ### 介绍下如何实现 token 加密
 
 ### 二维码的原理
 
+关键字: 二进制、白0、黑1
+
 ### ES6 代码转成 ES5 代码的实现思路是什么
+
+关键字: 词法分析、语法分析、AST
+
+解析(parse) -> 转换(transform) -> 生成(generate)
 
 ### 数组里面有 10 万个数据，取第一个元素和第 10 万个元素的时间相差多少
 
-### 实现模糊搜索结果的关键词高亮显示
+关键字: 存储方式、不连续、哈希表
 
-### 设计并实现 Promise.race()
+js 中数组元素的存储方式并不是连续的，而是哈希映射关系。哈希映射关系，可以通过键名 key，直接计算出值存储的位置，所以查找起来很快
 
 ### 在输入框中如何判断输入的是一个正确的网址。
 
@@ -599,8 +629,6 @@ React 的时间分片便是基于类似 rIC 而实现，然而因为 rIC 的兼�
 
 use-swr 中进行资源的 revalidate 时，也是通过 rIC 来提高性能
 
-### v8 是如何执行一段 JS 代码的
-
 ### 如何实现页面文本不可复制
 
 ```css
@@ -619,20 +647,16 @@ document.body.oncopy = (e) => {
 };
 ```
 
-### typeof 与 instanceof 的区别
-
 ### 如何计算白屏时间和首屏时间
 
 ### Object.keys 与 Object.getOwnPropertyNames() 有何区别
 
-### ### 什么是 Data URL
+### 什么是 Data URL
 
 Data URL 是将图片转换为 base64 直接嵌入到了网页中，使用`<img src="data:[MIME type];base64"/>`这种方式引用图片，不需要再发请求获取图片。 使用 Data URL 也有一些缺点：
 
 - base64 编码后的图片会比原来的体积大三分之一左右。
 - Data URL 形式的图片不会缓存下来，每次访问页面都要被下载一次。可以将 Data URL 写入到 CSS 文件中随着 CSS 被缓存下来。
-
-### 如何监听 localStorage 的变动
 
 ### 浏览器中如何实现剪切板复制内容的功能
 
@@ -656,154 +680,7 @@ css 加载会阻塞后面 js 语句的执行
 
 [详细解析](https://cloud.tencent.com/developer/article/1370715)
 
-### Promise.prototype.finally 的作用，如何自己实现 Promise.prototype.finally
-
-```javascript
-// Promise.prototype.finally() 是 ES2018 新增的特性，它回一个 Promise ，在 promise 结束时，无论 Promise 运行成功还是失败，都会运行 finally ，类似于我们常用的  try {...} catch {...} finally {...}
-
-// Promise.prototype.finally() 避免了同样的语句需要在 then() 和 catch() 中各写一次的情况
-
-new Promise((resolve, reject) => {
-  setTimeout(() => resolve('result'), 2000);
-})
-  .then((result) => console.log(result))
-  .finally(() => console.log('Promise end'));
-
-// result
-// Promise end
-
-new Promise((resolve, reject) => {
-  throw new Error('error');
-})
-  .catch((err) => console.log(err))
-  .finally(() => console.log('Promise end'));
-
-// Error: error
-// Promise end
-
-// 注意：
-
-// - finally 没有参数
-// - finally 会将结果和 error 传递
-
-new Promise((resolve, reject) => {
-  setTimeout(() => resolve('result'), 2000);
-})
-  .finally(() => console.log('Promise ready'))
-  .then((result) => console.log(result));
-
-// Promise ready
-// result
-
-// 手写一个 Promise.prototype.finally(), 不管 Promise 对象最后状态如何，都会执行的操作
-
-MyPromise.prototype.finally = function (cb) {
-  return this.then(
-    function (value) {
-      return MyPromise.resolve(cb()).then(function () {
-        return value;
-      });
-    },
-    function (err) {
-      return MyPromise.resolve(cb()).then(function () {
-        throw err;
-      });
-    },
-  );
-};
-```
-
-### Promise.any 的作用，如何自己实现 Promise.any
-
-- Promise.any 的作用
-- Promise.any 应用场景
-- Promise.any vs Promise.all
-- Promise.any vs Promise.race
-- 手写 Promise.any 实现
-
-Promise.any() 是 ES2021 新增的特性，它接收一个 Promise 可迭代对象（例如数组），
-
-```javascript
-const promises = [
-  Promise.reject('ERROR A'),
-  Promise.reject('ERROR B'),
-  Promise.resolve('result'),
-];
-
-Promise.any(promises)
-  .then((value) => {
-    console.log('value: ', value);
-  })
-  .catch((err) => {
-    console.log('err: ', err);
-  });
-
-// value:  result
-```
-
-如果所有传入的 promises 都失败：
-
-```javascript
-const promises = [
-  Promise.reject('ERROR A'),
-  Promise.reject('ERROR B'),
-  Promise.reject('ERROR C'),
-];
-
-Promise.any(promises)
-  .then((value) => {
-    console.log('value：', value);
-  })
-  .catch((err) => {
-    console.log('err：', err);
-    console.log(err.message);
-    console.log(err.name);
-    console.log(err.errors);
-  });
-
-// err： AggregateError: All promises were rejected
-// All promises were rejected
-// AggregateError
-// ["ERROR A", "ERROR B", "ERROR C"]
-```
-
-Promise.any 实现
-
-Promise.any 只要传入的 promise 有一个是 fullfilled 则立即 resolve 出去，否则将所有 reject 结果收集起来并返回 AggregateError
-
-```javascript
-MyPromise.any = function (promises) {
-  return new Promise((resolve, reject) => {
-    promises = Array.isArray(promises) ? promises : [];
-    let len = promises.length;
-    // 用于收集所有 reject
-    let errs = [];
-    // 如果传入的是一个空数组，那么就直接返回 AggregateError
-    if (len === 0)
-      return reject(new AggregateError('All promises were rejected'));
-    promises.forEach((promise) => {
-      promise.then(
-        (value) => {
-          resolve(value);
-        },
-        (err) => {
-          len--;
-          errs.push(err);
-          if (len === 0) {
-            reject(new AggregateError(errs));
-          }
-        },
-      );
-    });
-  });
-};
-```
-
 ### 如何监听网页崩溃
-
-### 讲下 V8 sort 的大概思路，并手写一个 sort 的实现
-
-[详细解析](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/472)
 
 ### 闭包的使用场景，使用闭包需要注意什么？
 
@@ -1454,6 +1331,8 @@ GraphQL 是对后端 REST API 向业务层的聚合与裁剪，REST 更关注对
 
 ### Javascript 的柯里化与逆柯里化
 
+[柯里化](https://zh.javascript.info/currying-partials)
+
 ### 简述浏览器的渲染过程，重绘和重排在渲染过程中的哪一部分
 
 ### 原型链
@@ -1471,13 +1350,7 @@ GraphQL 是对后端 REST API 向业务层的聚合与裁剪，REST 更关注对
 
 数据存储在浏览器中的堆栈内存中，刷新浏览器之前申请的堆栈内存会被释放。
 
-### npm 与 Yarn 的区别?
-
 ### TTF、TOF、WOFF 和 WOFF2 的相关概念
-
-### webpack与 vite 的区别
-
-[详细解析](https://blog.csdn.net/qq_41189996/article/details/115718987)
 
 ### 如何选择图片格式？
 
@@ -1485,20 +1358,66 @@ GraphQL 是对后端 REST API 向业务层的聚合与裁剪，REST 更关注对
 
 ### 小程序和h5的区别？
 
-### Promise 实现一个请求超时功能?
-
-### 顺序发送4个请求a、b、c、d, 要求顺序输出?
-
 ### UI组件库怎么实现按需引入的?
 
 ### V8引擎的工作流程
 
+关键字:
+source code: Javascript
+Parser 处理为AST的Parser(解析器)
+AST 抽象语法树
+Ignition 解释器 将AST转换为byteCode
+Sparkplug 无优化编译器 可以理解为将byteCode预编译(非常的快速)
+byteCode execute 字节码 可以理解为跨平台的一种编码(非平台机器码)
+Turbofan 优化编译器 对于byteCode进行编译并对于代码进行优化
+Machine Code 机器码 各平台执行的代码
+
 [详细解析](https://segmentfault.com/a/1190000041511338)
+
+### v8 是如何执行一段 JS 代码的
+
+### 讲下 V8 sort 的大概思路，并手写一个 sort 的实现
+
+[详细解析](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/472)
 
 ### 计算localStorage的容量
 
 [详细解析](https://segmentfault.com/a/1190000041504625)
 
-### HTTP缓存实战
+### 如何监听 localStorage 的变动
 
-[详细解析](https://segmentfault.com/a/1190000041411856)
+### npm、yarn、pnpm
+
+### NextJS
+
+### [1,2,3].map(parseInt)
+
+```javascript
+
+parseInt(string, radix) 解析一个字符串并返回指定基数的十进制整数， radix 是2-36之间的整数，表示被解析字符串的基数。
+举例：
+parseInt(N,0) 作为0进制的数N转化为十进制整数，结果是N
+parseInt(N,1) 作为1进制的数N转化为十进制整数，结果是NaN
+
+解析的时候一旦遇到该数大于或等于基数，就是NaN，然后中止解析直接输出符合规则的那些数字，
+(4,4),一开始就遇到4是大于或等于基数4，直接中止解析并且输出NaN，4进制说不会有大于等于4的
+(14,4),他是解析到1时是行的，解析到4时，发现4大于等于基数4，所以不符合规则就舍弃了，直接就只解析到符合规则的1并且输出它
+
+parseInt(1,0) ->1
+parseInt(2,1) ->NaN
+parseInt(3,2) ->NaN
+
+例二：
+['10','10','10','10','10'].map(parseInt);
+parseInt(10,0) ->10
+parseInt(10,1) ->NaN
+parseInt(10,2) ->2
+parseInt(10,3) ->3
+parseInt(10,4) ->4
+
+结果是[10,NaN,2,3,4]
+```
+
+### JSON.stringify性能问题
+
+关键字: 数据失真、丢失、大量数据时有性能问题

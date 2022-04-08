@@ -13,6 +13,8 @@ nav:
 
 ### TypeScript 编译原理
 
+### typeof 与 instanceof 的区别
+
 ### 为什么要使用 TypeScript ? TypeScript 相对于 JavaScript 的优势是什么？
 
 ### TypeScript 中 const 和 readonly 的区别？枚举和常量枚举的区别？接口和类型别名的区别？
@@ -62,3 +64,7 @@ nav:
 ### Babel 对于 TypeScript 的支持有哪些限制？
 
 ### 如何调试 Node.js 代码？如何调试 Node.js TypeScript 代码？在浏览器中如何调试 Node.js 代码？
+
+### never
+
+never的作用是可以确保条件收窄不会遗漏，如有遗漏会出现类型报错

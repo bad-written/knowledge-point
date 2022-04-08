@@ -387,3 +387,32 @@ let result = [
 ];
 
 ```
+
+### useDeepEffect
+
+```javascript
+import { useEffect, useRef } from 'react';
+import { isEqual, cloneDeep } from 'lodash';
+
+const useDeepCompare = value => {
+    const ref = useRef();
+    if(!isEqual(ref.current, value)) {
+        ref.current = cloneDeep(value);
+    }
+    
+    return ref.current;
+}
+
+const useDeepEffect = (callback, deps) => {
+    useEffect(callback, useDeepCompare(deps));
+}
+```
+
+### 三数之和
+
+- 参考地址: https://leetcode.cn/problems/3sum/
+
+```javascript
+
+
+```

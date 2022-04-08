@@ -296,7 +296,7 @@ each([1, 2, 3], function (i, n) {
 });
 ```
 
-**使用 **`**ES6**` **生成器（Generator）完成迭代器**
+**使用 **`**ES6**`**生成器（Generator）完成迭代器**
 
 ```javascript
 // generator 的使用，编写一个迭代器生产函数
@@ -349,7 +349,7 @@ iterator.next(); // {value: undefined， done: true}
 
 ### 发布订阅模式
 
-> 假定，存在一个“信号中心”，某个任务执行完成，就向信息中心“发布”( `public` )一个信号，其他任务可以向信号中心“订阅”( `subscribe` )这个信号，从而知道什么时候自己可以开始执行。
+> 假定，存在一个“信号中心”，某个任务执行完成，就向信息中心“发布”( `publish`)一个信号，其他任务可以向信号中心“订阅”( `subscribe`)这个信号，从而知道什么时候自己可以开始执行。
 
 ### 发布/订阅模式
 
@@ -422,10 +422,24 @@ class EventEmitter {
       });
     }
   }
+  
+  $once(eventType, handler) {
+      const temp = () => {
+          handler();
+          this.$off(eventType, handler);
+      }
+      
+      this.$on(eventType, temp);
+  }
+  
+  $off(eventType, handler) {
+      if(!this.subs[eventType]) return;
+      this.subs[eventType] = this.subs[eventType].filter((sub) => sub !== handler)
+  }
 }
 
 // 测试
-let em = new EventEmitter(); // 创建触发器 事件中心
+const em = new EventEmitter(); // 创建触发器 事件中心
 
 em.$on('click', () => {
   // 注册事件1
@@ -449,11 +463,11 @@ em.$emit('click'); // 触发事件
 > **观察者模式**是由具体目标调度，比如当事件触发，Dep 就会去调用观察者的方法，所以观察者模式的订阅者与发布者之间是存在依赖的。
 
 - 观察者(订阅者)—— `Watcher`
-  - `update()` ：当事件发生时，具体要做的事情
-- 目标(发布者)—— `Dep` (Dep 依赖的缩写)
-  - `subs`  数组：存储所有的观察者
-  - `addSub()` ：添加观察者
-  - `notify()` ：当事件发生，调用所有观察者的 `update()`  方法
+  - `update()`：当事件发生时，具体要做的事情
+- 目标(发布者)—— `Dep`(Dep 依赖的缩写)
+  - `subs` 数组：存储所有的观察者
+  - `addSub()`：添加观察者
+  - `notify()`：当事件发生，调用所有观察者的 `update()` 方法
 - 没有事件中心
 
 #### 发布者-目标

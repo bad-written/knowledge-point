@@ -55,7 +55,7 @@ Function.prototype._bind = function (objThis, ...params) {
 // 通过 new 创建的每个对象将最终被 [[Prototype]] 链接到这个函数的prototype对象上；
 // 如果函数没有返回对象类型 Object(包含 Functoin , Array , Date , RegExg, Error)，那么 new 表达式中的函数调用将返回该对象引用。
 
-const isComplexDataType = () =>
+const isComplexDataType = (type) =>
   ['object', 'function'].includes(typeof obj) && obj !== null;
 
 const myNew = function () {
@@ -74,6 +74,14 @@ const myNew2 = (fn, ...rest) => {
   const res = fn.apply(instance, rest);
   return isComplexDataType(res) ? res : instance;
 };
+
+const myNew3 = (fn, ...rest) => {
+    const obj = {};
+    Object.setPrototypeOf(obj, fn.prototype);
+    const res = fn.apply(obj, rest);
+
+    return obj instanceof Object ? res : obj;
+}
 ```
 
 ### sleep
@@ -123,6 +131,17 @@ const myInstanceOf = (left, right) => {
     left = left.__proto__;
   }
 };
+
+const instanceOf = (left, right) => {
+    let proto = Object.getPrototypeOf(left);
+    const prototype = right.prototype;
+    
+    while (true) {
+        if(!proto) return false;
+        if(proto === prototype) return true;
+        proto = Object.getPrototypeOf(proto);
+    }
+}
 ```
 
 ### getType
@@ -760,6 +779,23 @@ const normalize = (str) => {
 
 ### 用 setTimeout 实现 setInterval，阐述实现的效果与 setInterval 的差异
 
+```javascript
+
+function mySetInterval() {
+    const [handler, duration] = arguments;
+
+    mySetInterval.timer = setTimeout(() => {
+        handler();
+        arguments.callee(...arguments)
+    }, duration);
+}
+
+mySetInterval.clearInterval = function() {
+  clearTimeout(mySetInterval.timer)
+}
+
+```
+
 [详细解析](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/259)
 
 ### 考虑到性能问题，如何快速从一个巨大的数组中随机获取部分元素
@@ -954,3 +990,353 @@ function trim(str) {
 
 [一篇搞定前端高频手撕算法题](https://segmentfault.com/a/1190000025147080)
 [66 道前端算法面试题附思路分析助你查漏补缺](https://segmentfault.com/a/1190000022425896)
+
+### Promise 并发限制
+
+[详细解析](https://www.jianshu.com/p/1010432be422)
+
+### 实现模糊搜索结果的关键词高亮显示
+
+### 设计并实现 Promise.race()
+
+### Promise.prototype.finally 的作用，如何自己实现 Promise.prototype.finally
+
+```javascript
+// Promise.prototype.finally() 是 ES2018 新增的特性，它回一个 Promise ，在 promise 结束时，无论 Promise 运行成功还是失败，都会运行 finally ，类似于我们常用的  try {...} catch {...} finally {...}
+
+// Promise.prototype.finally() 避免了同样的语句需要在 then() 和 catch() 中各写一次的情况
+
+new Promise((resolve, reject) => {
+  setTimeout(() => resolve('result'), 2000);
+})
+  .then((result) => console.log(result))
+  .finally(() => console.log('Promise end'));
+
+// result
+// Promise end
+
+new Promise((resolve, reject) => {
+  throw new Error('error');
+})
+  .catch((err) => console.log(err))
+  .finally(() => console.log('Promise end'));
+
+// Error: error
+// Promise end
+
+// 注意：
+
+// - finally 没有参数
+// - finally 会将结果和 error 传递
+
+new Promise((resolve, reject) => {
+  setTimeout(() => resolve('result'), 2000);
+})
+  .finally(() => console.log('Promise ready'))
+  .then((result) => console.log(result));
+
+// Promise ready
+// result
+
+// 手写一个 Promise.prototype.finally(), 不管 Promise 对象最后状态如何，都会执行的操作
+MyPromise.prototype.finally = function (cb) {
+  return this.then(
+    function (value) {
+      return MyPromise.resolve(cb()).then(function () {
+        return value;
+      });
+    },
+    function (err) {
+      return MyPromise.resolve(cb()).then(function () {
+        throw err;
+      });
+    },
+  );
+};
+```
+
+### Promise.any 的作用，如何自己实现 Promise.any
+
+- Promise.any 的作用
+- Promise.any 应用场景
+- Promise.any vs Promise.all
+- Promise.any vs Promise.race
+- 手写 Promise.any 实现
+
+Promise.any() 是 ES2021 新增的特性，它接收一个 Promise 可迭代对象（例如数组），
+
+```javascript
+const promises = [
+  Promise.reject('ERROR A'),
+  Promise.reject('ERROR B'),
+  Promise.resolve('result'),
+];
+
+Promise.any(promises)
+  .then((value) => {
+    console.log('value: ', value);
+  })
+  .catch((err) => {
+    console.log('err: ', err);
+  });
+
+// value:  result
+```
+
+如果所有传入的 promises 都失败：
+
+```javascript
+const promises = [
+  Promise.reject('ERROR A'),
+  Promise.reject('ERROR B'),
+  Promise.reject('ERROR C'),
+];
+
+Promise.any(promises)
+  .then((value) => {
+    console.log('value：', value);
+  })
+  .catch((err) => {
+    console.log('err：', err);
+    console.log(err.message);
+    console.log(err.name);
+    console.log(err.errors);
+  });
+
+// err： AggregateError: All promises were rejected
+// All promises were rejected
+// AggregateError
+// ["ERROR A", "ERROR B", "ERROR C"]
+```
+
+Promise.any 实现
+
+Promise.any 只要传入的 promise 有一个是 fullfilled 则立即 resolve 出去，否则将所有 reject 结果收集起来并返回 AggregateError
+
+```javascript
+MyPromise.any = function (promises) {
+  return new Promise((resolve, reject) => {
+    promises = Array.isArray(promises) ? promises : [];
+    let len = promises.length;
+    // 用于收集所有 reject
+    let errs = [];
+    // 如果传入的是一个空数组，那么就直接返回 AggregateError
+    if (len === 0)
+      return reject(new AggregateError('All promises were rejected'));
+    promises.forEach((promise) => {
+      promise.then(
+        (value) => {
+          resolve(value);
+        },
+        (err) => {
+          len--;
+          errs.push(err);
+          if (len === 0) {
+            reject(new AggregateError(errs));
+          }
+        },
+      );
+    });
+  });
+};
+```
+
+## get-element-by-id  => getElementById
+
+``` javascript
+
+const toUpperCase = (str) => {
+  return str.replace(/-\w/g, function (c) { 
+    return c.slice(1).toUpperCase();
+  })
+}
+```
+
+## 快排
+
+```javascript
+const quickSort = (array) => {
+    if(array.length <= 1) return array;
+    
+    
+    const mid = array[Math.floor(array.length / 2)];
+    let leftArray, rightArray = [];
+    for (let i = 0; i < array.length; i++) {
+        if(array[i] < mid) {
+          leftArray.push(array[i]);
+        } else {
+            rightArray.push(array[i]);
+        }
+    }
+    
+    return [...quickSort(leftArray), mid, quickSort(rightArray)];
+}
+```
+
+### 合法的url
+
+```javascript
+const isValidUrl = (url) => {
+    const reg = /^http(s)?:\/\/\w+/g;
+    return reg.test(url);
+}
+```
+
+
+### 实现Object.freeze
+
+
+```javascript
+
+const _objectFreeze = object => {
+    // 补全代码
+    let props = Object.getOwnPropertyNames(object)
+    for (let prop of props) {
+        const des = Object.getOwnPropertyDescriptor(object, prop)
+        if (des.get || des.set) {
+            Object.defineProperty(object, prop, {
+                configurable: false,
+                get: des.get,
+                set: des.set
+            })
+        } else {
+            Object.defineProperty(object, prop, {
+                writable: false,
+                configurable: false
+            })
+        }
+    }
+    return Object.preventExtensions(object)
+    // return Object.seal(object)
+}
+```
+
+### 深克隆
+
+```javascript
+
+const _completeDeepClone = (target, map = new Map()) => {
+    // 补全代码
+    //参数如果为空
+    if(target===null) return target;
+    //参数如果不是对象类型，而是基本数据类型
+    if(typeof target!=='object') return target;
+    //参数为其他数据类型
+    const cons = target.constructor;
+    if(/^(Function|RegExp|Date|Map|Set)$/i.test(cons)) return new cons(target);
+    const cloneTarget = Array.isArray(target)? []:{};
+    //如果存在循环引用,直接返回当前循环引用的值，否则，将其加入map,
+    if(map.get(target)) return map.get(target);
+    map.set(target,cloneTarget);
+    for(let key in target){
+        cloneTarget[key] = _completeDeepClone(target[key],map)
+    }
+    return cloneTarget;
+}
+```
+
+### 实现flatten
+
+### Promise 实现一个请求超时功能?
+
+### 顺序发送4个请求a、b、c、d, 要求顺序输出?
+
+### 实现一个 normalize 函数，能将输入的特定的字符串转化为特定的结构化数据
+
+字符串仅由小写字母和 [] 组成，且字符串不会包含多余的空格。
+示例一: 'abc' --> {value: 'abc'}
+示例二：'[abc[bcd[def]]]' --> {value: 'abc', children: {value: 'bcd', children: {value: 'def'}}}
+
+```javascript
+const normalize = (str = '') => {
+    const result = {};
+    const array = str.split(/[\[\]]/g).filter(Boolean);
+    const { length } = array;
+
+    array.reduce((previousValue, currentValue, currentIndex) => {
+      previousValue.value = currentValue;
+      if(currentIndex !== length - 1) return (previousValue.children = {})
+    }, result);
+    
+    return result;
+}
+```
+
+### 实现indexOf
+
+```javascript
+// 数组、字符串
+const NOT_INCLUDE = -1;
+
+String.prototype.indexOf = function(string, start = 0) {
+    if(typeof this !== 'string') throw new SyntaxError('SyntaxError, needs a string');
+    const reg = new RegExp(`${string}`, 'ig');
+    reg.lastIndex = start;
+    const result = reg.exec(this);
+    return result?.index ?? NOT_INCLUDE; 
+}
+
+Array.prototype.indexOf = function(item, start = 0) {
+    if(!item) return NOT_INCLUDE;
+    if(Array.isArray(this)) throw new SyntaxError('syntax error， needs an array!');
+    for (let i = start; i < this.length; i++)
+        
+    return NOT_INCLUDE;
+}
+
+```
+
+### 千位分隔符
+
+```javascript
+
+// 寻找字符空隙加 .
+'10000000000'.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+
+// 寻找数字并在其后面加 . 
+'10000000000'.replace(/(\d)(?=(\d{3})+\b)/g, '$1,')
+
+
+function thousandSeparator(str, separator = ',') {
+    return str.replace(/(\d)(?=(\d{3})+\b)/g, '$1,');
+}
+```
+
+### 逆波兰表达式
+
+```javascript
+
+const SYMBOLS = ['+', '-', '*', '/'];
+
+const evalRPN = function(tokens) {
+    const stack = [];
+    tokens.forEach((token) => {
+        if(SYMBOLS.includes(token)) {
+            let right = stack.pop();
+            let left = stack.pop();
+            switch(token) {
+                case '+':
+                    stack.push(left + right);
+                    break;
+                case '-':
+                    stack.push(left - right);
+                    break;
+                case '*':
+                    stack.push(left * right);
+                    break;
+                case '/':
+                    stack.push(left / right | 0);
+                    break;
+            }
+        } else {
+            stack.push(Number(token));
+        }
+    });
+    
+    return stack[0];
+}
+
+const tokens = ["10","6","9","3","+","-11","*","/","*","17","+","5","+"];
+
+console.log(evalRPN(tokens));
+```

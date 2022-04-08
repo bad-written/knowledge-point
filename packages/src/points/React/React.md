@@ -58,6 +58,8 @@ vue 的思想是响应式的，也就是基于是数据可变的，通过对每�
 
 ### react 中的事件
 
+关键字: 事件委托、跨平台、兼容性、
+
 [详细解析](https://zhuanlan.zhihu.com/p/165089379)
 
 ### 什么是 jsx？
@@ -79,6 +81,8 @@ vue 的思想是响应式的，也就是基于是数据可变的，通过对每�
 ### stack reconciler
 
 ### React Fiber?
+
+关键字: 卡顿、执行栈递归、时间分片、任务拆分、挂起、恢复、终止、链表、优先级
 
 [React Fiber](https://www.zoo.team/article/about-react-fiber)
 [详细解析](https://segmentfault.com/a/1190000018250127)
@@ -154,7 +158,7 @@ static 声明的静态方法、静态属性，不会被子类继承，也不会�
 
 ### redux 为什么每次 reducer 要返回一个新对象，面对大量节点如何优化
 
-### immuatable 和 shouldupdate 配合、immuatable 数据一些对比问题
+### immuatable 和 shouldComponentUpdate 配合、immuatable 数据一些对比问题
 
 ### React 的 Provide 和 consume 是因为什么产生的？
 
@@ -286,3 +290,32 @@ useLayoutEffect 执行顺序: 组件更新挂载完成 -> 执行 useLayoutEffect
 ### SSR 技术和 SPA 技术的各自的优缺点是什么？
 
 ### 讲一下 useState 和 useRef？useState 它是怎么实现的？setState 函数是怎么实现状态更改的？
+
+### 错误边界（Error Boundaries）
+
+static getDerivedStateFromError()渲染备用的UI componentDidCatch 错误信息的上报
+
+错误边界无法捕获以下场景中产生的错误：
+
+- 事件处理（了解更多）
+- 异步代码（例如 setTimeout 或 requestAnimationFrame 回调函数）
+- 服务端渲染
+- 它自身抛出来的错误（并非它的子组件）
+
+### UMI
+
+关键字: 开箱即用、可拓展、生态、完备路由
+
+### NextJS
+
+关键字: 开箱即用(零配置)、
+
+
+### SWR
+
+关键字: 轻量、内置缓存&重复请求的去除
+
+### hooks优点
+
+- 简化逻辑复用
+- 有助于关注分离

@@ -462,3 +462,15 @@ import()获取script标签动态加载文件
 ### webpack 中 import require 的原理
 
 ### 组建的按需加载怎么实现的
+
+### Vite
+
+关键字: 极速的服务启动、轻量快速的热重载、丰富的功能、优化的构建、通用的插件、完全类型化的API
+
+### webpack与 vite 的区别
+
+[详细解析](https://blog.csdn.net/qq_41189996/article/details/115718987)
+
+### lerna 实现原理
+
+### 谈谈你对 WebAssmebly 的了解？
